@@ -7,6 +7,7 @@ import {
 } from '../types/schedule';
 import { ensureEmployeeWeeksSchedule } from '../utils/compliance';
 import { createOptimizedScenarios } from '../utils/scenarioProposals';
+import { BAKED_ESCALA_DEFINIDA } from './escalaDefinida';
 
 export const STORES: { id: StoreId; name: string; subtitle: string; code: string }[] = [
   {
@@ -658,6 +659,9 @@ export function createDefaultScenarios(): Scenario[] {
   });
 
   return [
+    ...(BAKED_ESCALA_DEFINIDA
+      ? [{ ...BAKED_ESCALA_DEFINIDA, employees: BAKED_ESCALA_DEFINIDA.employees.map(ensureEmployeeWeeksSchedule) }]
+      : []),
     {
       id: 'scen-a',
       name: 'Cenário A — Almoço Padrão 1h30 + Folga Fixa na Semana',

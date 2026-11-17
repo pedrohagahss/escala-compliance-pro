@@ -5,6 +5,8 @@ import {
   Calendar,
   CheckCircle2,
   ChevronDown,
+  ChevronsLeft,
+  ChevronsRight,
   ChevronUp,
   Clock,
   Download,
@@ -14,6 +16,7 @@ import {
   MessageSquare,
   Printer,
   RotateCcw,
+  Save,
   Scale,
   Search,
   Shield,
@@ -82,6 +85,10 @@ interface LeftControlSidebarProps {
   onExportJson: () => void;
   onImportJson: () => void;
   onResetDefaults: () => void;
+  onSaveEscalaDefinida: () => void;
+  isEscalaDefinida: boolean;
+  collapsed: boolean;
+  onToggleCollapsed: () => void;
   onOpenAddMember: () => void;
   onOpenManageMembers: () => void;
   onOpenAiChat: () => void;
@@ -115,6 +122,10 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
   onExportJson,
   onImportJson,
   onResetDefaults,
+  onSaveEscalaDefinida,
+  isEscalaDefinida,
+  collapsed,
+  onToggleCollapsed,
   onOpenAddMember,
   onOpenManageMembers,
   onOpenAiChat,
@@ -141,10 +152,73 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
     selectedDayFilter !== 'ALL' ||
     searchQuery.trim().length > 0;
 
+  // Barra lateral recolhida (desktop): trilho estreito com atalhos
+  if (collapsed) {
+    const railBtn =
+      'w-9 h-9 flex items-center justify-center rounded-lg border transition cursor-pointer';
+    return (
+      <>
+        {/* No celular a barra continua normal (abre/fecha pelo botão "Controles") */}
+        <aside
+          aria-label="Controladores da Escala (recolhidos)"
+          className="no-print hidden lg:flex w-14 shrink-0 sticky top-0 h-screen bg-slate-900 border-r border-slate-800 z-30 flex-col items-center gap-2 py-3"
+        >
+          <div className="w-9 h-9 bg-blue-600 flex items-center justify-center font-extrabold text-sm font-mono text-white">
+            SC
+          </div>
+          <button
+            type="button"
+            onClick={onToggleCollapsed}
+            title="Expandir menu lateral"
+            aria-label="Expandir menu lateral"
+            className={`${railBtn} bg-slate-800 hover:bg-slate-700 border-slate-700 text-white mt-2`}
+          >
+            <ChevronsRight className="w-4 h-4" />
+          </button>
+          <div className="w-8 border-t border-slate-700 my-1" />
+          <button
+            type="button"
+            onClick={onSaveEscalaDefinida}
+            title="Salvar Escala Definida"
+            aria-label="Salvar Escala Definida"
+            className={`${railBtn} bg-emerald-600 hover:bg-emerald-700 border-emerald-500 text-white`}
+          >
+            <Save className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={onOpenPrintModal}
+            title="Imprimir / Salvar PDF"
+            aria-label="Imprimir / Salvar PDF"
+            className={`${railBtn} bg-slate-800 hover:bg-slate-700 border-slate-700 text-white`}
+          >
+            <Printer className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={onOpenAiChat}
+            title="Assistente IA"
+            aria-label="Assistente IA"
+            className={`${railBtn} bg-slate-800 hover:bg-slate-700 border-slate-700 text-white`}
+          >
+            <MessageSquare className="w-4 h-4" />
+          </button>
+          <div className="mt-auto text-[10px] font-mono font-bold text-blue-300 [writing-mode:vertical-rl] rotate-180 tracking-wider">
+            {phaseConfig.badge.split(' ')[0]} {phaseConfig.maxWeeklyHours}h
+          </div>
+        </aside>
+        {renderFull('lg:hidden')}
+      </>
+    );
+  }
+
+  return renderFull('');
+
+  function renderFull(extraClass: string) {
   return (
     <aside
       aria-label="Controladores da Escala"
-      className="no-print w-full lg:w-[310px] xl:w-[325px] lg:shrink-0 lg:sticky lg:top-0 lg:h-screen bg-white border-b lg:border-b-0 lg:border-r border-slate-200 z-30 flex flex-col shadow-xs"
+      className={`no-print ${extraClass} w-full lg:w-[310px] xl:w-[325px] lg:shrink-0 lg:sticky lg:top-0 lg:h-screen bg-white border-b lg:border-b-0 lg:border-r border-slate-200 z-30 flex flex-col shadow-xs`}
     >
       {/* Cabeçalho Fixo da Barra Lateral + Botão Mobile */}
       <div className="px-4 py-3.5 border-b border-slate-200 bg-slate-900 text-white flex items-center justify-between gap-2 shrink-0">
@@ -164,6 +238,16 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
             </p>
           </div>
         </div>
+
+        <button
+          type="button"
+          onClick={onToggleCollapsed}
+          title="Recolher menu lateral"
+          aria-label="Recolher menu lateral"
+          className="hidden lg:inline-flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white transition cursor-pointer shrink-0"
+        >
+          <ChevronsLeft className="w-4 h-4" />
+        </button>
 
         <button
           type="button"
@@ -887,11 +971,21 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
         <section className="space-y-2 border-t border-slate-200 pt-3 mt-auto">
           <button
             type="button"
+            onClick={onSaveEscalaDefinida}
+            className="w-full py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition cursor-pointer"
+            title="Grava a escala em tela como a Escala Inicial definida em reunião e baixa uma cópia (.json)"
+          >
+            <Save className="w-4 h-4" />
+            <span>{isEscalaDefinida ? 'Salvar Alterações da Escala' : 'Salvar Escala Definida'}</span>
+          </button>
+          <button
+            type="button"
             onClick={onOpenPrintModal}
             className="w-full py-2 px-3 rounded-lg bg-white hover:bg-slate-100 text-slate-900 border border-slate-300 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition cursor-pointer"
+            title="Abre a impressão do navegador (mesmo resultado do Ctrl+P) — escolha 'Salvar como PDF' para guardar"
           >
             <Printer className="w-4 h-4 text-blue-600" />
-            <span>Imprimir Quadro (Art. 74 CLT)</span>
+            <span>Imprimir / Salvar PDF (Ctrl+P)</span>
           </button>
 
           <div className="grid grid-cols-3 gap-1.5">
@@ -927,4 +1021,5 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
       </div>
     </aside>
   );
+  }
 };

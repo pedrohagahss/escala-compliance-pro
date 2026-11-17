@@ -67,14 +67,34 @@ import { ChairScheduleGrid } from './components/ChairScheduleGrid';
 import { PrintScheduleModal } from './components/PrintScheduleModal';
 import { MemberEditorModal } from './components/MemberEditorModal';
 import { AiScheduleChatDrawer } from './components/AiScheduleChatDrawer';
-import { ScenarioSwitcherBar } from './components/ScenarioSwitcherBar';
-import { ScenarioComparatorModal } from './components/ScenarioComparatorModal';
-import { ComparativePdfModal } from './components/ComparativePdfModal';
+import {
+  BAKED_ESCALA_DEFINIDA,
+  ESCALA_DEFINIDA_ID,
+  snapshotAsEscalaDefinida,
+} from './data/escalaDefinida';
 import { DEFAULT_ACTIVE_OPTIMIZED_SCENARIO_ID } from './utils/scenarioProposals';
-import { Check, AlertTriangle, X } from 'lucide-react';
+import { Check, AlertTriangle, X, BadgeCheck, Save } from 'lucide-react';
 
 const LOCAL_STORAGE_KEY_SCENARIOS = 'seu_carro_pe_scenarios_v8';
 const LOCAL_STORAGE_KEY_ACTIVE_SCENARIO = 'seu_carro_pe_active_scenario_v8';
+const LOCAL_STORAGE_KEY_SIDEBAR_COLLAPSED = 'seu_carro_pe_sidebar_collapsed';
+const LOCAL_STORAGE_KEY_DEFINIDA_SAVED_AT = 'seu_carro_pe_escala_definida_saved_at';
+
+function safeGet(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function safeSet(key: string, value: string) {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    /* armazenamento indisponível */
+  }
+}
 
 export default function App() {
   // 1. Scenarios State
@@ -84,6 +104,10 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          // Garante que a Escala Definida gravada no código esteja sempre disponível
+          if (BAKED_ESCALA_DEFINIDA && !parsed.some((s: Scenario) => s.id === ESCALA_DEFINIDA_ID)) {
+            return [BAKED_ESCALA_DEFINIDA, ...parsed];
+          }
           return parsed;
         }
       }
@@ -94,10 +118,23 @@ export default function App() {
   });
 
   // 2. Active Scenario ID
+  // Quando existe a Escala Definida (salva), ela é sempre a escala exibida.
   const [activeScenarioId, setActiveScenarioId] = useState<string>(() => {
-    const saved = localStorage.getItem(LOCAL_STORAGE_KEY_ACTIVE_SCENARIO);
+    if (scenarios.some((s) => s.id === ESCALA_DEFINIDA_ID)) return ESCALA_DEFINIDA_ID;
+    const saved = safeGet(LOCAL_STORAGE_KEY_ACTIVE_SCENARIO);
     return saved || DEFAULT_ACTIVE_OPTIMIZED_SCENARIO_ID;
   });
+
+  const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(
+    () => safeGet(LOCAL_STORAGE_KEY_SIDEBAR_COLLAPSED) === '1'
+  );
+  useEffect(() => {
+    safeSet(LOCAL_STORAGE_KEY_SIDEBAR_COLLAPSED, sidebarCollapsed ? '1' : '0');
+  }, [sidebarCollapsed]);
+
+  const [definidaSavedAt, setDefinidaSavedAt] = useState<string | null>(
+    () => safeGet(LOCAL_STORAGE_KEY_DEFINIDA_SAVED_AT) || BAKED_ESCALA_DEFINIDA?.createdAt || null
+  );
 
   const activeScenario = useMemo(() => {
     return scenarios.find((s) => s.id === activeScenarioId) || scenarios[0];
@@ -120,8 +157,6 @@ export default function App() {
 
   // 6. Modals State
   const [printModalOpen, setPrintModalOpen] = useState(false);
-  const [comparatorModalOpen, setComparatorModalOpen] = useState(false);
-  const [comparativePdfOpen, setComparativePdfOpen] = useState(false);
   const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
   const [memberModalState, setMemberModalState] = useState<{
     isOpen: boolean;
@@ -930,23 +965,41 @@ export default function App() {
     e.target.value = '';
   };
 
-  // Reset to default scenario (in-app confirm modal)
+  // Salvar a escala atual como a Escala Inicial definida em reunião
+  const handleSaveEscalaDefinida = () => {
+    if (!activeScenario) return;
+    const definida = snapshotAsEscalaDefinida({ ...activeScenario, employees: preparedEmployees });
+    setScenarios((prev) => [definida, ...prev.filter((s) => s.id !== ESCALA_DEFINIDA_ID)]);
+    setActiveScenarioId(ESCALA_DEFINIDA_ID);
+    setDefinidaSavedAt(definida.createdAt);
+    safeSet(LOCAL_STORAGE_KEY_DEFINIDA_SAVED_AT, definida.createdAt);
+
+    // Cópia em arquivo (pode ser guardada/enviada e gravada no sistema)
+    const blob = new Blob([JSON.stringify(definida, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `escala_definida_seu_carro_pe_${definida.createdAt.slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Escala Inicial salva! Uma cópia (.json) foi baixada para o computador.');
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  // Reset to default scenario (in-app confirm modal) — preserva a Escala Definida
   const confirmResetScenarios = () => {
-    const defaults = createDefaultScenarios();
-    setScenarios(defaults);
-    setActiveScenarioId(DEFAULT_ACTIVE_OPTIMIZED_SCENARIO_ID);
+    const definida = scenarios.find((s) => s.id === ESCALA_DEFINIDA_ID);
+    const defaults = createDefaultScenarios().filter((s) => s.id !== ESCALA_DEFINIDA_ID);
+    setScenarios(definida ? [definida, ...defaults] : defaults);
+    setActiveScenarioId(definida ? ESCALA_DEFINIDA_ID : DEFAULT_ACTIVE_OPTIMIZED_SCENARIO_ID);
     setSelectedWeekFilter('ALL');
     setResetConfirmOpen(false);
     showToast('Cenários otimizados e escala padrão restaurados com sucesso.');
-  };
-
-  // Trocar cenário demonstrado na grade (um por vez)
-  const handleSelectScenario = (scenarioId: string) => {
-    setActiveScenarioId(scenarioId);
-    const chosen = scenarios.find((s) => s.id === scenarioId);
-    if (chosen) {
-      showToast(`Demonstrando cenário: ${chosen.shortTag}`);
-    }
   };
 
   // Sábado active count (média nas 4 semanas se 'ALL', ou da semana filtrada)
@@ -976,7 +1029,7 @@ export default function App() {
 
       <div
         className={`flex flex-col lg:flex-row flex-1 min-w-0 ${
-          printModalOpen || comparativePdfOpen ? 'no-print' : ''
+          printModalOpen ? 'no-print' : ''
         }`}
       >
       {/* Controladores Fixados do Lado Esquerdo */}
@@ -1016,7 +1069,11 @@ export default function App() {
         pontoMaisConfig={pontoMaisConfig}
         pontoMaisWeeklyHours={calculatePontoMaisWeeklyHours(pontoMaisConfig)}
         onUpdatePontoMaisConfig={handleUpdatePontoMaisConfig}
-        onOpenPrintModal={() => setPrintModalOpen(true)}
+        onOpenPrintModal={handlePrint}
+        onSaveEscalaDefinida={handleSaveEscalaDefinida}
+        isEscalaDefinida={activeScenario?.id === ESCALA_DEFINIDA_ID}
+        collapsed={sidebarCollapsed}
+        onToggleCollapsed={() => setSidebarCollapsed((v) => !v)}
         onExportJson={handleExportJson}
         onImportJson={handleImportJson}
         onResetDefaults={() => setResetConfirmOpen(true)}
@@ -1033,7 +1090,7 @@ export default function App() {
 
       {/* Área Principal à Direita: Rola independentemente dos controladores fixos */}
       <div className="flex-1 min-w-0 flex flex-col">
-        <main className="flex-1 w-full max-w-[1440px] mx-auto px-4 sm:px-5 py-5 space-y-4">
+        <main className="flex-1 w-full px-2 sm:px-3 py-3 space-y-3">
           {/* Toast Alert */}
           {toastMessage && (
             <div className="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 text-xs border border-slate-700 animate-in fade-in slide-in-from-bottom-2">
@@ -1053,15 +1110,42 @@ export default function App() {
             }}
           />
 
-          {/* Seletor 1-por-1 e Indicadores dos Cenários Propostos */}
+          {/* Faixa da Escala em Vigor (substitui os botões de sugestão de cenários) */}
           {activeScenario && (
-            <ScenarioSwitcherBar
-              scenarios={scenarios}
-              activeScenario={activeScenario}
-              onSelectScenario={handleSelectScenario}
-              onOpenComparator={() => setComparatorModalOpen(true)}
-              onOpenComparativePdf={() => setComparativePdfOpen(true)}
-            />
+            <section
+              aria-label="Escala em vigor"
+              className={`no-print border px-3 py-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs ${
+                activeScenario.id === ESCALA_DEFINIDA_ID
+                  ? 'bg-emerald-50 border-emerald-300 text-emerald-900'
+                  : 'bg-amber-50 border-amber-300 text-amber-900'
+              }`}
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                {activeScenario.id === ESCALA_DEFINIDA_ID ? (
+                  <BadgeCheck className="w-4 h-4 shrink-0 text-emerald-600" />
+                ) : (
+                  <AlertTriangle className="w-4 h-4 shrink-0 text-amber-600" />
+                )}
+                <span className="font-bold truncate">
+                  {activeScenario.id === ESCALA_DEFINIDA_ID
+                    ? activeScenario.name
+                    : `${activeScenario.shortTag} — ainda não salva como Escala Definida`}
+                </span>
+                {activeScenario.id === ESCALA_DEFINIDA_ID && definidaSavedAt && (
+                  <span className="font-mono text-[11px] text-emerald-700 shrink-0">
+                    salva em {new Date(definidaSavedAt).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}
+                  </span>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={handleSaveEscalaDefinida}
+                className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold cursor-pointer shrink-0"
+              >
+                <Save className="w-3.5 h-3.5" />
+                {activeScenario.id === ESCALA_DEFINIDA_ID ? 'Salvar Alterações' : 'Salvar Escala Definida'}
+              </button>
+            </section>
           )}
 
           {/* Visualização 1 (Padrão Inicial): Planta Simulada do Dia por Setor com Setas */}
@@ -1154,7 +1238,7 @@ export default function App() {
 
         {/* App Footer */}
         <footer className="no-print bg-white border-t border-slate-200 py-4 text-xs text-slate-500 mt-8">
-          <div className="max-w-[1440px] mx-auto px-4 sm:px-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+          <div className="px-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
             <div>
               <strong className="text-slate-900">Seu Carro PE</strong> &bull; Sistema de Gestão Operacional de Escala 5x2 (EC 141/2026 &amp; CLT)
             </div>
@@ -1219,30 +1303,6 @@ export default function App() {
           pontoMaisSummaryMap={pontoMaisSummaryMap}
           activeWeekIndex={effectiveSingleWeek}
           selectedWeekFilter={selectedWeekFilter}
-          currentPhase={currentPhase}
-        />
-      )}
-
-      {comparatorModalOpen && activeScenario && (
-        <ScenarioComparatorModal
-          isOpen={comparatorModalOpen}
-          onClose={() => setComparatorModalOpen(false)}
-          scenarios={scenarios}
-          activeScenarioId={activeScenario.id}
-          onSelectScenario={handleSelectScenario}
-          onOpenComparativePdf={() => setComparativePdfOpen(true)}
-        />
-      )}
-
-      {comparativePdfOpen && activeScenario && (
-        <ComparativePdfModal
-          isOpen={comparativePdfOpen}
-          onClose={() => setComparativePdfOpen(false)}
-          scenarios={scenarios}
-          activeScenario={activeScenario}
-          employees={preparedEmployees}
-          monthlySummaryMap={monthlySummaryMap}
-          pontoMaisSummaryMap={pontoMaisSummaryMap}
           currentPhase={currentPhase}
         />
       )}
