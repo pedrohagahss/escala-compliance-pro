@@ -70,6 +70,7 @@ import { AiScheduleChatDrawer } from './components/AiScheduleChatDrawer';
 import {
   BAKED_ESCALA_DEFINIDA,
   ESCALA_DEFINIDA_ID,
+  SABADO_REGRA_TEXTO,
   snapshotAsEscalaDefinida,
 } from './data/escalaDefinida';
 import { DEFAULT_ACTIVE_OPTIMIZED_SCENARIO_ID } from './utils/scenarioProposals';
@@ -1131,9 +1132,11 @@ export default function App() {
                     ? activeScenario.name
                     : `${activeScenario.shortTag} — ainda não salva como Escala Definida`}
                 </span>
-                {activeScenario.id === ESCALA_DEFINIDA_ID && definidaSavedAt && (
+                {activeScenario.id === ESCALA_DEFINIDA_ID && (
                   <span className="font-mono text-[11px] text-emerald-700 shrink-0">
-                    salva em {new Date(definidaSavedAt).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}
+                    vigente a partir de sáb 21/11/2026
+                    {definidaSavedAt &&
+                      ` · salva em ${new Date(definidaSavedAt).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}`}
                   </span>
                 )}
               </div>
@@ -1147,6 +1150,12 @@ export default function App() {
               </button>
             </section>
           )}
+
+          {/* Regra do sábado (aparece também na impressão) */}
+          <p className="border border-slate-300 bg-white px-3 py-2 text-[11px] text-slate-700 leading-snug">
+            <strong className="text-slate-900">Escala inicial — vigente a partir de sábado 21/11/2026.</strong>{' '}
+            {SABADO_REGRA_TEXTO}
+          </p>
 
           {/* Visualização 1 (Padrão Inicial): Planta Simulada do Dia por Setor com Setas */}
           {activeMainView === 'FLOOR_PLAN' && (
