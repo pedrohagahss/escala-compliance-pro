@@ -2,7 +2,7 @@
   "id": "scen-escala-definida",
   "name": "Escala Inicial — Definida em Reunião",
   "shortTag": "Escala Inicial (Reunião)",
-  "description": "Escala inicial aprovada em reunião, vigente a partir de sábado 21/11/2026. Sábado (Matriz e Vendedor Externo): horário formal 08:00–17:00 com 1h de intervalo. Os colaboradores devem estar à disposição nesse horário; conforme o movimento do comércio local, a liderança pode liberá-los mais cedo.",
+  "description": "Escala inicial aprovada em reunião, vigente a partir de sábado 21/11/2026. Sábado (Matriz e Vendedor Externo): horário formal 08:00–17:00 com 1h de intervalo. Os colaboradores devem estar à disposição nesse horário; conforme o movimento do comércio local, a liderança pode liberá-los mais cedo. Filial: Jorginho fixo na área externa; nas folgas dele, um vendedor da Matriz cobre em rodízio (cada um 1 vez por ciclo).",
   "phase": "FASE_1",
   "employees": [
     {
@@ -1636,12 +1636,12 @@
           "SEG": {
             "day": "SEG",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-1",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "lunchStart": "11:30",
             "lunchEnd": "12:36",
             "endTime": "17:30",
-            "label": "08:00–17:30"
+            "label": "08:00–17:30 · Filial"
           },
           "TER": {
             "day": "TER",
@@ -1956,10 +1956,10 @@
           "SAB": {
             "day": "SAB",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-2",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:00",
-            "label": "08:00–17:00",
+            "label": "08:00–17:00 · Filial",
             "lunchStart": "11:30",
             "lunchEnd": "12:30"
           },
@@ -2093,12 +2093,12 @@
         "SEX": {
           "day": "SEX",
           "type": "TRABALHO",
-          "chairId": "VEND-L1-6",
+          "chairId": "VEND-L2-EXT",
           "startTime": "08:00",
           "endTime": "17:30",
           "lunchStart": "11:30",
           "lunchEnd": "12:36",
-          "label": "08:00–17:30"
+          "label": "08:00–17:30 · Filial"
         },
         "SAB": {
           "day": "SAB",
@@ -2158,12 +2158,12 @@
           "SEX": {
             "day": "SEX",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-6",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
             "lunchEnd": "12:36",
-            "label": "08:00–17:30"
+            "label": "08:00–17:30 · Filial"
           },
           "SAB": {
             "day": "SAB",
@@ -2563,12 +2563,12 @@
           "SEX": {
             "day": "SEX",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-4",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "lunchStart": "11:30",
             "lunchEnd": "12:36",
             "endTime": "17:30",
-            "label": "08:00–17:30"
+            "label": "08:00–17:30 · Filial"
           },
           "SAB": {
             "day": "SAB",
@@ -4436,16 +4436,16 @@
       "contractType": "CLT_ATIVO",
       "department": "VENDAS",
       "defaultStore": "LOJA_1",
-      "defaultChairId": "VEND-L1-5",
+      "defaultChairId": "VEND-L2-EXT",
       "badgeColor": "#059669",
       "defaultLunchStart": "11:30",
       "defaultLunchEnd": "12:36",
-      "rulesAndRestrictions": "Atendimento presencial na área externa da Filial; participa do rodízio.",
+      "rulesAndRestrictions": "Fixo na área externa da Filial 777. Nas folgas dele, um vendedor da Matriz cobre em rodízio (cada um 1 vez por ciclo).",
       "schedule": {
         "SEG": {
           "day": "SEG",
           "type": "TRABALHO",
-          "chairId": "VEND-L1-5",
+          "chairId": "VEND-L2-EXT",
           "startTime": "08:00",
           "endTime": "17:30",
           "lunchStart": "11:30",
@@ -4455,7 +4455,7 @@
         "TER": {
           "day": "TER",
           "type": "TRABALHO",
-          "chairId": "VEND-L1-5",
+          "chairId": "VEND-L2-EXT",
           "startTime": "08:00",
           "endTime": "17:30",
           "lunchStart": "11:30",
@@ -4465,7 +4465,7 @@
         "QUA": {
           "day": "QUA",
           "type": "TRABALHO",
-          "chairId": "VEND-L1-5",
+          "chairId": "VEND-L2-EXT",
           "startTime": "08:00",
           "endTime": "17:30",
           "lunchStart": "11:30",
@@ -4475,7 +4475,7 @@
         "QUI": {
           "day": "QUI",
           "type": "TRABALHO",
-          "chairId": "VEND-L1-5",
+          "chairId": "VEND-L2-EXT",
           "startTime": "08:00",
           "endTime": "17:30",
           "lunchStart": "11:30",
@@ -4485,13 +4485,19 @@
         "SEX": {
           "day": "SEX",
           "type": "FOLGA_5X2",
-          "chairId": "VEND-L1-5",
-          "label": "Folga 5x2"
+          "chairId": "VEND-L2-EXT",
+          "label": "Folga 5x2",
+          "coverage": {
+            "coveredByEmployeeId": "emp-marcos-antonio",
+            "coveredByName": "Marcos Ant.",
+            "coveredByRole": "Vendedor (rodízio Filial)",
+            "notes": "Folga mais recente: sábado da S4."
+          }
         },
         "SAB": {
           "day": "SAB",
           "type": "TRABALHO",
-          "chairId": "VEND-L1-5",
+          "chairId": "VEND-L2-EXT",
           "startTime": "08:00",
           "endTime": "17:00",
           "lunchStart": "11:30",
@@ -4501,7 +4507,7 @@
         "DOM": {
           "day": "DOM",
           "type": "FOLGA_DSR",
-          "chairId": "VEND-L1-5",
+          "chairId": "VEND-L2-EXT",
           "label": "Folga DSR"
         }
       },
@@ -4510,7 +4516,7 @@
           "SEG": {
             "day": "SEG",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4520,7 +4526,7 @@
           "TER": {
             "day": "TER",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4530,7 +4536,7 @@
           "QUA": {
             "day": "QUA",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4540,7 +4546,7 @@
           "QUI": {
             "day": "QUI",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4550,13 +4556,19 @@
           "SEX": {
             "day": "SEX",
             "type": "FOLGA_5X2",
-            "chairId": "VEND-L1-5",
-            "label": "Folga 5x2"
+            "chairId": "VEND-L2-EXT",
+            "label": "Folga 5x2",
+            "coverage": {
+              "coveredByEmployeeId": "emp-marcos-antonio",
+              "coveredByName": "Marcos Ant.",
+              "coveredByRole": "Vendedor (rodízio Filial)",
+              "notes": "Folga mais recente: sábado da S4."
+            }
           },
           "SAB": {
             "day": "SAB",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:00",
             "lunchStart": "11:30",
@@ -4566,7 +4578,7 @@
           "DOM": {
             "day": "DOM",
             "type": "FOLGA_DSR",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "label": "Folga DSR"
           }
         },
@@ -4574,7 +4586,7 @@
           "SEG": {
             "day": "SEG",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4584,7 +4596,7 @@
           "TER": {
             "day": "TER",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4594,7 +4606,7 @@
           "QUA": {
             "day": "QUA",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4604,7 +4616,7 @@
           "QUI": {
             "day": "QUI",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4614,13 +4626,19 @@
           "SEX": {
             "day": "SEX",
             "type": "FOLGA_5X2",
-            "chairId": "VEND-L1-5",
-            "label": "Folga 5x2"
+            "chairId": "VEND-L2-EXT",
+            "label": "Folga 5x2",
+            "coverage": {
+              "coveredByEmployeeId": "emp-rayssa",
+              "coveredByName": "Rayssa",
+              "coveredByRole": "Vendedor (rodízio Filial)",
+              "notes": "Rodízio: cada vendedor da Matriz cobre 1 vez por ciclo."
+            }
           },
           "SAB": {
             "day": "SAB",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:00",
             "lunchStart": "11:30",
@@ -4630,7 +4648,7 @@
           "DOM": {
             "day": "DOM",
             "type": "FOLGA_DSR",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "label": "Folga DSR"
           }
         },
@@ -4638,7 +4656,7 @@
           "SEG": {
             "day": "SEG",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4648,7 +4666,7 @@
           "TER": {
             "day": "TER",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4658,7 +4676,7 @@
           "QUA": {
             "day": "QUA",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4668,7 +4686,7 @@
           "QUI": {
             "day": "QUI",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4678,7 +4696,7 @@
           "SEX": {
             "day": "SEX",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4688,13 +4706,19 @@
           "SAB": {
             "day": "SAB",
             "type": "FOLGA_5X2",
-            "chairId": "VEND-L1-5",
-            "label": "Folga 5x2"
+            "chairId": "VEND-L2-EXT",
+            "label": "Folga 5x2",
+            "coverage": {
+              "coveredByEmployeeId": "emp-joao-alexandre",
+              "coveredByName": "João Alex.",
+              "coveredByRole": "Vendedor (rodízio Filial)",
+              "notes": "Folgou no sábado da semana anterior (S2)."
+            }
           },
           "DOM": {
             "day": "DOM",
             "type": "FOLGA_DSR",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "label": "Folga DSR"
           }
         },
@@ -4702,13 +4726,19 @@
           "SEG": {
             "day": "SEG",
             "type": "FOLGA_5X2",
-            "chairId": "VEND-L1-5",
-            "label": "Folga 5x2"
+            "chairId": "VEND-L2-EXT",
+            "label": "Folga 5x2",
+            "coverage": {
+              "coveredByEmployeeId": "emp-jair",
+              "coveredByName": "Jair",
+              "coveredByRole": "Vendedor (rodízio Filial)",
+              "notes": "Folgou na segunda da semana anterior (S3)."
+            }
           },
           "TER": {
             "day": "TER",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4718,7 +4748,7 @@
           "QUA": {
             "day": "QUA",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4728,7 +4758,7 @@
           "QUI": {
             "day": "QUI",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4738,7 +4768,7 @@
           "SEX": {
             "day": "SEX",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
@@ -4748,7 +4778,7 @@
           "SAB": {
             "day": "SAB",
             "type": "TRABALHO",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "startTime": "08:00",
             "endTime": "17:00",
             "lunchStart": "11:30",
@@ -4758,7 +4788,7 @@
           "DOM": {
             "day": "DOM",
             "type": "FOLGA_DSR",
-            "chairId": "VEND-L1-5",
+            "chairId": "VEND-L2-EXT",
             "label": "Folga DSR"
           }
         }

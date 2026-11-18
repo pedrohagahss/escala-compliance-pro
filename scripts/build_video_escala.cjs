@@ -20,7 +20,9 @@ const ORDER = [3,4,1,2];
 const name = e => e.contractType === 'ESTAGIARIO' ? e.shortName.replace(/\s*\(.*\)/,'') + ' <small>(estágio)</small>' : e.shortName;
 const cell = s => {
   if (!s) return '<td></td>';
+  if (s.type === 'FOLGA_5X2' && s.coverage) return `<td class="folga">FOLGA <small style="font-weight:600">· cobre: ${s.coverage.coveredByName}</small></td>`;
   if (s.type === 'FOLGA_5X2') return '<td class="folga">FOLGA</td>';
+  if (s.type === 'TRABALHO' && s.chairId === 'VEND-L2-EXT' && s.label && s.label.includes('Filial')) return `<td class="filial">${s.startTime}–${s.endTime} · FILIAL</td>`;
   if (s.type === 'FOLGA_DSR') return '<td class="dsr">DSR</td>';
   if (s.type === 'TRABALHO') return `<td class="work">${s.startTime}–${s.endTime}</td>`;
   return `<td class="dsr">${s.type}</td>`;
@@ -56,6 +58,7 @@ tr.grp td{border-top:3px solid #94a3b8}
 td.folga{background:#059669;color:#fff;font-weight:800;font-family:inherit}
 td.dsr{color:#94a3b8;font-family:inherit;font-size:17px}
 td.work{color:#1e3a8a}
+td.filial{background:#f59e0b;color:#fff;font-weight:800;font-family:inherit}
 td.satcol{background:#eff6ff}
 .legend{display:flex;gap:28px;font-size:22px;color:#334155;align-items:center}
 .sw{display:inline-block;width:22px;height:22px;border-radius:5px;vertical-align:-4px;margin-right:8px}
@@ -124,7 +127,7 @@ for (const w of ORDER) {
   }
   slides.push({ dur: 13, html: `${top('Semana S' + w)}<div class="body" style="gap:12px;padding-top:22px">
     <div style="display:flex;justify-content:space-between;align-items:flex-end"><h2>Semana S${w} <span style="color:#64748b;font-weight:600;font-size:32px">· ${WEEK_DATES[w][0]} a ${WEEK_DATES[w][1]} (e a cada 4 semanas)</span></h2>
-    <div class="legend"><span><span class="sw" style="background:#059669"></span>Folga 5x2</span><span><span class="sw" style="background:#eff6ff;border:1px solid #93c5fd"></span>Sábado</span><span>DSR = domingo</span></div></div>
+    <div class="legend"><span><span class="sw" style="background:#059669"></span>Folga 5x2</span><span><span class="sw" style="background:#f59e0b"></span>Cobre a Filial</span><span><span class="sw" style="background:#eff6ff;border:1px solid #93c5fd"></span>Sábado</span><span>DSR = domingo</span></div></div>
     <table><thead><tr><th style="text-align:left;width:190px">Setor</th><th style="text-align:left">Colaborador</th>${D.map(d => `<th class="${d==='SAB'?'sat':''}">${DL[d]}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>
   </div>` });
 }
@@ -141,6 +144,22 @@ for (const w of ORDER) {
     <table><thead><tr><th style="text-align:left;width:190px">Setor</th><th style="text-align:left">Colaborador</th>${ORDER.map(w => `<th>S${w} · ${WEEK_DATES[w][0]}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>
   </div>` });
 }
+// Cobertura da Filial
+{
+  const J = def.employees.find(e => e.id === 'emp-rosinaldo');
+  const rows = ORDER.map(w => D.filter(d => J.weeksSchedule[w][d].type === 'FOLGA_5X2').map(d => {
+    const c = J.weeksSchedule[w][d].coverage;
+    return `<tr><td class="n">S${w}</td><td class="n">${DLONG[d]}</td><td class="filial" style="font-size:24px">${c ? c.coveredByName : '—'}</td><td class="n" style="font-weight:500">${c ? c.notes : ''}</td></tr>`;
+  }).join('')).join('');
+  slides.push({ dur: 13, html: `${top('Filial 777')}<div class="body">
+    <h2>Vendas na Filial: rodízio de cobertura</h2>
+    <ul class="big" style="font-size:28px">
+      <li><b>Jorginho</b> fica fixo na área externa da Filial, como no formato original.</li>
+      <li>Nas folgas dele, um vendedor da Matriz vai para a Filial. Cada um cobre <b>1 vez a cada 4 semanas</b>, e ninguém repete antes de todos terem ido.</li>
+    </ul>
+    <table style="font-size:24px"><thead><tr><th>Semana</th><th>Folga do Jorginho</th><th>Quem cobre a Filial</th><th style="text-align:left">Por quê</th></tr></thead><tbody>${rows}</tbody></table>
+  </div>` });
+}
 // 10. Sábado 21/11
 {
   const work = emps.filter(e => e.weeksSchedule[3].SAB.type === 'TRABALHO');
@@ -151,7 +170,7 @@ for (const w of ORDER) {
     <div class="pills">${work.map(e => `<span class="pill">${e.shortName.replace(/\s*\(.*\)/,'')}</span>`).join('')}</div>
     <div class="sub" style="font-weight:700;color:#1e293b;margin-top:10px">De folga (${off.length}):</div>
     <div class="pills">${off.map(e => `<span class="pill off">${e.shortName.replace(/\s*\(.*\)/,'')}</span>`).join('')}</div>
-    <div class="note" style="margin-top:14px">Horário deste sábado: <b>08:00–17:00 com 1h de almoço</b> (Matriz e Vendas) · Marielly e João Pedro <b>08:00–13:00</b> · Matheus (estágio) <b>08:40–12:40</b>. A liderança pode liberar mais cedo conforme o movimento.</div>
+    <div class="note" style="margin-top:14px">Neste sábado <b>João Alex. cobre a Filial</b> (folga do Jorginho). Horário: <b>08:00–17:00 com 1h de almoço</b> (Matriz e Vendas) · Marielly e João Pedro <b>08:00–13:00</b> · Matheus (estágio) <b>08:40–12:40</b>. A liderança pode liberar mais cedo conforme o movimento.</div>
   </div>` });
 }
 // 11. Ajuste Winona
