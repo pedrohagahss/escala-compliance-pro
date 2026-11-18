@@ -56,7 +56,6 @@ import { FloorPlanDayView } from './components/FloorPlanDayView';
 import { RealCalendarView } from './components/RealCalendarView';
 import { MainViewMode, ViewModeBar } from './components/ViewModeBar';
 import {
-  buildScheduleAiContextSummary,
   createNewMember,
   deleteMemberFromTeam,
   NewMemberInput,
@@ -66,7 +65,6 @@ import { LeftControlSidebar } from './components/LeftControlSidebar';
 import { ChairScheduleGrid } from './components/ChairScheduleGrid';
 import { PrintScheduleModal } from './components/PrintScheduleModal';
 import { MemberEditorModal } from './components/MemberEditorModal';
-import { AiScheduleChatDrawer } from './components/AiScheduleChatDrawer';
 import {
   BAKED_ESCALA_DEFINIDA,
   ESCALA_DEFINIDA_ID,
@@ -164,7 +162,6 @@ export default function App() {
     mode: 'create' | 'edit';
     employee?: Employee;
   }>({ isOpen: false, mode: 'create' });
-  const [aiChatOpen, setAiChatOpen] = useState(false);
   const [activeMainView, setActiveMainView] = useState<MainViewMode>('FLOOR_PLAN');
   const [selectedRealDateIso, setSelectedRealDateIso] = useState<string>(() => getDefaultTodayIso());
 
@@ -262,28 +259,6 @@ export default function App() {
     return map;
   }, [preparedEmployees, pontoMaisConfig, currentPhase]);
 
-  const aiContext = useMemo(
-    () =>
-      buildScheduleAiContextSummary({
-        employees: preparedEmployees,
-        currentPhase,
-        monthlySummaryMap,
-        pontoMaisConfig,
-        pontoMaisWeeklyHours: calculatePontoMaisWeeklyHours(pontoMaisConfig),
-        pontoMaisSummaryMap,
-        storeHours,
-        sectorMinimums,
-      }),
-    [
-      preparedEmployees,
-      currentPhase,
-      monthlySummaryMap,
-      pontoMaisConfig,
-      pontoMaisSummaryMap,
-      storeHours,
-      sectorMinimums,
-    ]
-  );
 
   // Compliance calculations (considerando todas as 4 semanas no modo ALL, ou a semana filtrada)
   const complianceMap = useMemo(() => {
@@ -1086,7 +1061,6 @@ export default function App() {
             employee: preparedEmployees[0],
           })
         }
-        onOpenAiChat={() => setAiChatOpen(true)}
       />
 
       {/* Área Principal à Direita: Rola independentemente dos controladores fixos */}
@@ -1130,24 +1104,15 @@ export default function App() {
                 <span className="font-bold truncate">
                   {activeScenario.id === ESCALA_DEFINIDA_ID
                     ? activeScenario.name
-                    : `${activeScenario.shortTag} — ainda não salva como Escala Definida`}
+                    : `${activeScenario.shortTag} — ainda não salva (use "Salvar Escala Definida" no menu lateral)`}
                 </span>
                 {activeScenario.id === ESCALA_DEFINIDA_ID && (
                   <span className="font-mono text-[11px] text-emerald-700 shrink-0">
-                    vigente a partir de sáb 21/11/2026
                     {definidaSavedAt &&
-                      ` · salva em ${new Date(definidaSavedAt).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}`}
+                      `salva em ${new Date(definidaSavedAt).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}`}
                   </span>
                 )}
               </div>
-              <button
-                type="button"
-                onClick={handleSaveEscalaDefinida}
-                className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold cursor-pointer shrink-0"
-              >
-                <Save className="w-3.5 h-3.5" />
-                {activeScenario.id === ESCALA_DEFINIDA_ID ? 'Salvar Alterações' : 'Salvar Escala Definida'}
-              </button>
             </section>
           )}
 
@@ -1239,8 +1204,7 @@ export default function App() {
             onOpenEditMember={(emp) =>
               setMemberModalState({ isOpen: true, mode: 'edit', employee: emp })
             }
-            onOpenAiChat={() => setAiChatOpen(true)}
-            onNotify={showToast}
+                onNotify={showToast}
             />
           )}
         </main>
@@ -1329,24 +1293,7 @@ export default function App() {
         />
       )}
 
-      <AiScheduleChatDrawer
-        isOpen={aiChatOpen}
-        onClose={() => setAiChatOpen(false)}
-        contextSummary={aiContext.contextSummary}
-        scheduleSnapshot={aiContext.scheduleSnapshot}
-        phaseLabel={LEGAL_PHASES[currentPhase].badge}
-        employeesCount={preparedEmployees.length}
-        parallelConflictsCount={
-          Array.isArray(aiContext.scheduleSnapshot.parallelConflicts)
-            ? aiContext.scheduleSnapshot.parallelConflicts.length
-            : 0
-        }
-        uncoveredCount={
-          Array.isArray(aiContext.scheduleSnapshot.uncoveredAlerts)
-            ? aiContext.scheduleSnapshot.uncoveredAlerts.length
-            : 0
-        }
-      />
+
     </div>
   );
 }

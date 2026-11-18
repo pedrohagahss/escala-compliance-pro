@@ -190,24 +190,6 @@ export const RealCalendarView: React.FC<RealCalendarViewProps> = ({
 
         {/* Controles de Foco de Colaborador e Zoom Multi-Meses */}
         <div className="flex flex-wrap items-center gap-2.5">
-          <div className="flex items-center gap-1.5">
-            <Users className="w-3.5 h-3.5 text-slate-300 shrink-0" />
-            <select
-              aria-label="Visualizar Calendário por Equipe ou Colaborador"
-              data-cal-employee-focus="true"
-              value={effectiveFocusEmpId}
-              onChange={(e) => onSelectEmployeeFilter?.(e.target.value)}
-              className="px-2.5 py-1.5 bg-slate-800 border border-slate-600 text-white text-xs font-bold focus:outline-none focus:border-blue-400 cursor-pointer max-w-[230px]"
-            >
-              <option value="ALL">Toda a Equipe ({activeEmployees.length} colab.)</option>
-              {activeEmployees.map((emp) => (
-                <option key={emp.id} value={emp.id}>
-                  {emp.shortName} ({emp.defaultChairId})
-                </option>
-              ))}
-            </select>
-          </div>
-
           <div
             role="group"
             aria-label="Nível de Zoom do Calendário"

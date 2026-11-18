@@ -91,7 +91,6 @@ interface LeftControlSidebarProps {
   onToggleCollapsed: () => void;
   onOpenAddMember: () => void;
   onOpenManageMembers: () => void;
-  onOpenAiChat: () => void;
 }
 
 export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
@@ -128,7 +127,6 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
   onToggleCollapsed,
   onOpenAddMember,
   onOpenManageMembers,
-  onOpenAiChat,
 }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [noteDraft, setNoteDraft] = useState(pontoMaisConfig.note || '');
@@ -193,15 +191,6 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
             className={`${railBtn} bg-slate-800 hover:bg-slate-700 border-slate-700 text-white`}
           >
             <Printer className="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            onClick={onOpenAiChat}
-            title="Assistente IA"
-            aria-label="Assistente IA"
-            className={`${railBtn} bg-slate-800 hover:bg-slate-700 border-slate-700 text-white`}
-          >
-            <MessageSquare className="w-4 h-4" />
           </button>
           <div className="mt-auto text-[10px] font-mono font-bold text-blue-300 [writing-mode:vertical-rl] rotate-180 tracking-wider">
             {phaseConfig.badge.split(' ')[0]} {phaseConfig.maxWeeklyHours}h
@@ -295,12 +284,12 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
           mobileOpen ? 'flex' : 'hidden'
         } lg:flex flex-col flex-1 overflow-y-auto p-4 space-y-4 text-xs`}
       >
-        {/* 0. Equipe & Assistente IA */}
+        {/* 0. Equipe */}
         <section className="space-y-2 pb-3 border-b border-slate-200">
           <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-slate-500">
             <span className="flex items-center gap-1.5">
               <Users className="w-3.5 h-3.5 text-indigo-600" />
-              Equipe & Assistente IA
+              Equipe
             </span>
             <span className="text-[10px] font-mono text-slate-400">
               {complianceSummary.totalEmployees} ativos
@@ -328,16 +317,6 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
             </button>
           </div>
 
-          <button
-            type="button"
-            data-sidebar-open-ai-chat="true"
-            onClick={onOpenAiChat}
-            className="w-full px-3 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold flex items-center justify-center gap-1.5 shadow-xs transition-all"
-          >
-            <MessageSquare className="w-3.5 h-3.5 shrink-0" />
-            <span>Chat com IA sobre Escala</span>
-            <Sparkles className="w-3 h-3 text-amber-300 shrink-0" />
-          </button>
         </section>
 
         {/* 1. Seletor de Fase Legal */}
@@ -395,59 +374,59 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
           </div>
         </section>
 
-        {/* 2. Visualização das Semanas & Cálculo Mensal Automático */}
+        {/* 2. Semana e dia (mesma linha) + resumo do mês */}
         <section className="space-y-2 bg-slate-50 border border-slate-300 rounded-none p-3">
           <div className="flex items-center justify-between gap-2">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-              Semanas &amp; Acúmulo
+              Semana &amp; Dia
             </span>
             <span className="text-xs font-mono font-bold text-blue-800 whitespace-nowrap shrink-0">
               Mês: {monthlyTargetHours}h00
             </span>
           </div>
 
-          <button
-            type="button"
-            data-week-button="ALL"
-            aria-pressed={selectedWeekFilter === 'ALL'}
-            onClick={() => onSelectWeekFilter('ALL')}
-            className={`w-full py-2 px-2.5 rounded-lg font-bold text-xs border transition cursor-pointer flex items-center justify-center gap-1.5 ${
-              selectedWeekFilter === 'ALL'
-                ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
-                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
-            }`}
-            title="Exibe as 4 semanas (S1 a S4) simultaneamente com acúmulo progressivo"
-          >
-            <Layers className="w-3.5 h-3.5 shrink-0" />
-            <span>Todas as Semanas (S1–S4)</span>
-          </button>
-
-          <div className="grid grid-cols-4 gap-1.5">
-            {[1, 2, 3, 4].map((w) => (
-              <button
-                key={w}
-                type="button"
-                data-week-button={w}
-                aria-pressed={selectedWeekFilter === w}
-                onClick={() => onSelectWeekFilter(w)}
-                className={`py-1.5 rounded-lg font-bold text-[11px] border transition cursor-pointer ${
-                  selectedWeekFilter === w
-                    ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
-                    : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
-                }`}
-                title={`Filtrar quadro para focar apenas na Semana ${w}`}
-              >
-                Sem. {w}
-              </button>
-            ))}
+          <div className="flex items-center gap-1.5">
+            <div
+              role="group"
+              aria-label="Semana exibida"
+              className="flex flex-1 items-center gap-0.5 bg-white p-0.5 rounded-lg border border-slate-200"
+            >
+              {(['ALL', 1, 2, 3, 4] as const).map((w) => (
+                <button
+                  key={w}
+                  type="button"
+                  data-week-button={w}
+                  aria-pressed={selectedWeekFilter === w}
+                  onClick={() => onSelectWeekFilter(w)}
+                  className={`flex-1 py-1 rounded-md font-bold text-[11px] transition cursor-pointer ${
+                    selectedWeekFilter === w
+                      ? 'bg-blue-600 text-white shadow-2xs'
+                      : 'text-slate-700 hover:bg-slate-100'
+                  }`}
+                  title={w === 'ALL' ? 'Todas as semanas (S1–S4)' : `Somente a Semana ${w}`}
+                >
+                  {w === 'ALL' ? 'Todas' : `S${w}`}
+                </button>
+              ))}
+            </div>
+            <select
+              aria-label="Dia da semana"
+              data-sidebar-day-filter="true"
+              value={selectedDayFilter}
+              onChange={(e) => onSelectDayFilter(e.target.value as 'ALL' | DayOfWeek)}
+              className="w-[74px] bg-white text-slate-800 font-bold py-1 px-1 rounded-lg border border-slate-200 focus:outline-none focus:border-blue-500 text-[11px] cursor-pointer"
+            >
+              <option value="ALL">Dia</option>
+              {DAYS_OF_WEEK.map((day) => (
+                <option key={day.key} value={day.key}>
+                  {day.shortLabel}
+                </option>
+              ))}
+            </select>
           </div>
 
-          <p className="text-[10px] text-slate-500 leading-snug">
-            Cálculo mensal automático a cada clique. Folgas podem variar entre S1–S4 e horas sobrando/faltando acumulam para a semana seguinte.
-          </p>
-
-          {/* Resumo Automático do Mês + Botões de Equilíbrio */}
+          {/* Resumo Automático do Mês */}
           <div className="pt-2 border-t border-slate-200 space-y-2">
             <div className="grid grid-cols-2 gap-1.5 text-[11px]">
               <div className="bg-white border border-slate-200 rounded-lg px-2.5 py-1.5">
@@ -483,45 +462,6 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              {selectedWeekFilter !== 'ALL' && complianceSummary.shortfallCount > 0 && (
-                <button
-                  type="button"
-                  onClick={onAutoBalanceWeek}
-                  className="w-full py-2 px-3 rounded-lg bg-amber-500 hover:bg-amber-600 text-white font-bold text-[11px] flex items-center justify-center gap-1.5 shadow-2xs transition cursor-pointer"
-                  title={`Compensa apenas a Semana ${selectedWeekFilter} até ${phaseConfig.maxWeeklyHours}h00 sem mexer nas outras semanas`}
-                >
-                  <Sparkles className="w-3.5 h-3.5 shrink-0" />
-                  <span>Equilibrar Só Semana {selectedWeekFilter}</span>
-                </button>
-              )}
-
-              {selectedWeekFilter !== 'ALL' && (
-                <button
-                  type="button"
-                  onClick={onBalanceWeekForMonth}
-                  className="w-full py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px] flex items-center justify-center gap-1.5 shadow-2xs transition cursor-pointer"
-                  title={`Ajusta apenas a Semana ${selectedWeekFilter} para que S1+S2+S3+S4 feche ${monthlyTargetHours}h00 no mês`}
-                >
-                  <Layers className="w-3.5 h-3.5 shrink-0" />
-                  <span>Ajustar Sem. {selectedWeekFilter} p/ Soma do Mês</span>
-                </button>
-              )}
-
-              <button
-                type="button"
-                onClick={onBalanceAllWeeksForMonth}
-                className={`w-full py-2 px-3 rounded-lg font-bold text-[11px] flex items-center justify-center gap-1.5 transition cursor-pointer ${
-                  selectedWeekFilter === 'ALL'
-                    ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-2xs'
-                    : 'bg-white hover:bg-slate-100 text-slate-800 border border-slate-200'
-                }`}
-                title={`Ajusta as 4 semanas em conjunto para somar exatamente ${monthlyTargetHours}h00 no mês, preservando as folgas de cada semana`}
-              >
-                <Scale className="w-3.5 h-3.5 shrink-0" />
-                <span>Fechar Soma das 4 Semanas ({monthlyTargetHours}h)</span>
-              </button>
-            </div>
           </div>
         </section>
 
@@ -629,46 +569,6 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
                 </option>
               ))}
             </select>
-          </div>
-
-          {/* Filtro por Dia da Semana */}
-          <div className="space-y-1">
-            <span className="text-[11px] font-semibold text-slate-600 block">
-              Dia da semana:
-            </span>
-            <div className="grid grid-cols-4 gap-1">
-              <button
-                type="button"
-                data-sidebar-day-filter="ALL"
-                aria-pressed={selectedDayFilter === 'ALL'}
-                onClick={() => onSelectDayFilter('ALL')}
-                className={`py-1 px-1 rounded-lg font-bold text-[10.5px] border transition cursor-pointer ${
-                  selectedDayFilter === 'ALL'
-                    ? 'bg-blue-600 text-white border-blue-600 shadow-2xs'
-                    : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
-                }`}
-              >
-                Todos
-              </button>
-              {DAYS_OF_WEEK.map((day) => (
-                <button
-                  key={day.key}
-                  type="button"
-                  data-sidebar-day-filter={day.key}
-                  aria-pressed={selectedDayFilter === day.key}
-                  onClick={() =>
-                    onSelectDayFilter(selectedDayFilter === day.key ? 'ALL' : day.key)
-                  }
-                  className={`py-1 px-1 rounded-lg font-bold text-[10.5px] border transition cursor-pointer ${
-                    selectedDayFilter === day.key
-                      ? 'bg-blue-600 text-white border-blue-600 shadow-2xs'
-                      : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  {day.shortLabel}
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Busca por Colaborador */}

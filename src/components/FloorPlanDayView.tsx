@@ -160,35 +160,6 @@ export const FloorPlanDayView: React.FC<FloorPlanDayViewProps> = ({
             className="px-2.5 py-1.5 bg-slate-800 border border-slate-600 text-white text-xs font-mono font-bold focus:outline-none focus:border-blue-400 cursor-pointer"
           />
 
-          {!isToday && (
-            <button
-              type="button"
-              onClick={() => onChangeDateIso(todayIso)}
-              className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs border border-emerald-500 transition cursor-pointer"
-            >
-              Ir para Hoje
-            </button>
-          )}
-
-          <button
-            type="button"
-            data-floor-open-calendar="true"
-            onClick={onOpenCalendarView}
-            className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs border border-blue-500 flex items-center gap-1.5 transition cursor-pointer"
-          >
-            <Calendar className="w-3.5 h-3.5" />
-            <span>Calendário Real</span>
-          </button>
-
-          <button
-            type="button"
-            data-floor-open-grid="true"
-            onClick={() => onOpenGridView(snapshot.cycleWeek, snapshot.dayKey)}
-            className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs border border-slate-500 flex items-center gap-1.5 transition cursor-pointer"
-          >
-            <Grid className="w-3.5 h-3.5" />
-            <span>Grade S{snapshot.cycleWeek}</span>
-          </button>
         </div>
       </div>
 
