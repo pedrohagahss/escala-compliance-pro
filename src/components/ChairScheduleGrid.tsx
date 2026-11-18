@@ -618,7 +618,7 @@ export const ChairScheduleGrid: React.FC<ChairScheduleGridProps> = ({
           <div
             ref={headerScrollRef}
             onScroll={(e) => syncHorizontalScroll(e.currentTarget)}
-            className="border-t border-slate-200 bg-slate-100/90 px-[18px] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="border-t border-slate-200 bg-slate-100/90 pl-[50px] pr-[18px] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             <table
               data-frozen-weekday-header="true"
@@ -773,174 +773,25 @@ export const ChairScheduleGrid: React.FC<ChairScheduleGridProps> = ({
               <div
                 key={store.storeId}
                 data-store-card={store.storeId}
-                className="bg-white border border-slate-300 rounded-none shadow-none overflow-hidden space-y-4"
+                className="bg-white border border-slate-300 rounded-none shadow-none overflow-clip flex"
               >
-            {/* Cabeçalho da Loja + Editor de Horário de Abertura/Fechamento */}
-            <div className="bg-gradient-to-r from-slate-100 via-slate-50 to-white px-5 py-3.5 border-b border-slate-200 space-y-3">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-xs shrink-0">
-                    {store.storeId === 'LOJA_1' ? 'L1' : 'L2'}
-                  </div>
-                  <div>
-                    <h2 className="text-sm font-extrabold text-slate-900 flex flex-wrap items-center gap-2">
-                      <span>{store.storeName}</span>
-                      <span className="font-mono text-xs text-blue-800 font-bold tracking-wide">
-                        {store.storeCode}
-                      </span>
-                    </h2>
-                    <p className="text-xs text-slate-500">{store.storeSubtitle}</p>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2">
-                  <span
-                    data-store-hours-summary={store.storeId}
-                    className="text-slate-700 font-mono text-xs font-semibold whitespace-nowrap shrink-0"
-                  >
-                    Seg–Sex {storeCfg.weekdayOpen}–{storeCfg.weekdayClose} &bull; Sáb{' '}
-                    {storeCfg.saturdayOpen}–{storeCfg.saturdayClose}
-                  </span>
-
-                  <button
-                    type="button"
-                    aria-expanded={isEditingStoreHours}
-                    data-edit-store-hours={store.storeId}
-                    onClick={() => handleToggleStoreHoursEditor(store.storeId)}
-                    className={`px-3 py-1.5 rounded-xl border font-bold text-[11px] flex items-center gap-1.5 transition cursor-pointer whitespace-nowrap shrink-0 ${
-                      isEditingStoreHours
-                        ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
-                        : 'bg-white hover:bg-slate-100 text-slate-800 border-slate-300'
-                    }`}
-                  >
-                    <Store className="w-3.5 h-3.5 shrink-0" />
-                    <span>Horário da Loja</span>
-                  </button>
-                </div>
+            {/* Título da loja na lateral (texto girado, lendo de baixo para cima) */}
+            <div
+              data-store-side-title={store.storeId}
+              className="w-8 shrink-0 bg-slate-900 text-white flex justify-center items-start"
+            >
+              <div className="sticky top-16 py-3 flex flex-col items-center gap-2">
+                <span className="[writing-mode:vertical-rl] rotate-180 whitespace-nowrap text-[11px] font-extrabold uppercase tracking-[0.15em]">
+                  {store.storeName}
+                </span>
+                <span className="w-5 h-5 bg-blue-600 flex items-center justify-center font-bold text-[9px]">
+                  {store.storeId === 'LOJA_1' ? 'L1' : 'L2'}
+                </span>
               </div>
-
-              {/* Barra Inline de Abertura & Fechamento exclusiva da Loja */}
-              {isEditingStoreHours && storeHoursDraft && (
-                <div
-                  data-store-hours-panel={store.storeId}
-                  className="bg-white border border-blue-200 rounded-xl p-3.5 shadow-xs space-y-2.5 text-xs"
-                >
-                  <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
-                    <span className="font-bold text-slate-900 flex items-center gap-1.5">
-                      <Store className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                      Abertura e Fechamento exclusivos — {store.storeName}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setOpenStoreHoursEditor(null)}
-                      className="text-[11px] text-slate-500 hover:text-slate-800 cursor-pointer"
-                    >
-                      Fechar
-                    </button>
-                  </div>
-
-                  <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 flex-1">
-                      <div>
-                        <label
-                          htmlFor={`${store.storeId}-wd-open`}
-                          className="block text-[11px] font-bold text-slate-700 mb-1"
-                        >
-                          Seg–Sex Abertura
-                        </label>
-                        <input
-                          id={`${store.storeId}-wd-open`}
-                          type="time"
-                          value={storeHoursDraft.weekdayOpen}
-                          onChange={(e) =>
-                            setStoreHoursDraft({ ...storeHoursDraft, weekdayOpen: e.target.value })
-                          }
-                          className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-300 rounded-lg font-mono text-xs font-bold text-slate-900 focus:border-blue-500 focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor={`${store.storeId}-wd-close`}
-                          className="block text-[11px] font-bold text-slate-700 mb-1"
-                        >
-                          Seg–Sex Fechamento
-                        </label>
-                        <input
-                          id={`${store.storeId}-wd-close`}
-                          type="time"
-                          value={storeHoursDraft.weekdayClose}
-                          onChange={(e) =>
-                            setStoreHoursDraft({ ...storeHoursDraft, weekdayClose: e.target.value })
-                          }
-                          className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-300 rounded-lg font-mono text-xs font-bold text-slate-900 focus:border-blue-500 focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor={`${store.storeId}-sat-open`}
-                          className="block text-[11px] font-bold text-slate-700 mb-1"
-                        >
-                          Sábado Abertura
-                        </label>
-                        <input
-                          id={`${store.storeId}-sat-open`}
-                          type="time"
-                          value={storeHoursDraft.saturdayOpen}
-                          onChange={(e) =>
-                            setStoreHoursDraft({ ...storeHoursDraft, saturdayOpen: e.target.value })
-                          }
-                          className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-300 rounded-lg font-mono text-xs font-bold text-slate-900 focus:border-blue-500 focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor={`${store.storeId}-sat-close`}
-                          className="block text-[11px] font-bold text-slate-700 mb-1"
-                        >
-                          Sábado Fechamento
-                        </label>
-                        <input
-                          id={`${store.storeId}-sat-close`}
-                          type="time"
-                          value={storeHoursDraft.saturdayClose}
-                          onChange={(e) =>
-                            setStoreHoursDraft({ ...storeHoursDraft, saturdayClose: e.target.value })
-                          }
-                          className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-300 rounded-lg font-mono text-xs font-bold text-slate-900 focus:border-blue-500 focus:outline-none"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-2 shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          onUpdateStoreHours(store.storeId, storeHoursDraft, false);
-                          setOpenStoreHoursEditor(null);
-                        }}
-                        className="px-3 py-1.5 rounded-lg border border-slate-300 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-[11px] cursor-pointer whitespace-nowrap"
-                      >
-                        Salvar Referência
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          onUpdateStoreHours(store.storeId, storeHoursDraft, true);
-                          setOpenStoreHoursEditor(null);
-                        }}
-                        className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-[11px] shadow-xs cursor-pointer whitespace-nowrap"
-                        title={`Atualiza abertura e fechamento apenas nos turnos da ${store.storeName}`}
-                      >
-                        Aplicar na {store.storeId === 'LOJA_1' ? 'Loja 1' : 'Loja 2'} (S1–S4)
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Seções por Setor dentro da Loja */}
-            <div className="px-4 pb-4 space-y-6">
+            <div className="flex-1 min-w-0 px-4 py-4 space-y-6">
               {sectionsWithChairs.map(({ section, chairsFiltered }) => {
 
                 const isGroupOpen = inlineGroupKey === `${store.storeId}::${section.deptId}`;

@@ -62,6 +62,7 @@ import {
   updateMemberProfile,
 } from './utils/teamManagement';
 import { LeftControlSidebar } from './components/LeftControlSidebar';
+import { StoreTopStrip } from './components/StoreTopStrip';
 import { ChairScheduleGrid } from './components/ChairScheduleGrid';
 import { PrintScheduleModal } from './components/PrintScheduleModal';
 import { MemberEditorModal } from './components/MemberEditorModal';
@@ -1073,6 +1074,14 @@ export default function App() {
               <span className="font-semibold">{toastMessage}</span>
             </div>
           )}
+
+          {/* Topo: horário das lojas + minimapa da equipe na data ativa */}
+          <StoreTopStrip
+            storeHours={storeHours}
+            onApplyStoreHours={(storeId, hours) => handleUpdateStoreHours(storeId, hours, true)}
+            employees={preparedEmployees}
+            dateIso={selectedRealDateIso}
+          />
 
           {/* Alternador Principal de Visualizações (Tela Inicial: Planta Simulada do Dia) */}
           <ViewModeBar
