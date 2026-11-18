@@ -25,7 +25,7 @@ export const ESCALA_DEFINIDA_VIGENCIA_ISO = '2026-11-21';
 export const SABADO_FORMAL = { start: '08:00', end: '17:00', lunchMinutes: 60 } as const;
 export const SABADO_LUNCH_SLOTS = ['11:30', '12:30', '13:30'] as const;
 export const SABADO_REGRA_TEXTO =
-  'Sábado: horário formal 08:00–17:00 com 1h de intervalo (escalonado 11:30 / 12:30 / 13:30). ' +
+  'Sábado (Matriz e Vendedor Externo): horário formal 08:00–17:00 com 1h de intervalo. ' +
   'Os colaboradores devem estar à disposição nesse horário; conforme o movimento do comércio local, ' +
   'a liderança pode liberá-los mais cedo.';
 
@@ -43,14 +43,16 @@ const toTime = (min: number) =>
  */
 export function applySabadoFormal(scenario: Scenario): Scenario {
   const employees: Employee[] = JSON.parse(JSON.stringify(scenario.employees));
-  const weekNumbers = new Set<number>();
-  employees.forEach((e) =>
-    Object.keys(e.weeksSchedule || {}).forEach((w) => weekNumbers.add(Number(w)))
-  );
-  if (weekNumbers.size === 0) weekNumbers.add(1);
+  const weekKeys = new Set<string>();
+  employees.forEach((e) => Object.keys(e.weeksSchedule || {}).forEach((w) => weekKeys.add(w)));
+
+  // Só converte o sábado "estendido" (lançado como largar às 16h ou mais tarde).
+  // Turnos curtos de sábado (ex.: 08:00–13:00 na Filial) e estágio ficam como estão.
+  const isExtendedSaturday = (shift?: DayShift) =>
+    !!shift && shift.type === 'TRABALHO' && !!shift.endTime && toMin(shift.endTime) >= toMin('16:00');
 
   const formalize = (shift: DayShift, slotIndex: number): DayShift => {
-    const lunchStart = SABADO_LUNCH_SLOTS[slotIndex % SABADO_LUNCH_SLOTS.length];
+    const lunchStart = shift.lunchStart || SABADO_LUNCH_SLOTS[slotIndex % SABADO_LUNCH_SLOTS.length];
     return {
       ...shift,
       startTime: SABADO_FORMAL.start,
@@ -62,33 +64,35 @@ export function applySabadoFormal(scenario: Scenario): Scenario {
     };
   };
 
-  for (const w of weekNumbers) {
-    const slotByDept: Record<string, number> = {};
-    for (const emp of employees) {
-      if (emp.contractType === 'ESTAGIARIO') continue;
-      const week = emp.weeksSchedule?.[w] || (w === 1 ? emp.schedule : undefined);
-      const sat = week?.SAB;
-      if (!week || !sat || sat.type !== 'TRABALHO') continue;
-      const slot = slotByDept[emp.department] ?? 0;
-      slotByDept[emp.department] = slot + 1;
-      week.SAB = formalize(sat, slot);
-      if (w === 1 && emp.weeksSchedule?.[1]) emp.schedule = emp.weeksSchedule[1];
+  const slotByWeekDept: Record<string, number> = {};
+  for (const emp of employees) {
+    if (emp.contractType === 'ESTAGIARIO') continue;
+    if (isExtendedSaturday(emp.schedule?.SAB)) {
+      emp.schedule = { ...emp.schedule, SAB: formalize(emp.schedule.SAB, 0) };
+    }
+    for (const w of weekKeys) {
+      const week = (emp.weeksSchedule as Record<string, Employee['schedule']> | undefined)?.[w];
+      if (!week || !isExtendedSaturday(week.SAB)) continue;
+      const key = `${w}-${emp.department}`;
+      const slot = slotByWeekDept[key] ?? 0;
+      slotByWeekDept[key] = slot + 1;
+      week.SAB = formalize(week.SAB, slot);
+      if (w === '1') emp.schedule = week;
     }
   }
 
   const storeHours = scenario.storeHours
-    ? Object.fromEntries(
+    ? (Object.fromEntries(
         Object.entries(scenario.storeHours).map(([k, v]) => [
           k,
-          { ...v, saturdayOpen: SABADO_FORMAL.start, saturdayClose: SABADO_FORMAL.end },
+          toMin(v.saturdayClose) >= toMin('16:00')
+            ? { ...v, saturdayOpen: SABADO_FORMAL.start, saturdayClose: SABADO_FORMAL.end }
+            : v,
         ])
-      )
-    : {
-        LOJA_1: { weekdayOpen: '08:00', weekdayClose: '17:30', saturdayOpen: SABADO_FORMAL.start, saturdayClose: SABADO_FORMAL.end },
-        LOJA_2: { weekdayOpen: '08:00', weekdayClose: '17:30', saturdayOpen: SABADO_FORMAL.start, saturdayClose: SABADO_FORMAL.end },
-      };
+      ) as Scenario['storeHours'])
+    : undefined;
 
-  return { ...scenario, employees, storeHours: storeHours as Scenario['storeHours'] };
+  return { ...scenario, employees, storeHours };
 }
 
 // import.meta.glob só existe no build do Vite; em scripts/testes (tsx) fica vazio.
