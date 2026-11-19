@@ -2222,7 +2222,8 @@ export const ChairScheduleGrid: React.FC<ChairScheduleGridProps> = ({
                                                   <AlertTriangle className="w-2.5 h-2.5 text-rose-700 shrink-0" />
                                                   <span>Descoberto</span>
                                                 </button>
-                                              ) : autoSkillInfo.length > 0 ? (
+                                              ) : autoSkillInfo.length > 0 &&
+                                                !autoSkillInfo[0].label.startsWith('Rodízio') ? (
                                                 <button
                                                   type="button"
                                                   onClick={() =>
