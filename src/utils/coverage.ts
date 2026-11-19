@@ -240,12 +240,15 @@ export function calculateSectorDailyCoverage(
   const empById = new Map(employees.map((e) => [e.id, e]));
 
   // Conta vendedores ativos na Loja 1 (para verificar capacidade de rodízio para Loja 2)
-  const l1SellerChairs = ['VEND-L1-1', 'VEND-L1-2', 'VEND-L1-3', 'VEND-L1-4'];
+  const l1SellerChairs = ['VEND-L1-1', 'VEND-L1-2', 'VEND-L1-3', 'VEND-L1-4', 'VEND-L1-5', 'VEND-L1-6'];
   const activeL1Sellers = employees.filter((emp) => {
     if (emp.contractType === 'LICENCA_MATERNIDADE') return false;
     const shift = emp.schedule[day];
     if (shift?.type !== 'TRABALHO') return false;
-    return l1SellerChairs.includes(shift.chairId || emp.defaultChairId);
+    return (
+      l1SellerChairs.includes(shift.chairId || emp.defaultChairId) ||
+      (emp.defaultStore === 'LOJA_1' && emp.department === 'VENDAS')
+    );
   });
 
   // Conta pessoal ativo de Preparação na Loja 1 (para checar folga de assistência de Allisson)
