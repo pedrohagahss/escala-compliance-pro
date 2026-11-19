@@ -890,77 +890,10 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
           </div>
         </div>
 
-        {/* Printable Document Area */}
-        <div className="p-8 bg-white text-slate-900 space-y-6 max-h-[78vh] overflow-y-auto print:max-h-none print:overflow-visible print:p-0">
-          {/* Official Document Header */}
-          <div className="border-b-2 border-slate-800 pb-4 text-center">
-            <div className="text-xs uppercase font-mono tracking-widest text-slate-600">
-              SEU CARRO PE VEÍCULOS LTDA &bull; ESCALA 5x2 (EC 141/2026 &amp; CLT)
-            </div>
-            <h1 className="text-lg font-black tracking-tight text-slate-900 uppercase mt-1">
-              {folgasOnly
-                ? printMode === 'BY_SECTOR' && visibleSectors.length === 1
-                  ? `Mapa Oficial de Folgas 5x2 — ${visibleSectors[0].title}`
-                  : 'Mapa Oficial de Folgas Semanais 5x2 (S1 a S4)'
-                : printMode === 'BY_SECTOR'
-                ? visibleSectors.length === 1
-                  ? `Quadro de Horário por Setor — ${visibleSectors[0].title}`
-                  : 'Quadro de Horário de Trabalho e Escala 5x2 — Tabelas por Setor'
-                : 'Quadro de Horário de Trabalho e Escala de Revezamento 5x2'}
-            </h1>
-            <p className="text-xs text-slate-600 mt-0.5">
-              {folgasOnly
-                ? 'Visualização exclusiva dos dias de folga semanal (5x2) e Descanso Semanal Remunerado (DSR), sem exibição de horários diários.'
-                : 'Conforme exigido pelo Artigo 74, § 2º da CLT e adequado aos termos da Emenda Constitucional nº 141/2026 (STF ADIs 8041/8042).'}
-            </p>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs mt-3 pt-3 border-t border-slate-200 text-left">
-              <div>
-                <span className="font-bold text-slate-700 block">Empresa:</span>
-                <span className="font-semibold text-slate-900">Seu Carro PE Veículos Ltda</span>
-              </div>
-              <div>
-                <span className="font-bold text-slate-700 block">Escopo / Unidade(s):</span>
-                <span>
-                  {storeFilter === 'LOJA_1'
-                    ? 'Loja 1 — Matriz 546'
-                    : storeFilter === 'LOJA_2'
-                    ? 'Loja 2 — Filial 777'
-                    : 'Matriz 546 • Filial 777'}
-                  {printMode === 'BY_SECTOR' &&
-                    ` (${visibleSectors.length} ${
-                      visibleSectors.length === 1 ? 'setor' : 'setores'
-                    })`}
-                </span>
-              </div>
-              <div>
-                <span className="font-bold text-slate-700 block">
-                  {folgasOnly ? 'Modalidade do Mapa:' : 'Regime / PontoMais Fechado:'}
-                </span>
-                <span className="font-semibold text-emerald-900">
-                  {folgasOnly
-                    ? 'Somente Folgas 5x2 + DSR (Sem Horários)'
-                    : `${phaseConfig.shortName}${
-                        pontoMaisConfig
-                          ? ` • PM ${formatHoursDecimal(
-                              calculatePontoMaisWeeklyHours(pontoMaisConfig)
-                            )}/sem`
-                          : ''
-                      }`}
-                </span>
-              </div>
-              <div>
-                <span className="font-bold text-slate-700 block">Ciclo / Emissão:</span>
-                <span>
-                  {printWeek === 'ALL' ? 'Ciclo Mensal (S1–S4)' : `Semana ${printWeek} de 4`} &bull;{' '}
-                  {todayStr}
-                </span>
-              </div>
-            </div>
-          </div>
-
+        {/* Printable Document Area — Foco direto no Setor e Cronograma (sem cabeçalho burocrático e sem assinaturas) */}
+        <div className="p-5 bg-white text-slate-900 space-y-5 max-h-[80vh] overflow-y-auto print:max-h-none print:overflow-visible print:p-0">
           {printMode === 'BY_SECTOR' ? (
-            <div className="space-y-6">
+            <div className="space-y-5">
               {visibleSectors.map((sec, secIdx) => {
                 const chairDefs = buildSectionChairs(
                   sec.chairIds,
@@ -993,17 +926,6 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                     } => Boolean(item)
                   );
 
-                const matchedSectorDef = SECTOR_DEFINITIONS.find(
-                  (s) => s.storeId === sec.storeId && s.departmentId === sec.deptId
-                );
-                const minCfg = matchedSectorDef
-                  ? sectorMinimums[matchedSectorDef.id] ||
-                    DEFAULT_SECTOR_MINIMUMS[matchedSectorDef.id] || {
-                      weekday: matchedSectorDef.minRequiredWeekday,
-                      saturday: matchedSectorDef.minRequiredSaturday,
-                    }
-                  : null;
-                const stHours = storeHours[sec.storeId] || DEFAULT_STORE_HOURS[sec.storeId];
                 const shouldBreakAfter =
                   pageBreakPerSector && secIdx < visibleSectors.length - 1;
 
@@ -1015,7 +937,7 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                       shouldBreakAfter ? 'print-page-break' : ''
                     }`}
                   >
-                    <div className="bg-slate-900 text-white px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 print:bg-slate-100 print:text-slate-900 print:border-b-2 print:border-slate-800">
+                    <div className="bg-slate-900 text-white px-4 py-2 flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 print:bg-slate-100 print:text-slate-900 print:border-b-2 print:border-slate-800">
                       <div className="flex flex-wrap items-center gap-2">
                         <span
                           className="w-3 h-3 rounded-full shrink-0 border border-white/40"
@@ -1027,24 +949,12 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                         <h2 className="text-sm font-extrabold tracking-tight">
                           {sec.title}
                         </h2>
-                        <span className="text-xs text-slate-300 print:text-slate-600 font-mono">
-                          ({sectorRows.length}{' '}
-                          {sectorRows.length === 1 ? 'colaborador' : 'colaboradores'})
-                        </span>
                       </div>
 
-                      <div className="flex flex-wrap items-center gap-3 text-xs">
-                        {minCfg && (
-                          <span className="font-mono font-bold text-emerald-300 print:text-slate-800">
-                            Efetivo mín.: Seg–Sex {minCfg.weekday} | Sáb {minCfg.saturday}
-                          </span>
-                        )}
-                        {!folgasOnly && (
-                          <span className="font-mono text-slate-300 print:text-slate-700">
-                            Loja: Seg–Sex {stHours.weekdayOpen}–{stHours.weekdayClose} &bull; Sáb{' '}
-                            {stHours.saturdayOpen}–{stHours.saturdayClose}
-                          </span>
-                        )}
+                      <div className="flex flex-wrap items-center gap-2 text-xs">
+                        <span className="font-mono font-bold text-slate-200 print:text-slate-800">
+                          {printWeek === 'ALL' ? 'Ciclo S1–S4' : `Semana S${printWeek}`}
+                        </span>
 
                         {visibleSectors.length > 1 && (
                           <button
@@ -1200,40 +1110,6 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
               )}
             </div>
           )}
-
-          {/* Legal Notes & Signatures */}
-          <div className="space-y-4 pt-4 border-t border-slate-200 text-xs text-slate-600">
-            <p className="leading-relaxed">
-              {folgasOnly ? (
-                <>
-                  <strong>Comunicado de Escala de Folgas 5x2:</strong> Este quadro apresenta os dias de folga semanal (5x2) e o Descanso Semanal Remunerado (DSR aos domingos) ao longo do ciclo de 4 semanas (S1 a S4), garantindo 2 dias de descanso por semana a todos os colaboradores.
-                </>
-              ) : (
-                <>
-                  <strong>Declaração de Conformidade Trabalhista:</strong> Certificamos que a presente escala de horários respeita o intervalo legal interjornada de 11 (onze) horas consecutivas entre duas jornadas diárias (Art. 66 CLT), o intervalo intrajornada para repouso e alimentação de segunda a sexta-feira (Art. 71 CLT), o expediente corrido de sábado até 5h (08:00 às 13:00), o regime de compensação/horas extras (Art. 59 CLT), a Lei nº 11.788/2008 para estagiários, e o teto da Emenda Constitucional nº 141/2026 com escala 5x2 e rodízio mensal de folgas aos sábados.
-                </>
-              )}
-            </p>
-
-            <div className="grid grid-cols-2 gap-8 pt-8">
-              <div className="text-center border-t border-slate-400 pt-2">
-                <span className="block font-bold text-slate-800">
-                  Diretoria / Gestão de Recursos Humanos
-                </span>
-                <span className="text-[10px] text-slate-500">
-                  Seu Carro PE &bull; Representante Legal
-                </span>
-              </div>
-              <div className="text-center border-t border-slate-400 pt-2">
-                <span className="block font-bold text-slate-800">
-                  Comissão de Empregados / Responsável do Setor
-                </span>
-                <span className="text-[10px] text-slate-500">
-                  Ciência e Acompanhamento da Escala 5x2
-                </span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
