@@ -414,6 +414,104 @@ export function buildRealDayFloorPlanSnapshot(
   };
 }
 
+export interface CalendarHoliday {
+  dateIso: string;
+  name: string;
+  shortName: string;
+  kind: 'NACIONAL' | 'ESTADUAL_PE' | 'MUNICIPAL_RECIFE' | 'VESPERA';
+}
+
+export const CALENDAR_HOLIDAYS_MAP: Record<string, CalendarHoliday> = {
+  '2026-11-02': {
+    dateIso: '2026-11-02',
+    name: 'Finados (Feriado Nacional)',
+    shortName: 'Feriado: Finados',
+    kind: 'NACIONAL',
+  },
+  '2026-11-15': {
+    dateIso: '2026-11-15',
+    name: 'Proclamação da República (Feriado Nacional)',
+    shortName: 'Feriado: Proclamação da República',
+    kind: 'NACIONAL',
+  },
+  '2026-11-20': {
+    dateIso: '2026-11-20',
+    name: 'Dia da Consciência Negra (Feriado Nacional)',
+    shortName: 'Feriado: Consciência Negra',
+    kind: 'NACIONAL',
+  },
+  '2026-12-08': {
+    dateIso: '2026-12-08',
+    name: 'Nossa Senhora da Conceição (Feriado Recife/PE)',
+    shortName: 'Feriado Recife: N. Sra. da Conceição',
+    kind: 'MUNICIPAL_RECIFE',
+  },
+  '2026-12-24': {
+    dateIso: '2026-12-24',
+    name: 'Véspera de Natal',
+    shortName: 'Véspera de Natal',
+    kind: 'VESPERA',
+  },
+  '2026-12-25': {
+    dateIso: '2026-12-25',
+    name: 'Natal (Feriado Nacional)',
+    shortName: 'Feriado Nacional: Natal',
+    kind: 'NACIONAL',
+  },
+  '2026-12-31': {
+    dateIso: '2026-12-31',
+    name: 'Véspera de Ano Novo',
+    shortName: 'Véspera de Ano Novo',
+    kind: 'VESPERA',
+  },
+  '2027-01-01': {
+    dateIso: '2027-01-01',
+    name: 'Confraternização Universal (Feriado Nacional)',
+    shortName: 'Feriado: Ano Novo',
+    kind: 'NACIONAL',
+  },
+  '2027-02-09': {
+    dateIso: '2027-02-09',
+    name: 'Terça-feira de Carnaval',
+    shortName: 'Feriado: Carnaval',
+    kind: 'NACIONAL',
+  },
+  '2027-03-06': {
+    dateIso: '2027-03-06',
+    name: 'Data Magna de Pernambuco (Feriado Estadual)',
+    shortName: 'Feriado PE: Data Magna',
+    kind: 'ESTADUAL_PE',
+  },
+  '2027-03-26': {
+    dateIso: '2027-03-26',
+    name: 'Paixão de Cristo (Sexta-feira Santa)',
+    shortName: 'Feriado: Paixão de Cristo',
+    kind: 'NACIONAL',
+  },
+  '2027-04-21': {
+    dateIso: '2027-04-21',
+    name: 'Tiradentes (Feriado Nacional)',
+    shortName: 'Feriado: Tiradentes',
+    kind: 'NACIONAL',
+  },
+  '2027-05-01': {
+    dateIso: '2027-05-01',
+    name: 'Dia do Trabalho (Feriado Nacional)',
+    shortName: 'Feriado: Dia do Trabalho',
+    kind: 'NACIONAL',
+  },
+  '2027-06-24': {
+    dateIso: '2027-06-24',
+    name: 'São João (Feriado PE)',
+    shortName: 'Feriado PE: São João',
+    kind: 'ESTADUAL_PE',
+  },
+};
+
+export function getHolidayForDateIso(dateIso: string): CalendarHoliday | undefined {
+  return CALENDAR_HOLIDAYS_MAP[dateIso];
+}
+
 export interface RealCalendarDayCell {
   dateIso: string;
   dayNumber: number;
@@ -421,6 +519,7 @@ export interface RealCalendarDayCell {
   dayKey: DayOfWeek;
   cycleWeek: 1 | 2 | 3 | 4;
   isWeekend: boolean;
+  holiday?: CalendarHoliday;
   workingCount: number;
   folgaCount: number;
   dsrCount: number;
@@ -582,6 +681,7 @@ export function buildRealMonthProjection(
       dayKey,
       cycleWeek,
       isWeekend: dayKey === 'SAB' || dayKey === 'DOM',
+      holiday: getHolidayForDateIso(dateIso),
       workingCount: workingNames.length,
       folgaCount: folgaNames.length,
       dsrCount,
@@ -609,4 +709,131 @@ export function buildRealMonthProjection(
       totalFocusHours: Math.round(totalFocusHours * 100) / 100,
     },
   };
+}
+
+export interface FolgaCalendarEmployeeBadge {
+  id: string;
+  shortName: string;
+  name: string;
+  department: DepartmentId;
+  store: StoreId;
+  badgeColor: string;
+  chairCode: string;
+}
+
+export interface FolgaCalendarRangeDayCell {
+  dateIso: string;
+  ddMm: string;
+  dayNumber: number;
+  monthNumber: number;
+  dayKey: DayOfWeek;
+  cycleWeek: 1 | 2 | 3 | 4;
+  inTargetRange: boolean;
+  isVigenciaStart: boolean;
+  holiday?: CalendarHoliday;
+  folgaEmployees: FolgaCalendarEmployeeBadge[];
+  workingCount: number;
+}
+
+export interface FolgaCalendarWeekRow {
+  weekMondayIso: string;
+  weekSundayIso: string;
+  cycleWeek: 1 | 2 | 3 | 4;
+  rangeLabel: string;
+  days: FolgaCalendarRangeDayCell[];
+}
+
+/**
+ * Constrói as linhas semanais (Seg a Dom) para o calendário compacto de impressão de folgas
+ * no intervalo solicitado (ex: 2026-11-21 a 2026-12-31), incluindo todos os colaboradores
+ * de folga no dia (sem ocultar ninguém) e todos os feriados do período.
+ */
+export function buildFolgaCalendarWeeksRange(
+  employees: Employee[],
+  startIso: string = '2026-11-21',
+  endIso: string = '2026-12-31'
+): FolgaCalendarWeekRow[] {
+  const prepared = employees
+    .map(ensureEmployeeWeeksSchedule)
+    .filter((e) => !e.isCirculating && e.contractType !== 'LICENCA_MATERNIDADE');
+
+  const startDate = parseDateIsoLocal(startIso);
+  const startJsDay = startDate.getDay();
+  const mondayDelta = startJsDay === 0 ? -6 : 1 - startJsDay;
+  const firstMonday = new Date(startDate);
+  firstMonday.setDate(startDate.getDate() + mondayDelta);
+
+  const endDate = parseDateIsoLocal(endIso);
+  const endJsDay = endDate.getDay();
+  const sundayDelta = endJsDay === 0 ? 0 : 7 - endJsDay;
+  const lastSunday = new Date(endDate);
+  lastSunday.setDate(endDate.getDate() + sundayDelta);
+
+  const rows: FolgaCalendarWeekRow[] = [];
+  const curMonday = new Date(firstMonday);
+
+  while (curMonday.getTime() <= lastSunday.getTime()) {
+    const weekMondayIso = formatDateIsoLocal(curMonday);
+    const cycleWeek = getCycleWeekForDate(weekMondayIso);
+    const days: FolgaCalendarRangeDayCell[] = [];
+
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(curMonday);
+      d.setDate(curMonday.getDate() + i);
+      const dateIso = formatDateIsoLocal(d);
+      const dayNumber = d.getDate();
+      const monthNumber = d.getMonth() + 1;
+      const ddMm = `${String(dayNumber).padStart(2, '0')}/${String(monthNumber).padStart(2, '0')}`;
+      const dayKey = getDayOfWeekForDateIso(dateIso);
+      const inTargetRange = dateIso >= startIso && dateIso <= endIso;
+      const holiday = getHolidayForDateIso(dateIso);
+
+      const folgaEmployees: FolgaCalendarEmployeeBadge[] = [];
+      let workingCount = 0;
+
+      for (const emp of prepared) {
+        const info = getEmployeeShiftForDate(emp, dateIso);
+        if (info.isWork) {
+          workingCount++;
+        } else if (info.isFolga5x2) {
+          folgaEmployees.push({
+            id: emp.id,
+            shortName: emp.shortName.replace(/\s*\(Estagiário\)/i, ''),
+            name: emp.name,
+            department: emp.department,
+            store: emp.defaultStore,
+            badgeColor: emp.badgeColor || '#059669',
+            chairCode: emp.defaultChairId,
+          });
+        }
+      }
+
+      days.push({
+        dateIso,
+        ddMm,
+        dayNumber,
+        monthNumber,
+        dayKey,
+        cycleWeek,
+        inTargetRange,
+        isVigenciaStart: dateIso === '2026-11-21',
+        holiday,
+        folgaEmployees,
+        workingCount,
+      });
+    }
+
+    const weekSundayIso = days[6].dateIso;
+    rows.push({
+      weekMondayIso,
+      weekSundayIso,
+      cycleWeek,
+      rangeLabel: `${days[0].ddMm} a ${days[6].ddMm}`,
+      days,
+    });
+
+    curMonday.setDate(curMonday.getDate() + 7);
+  }
+
+  return rows;
 }

@@ -4,6 +4,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Maximize2,
+  Printer,
   Users,
   ZoomIn,
   ZoomOut,
@@ -31,6 +32,7 @@ interface RealCalendarViewProps {
   selectedDept: 'ALL' | DepartmentId;
   selectedEmployeeFilter: 'ALL' | string;
   onSelectEmployeeFilter?: (empId: 'ALL' | string) => void;
+  onOpenPrintCalendar21Nov31Dec?: () => void;
 }
 
 export const RealCalendarView: React.FC<RealCalendarViewProps> = ({
@@ -43,6 +45,7 @@ export const RealCalendarView: React.FC<RealCalendarViewProps> = ({
   selectedDept,
   selectedEmployeeFilter,
   onSelectEmployeeFilter,
+  onOpenPrintCalendar21Nov31Dec,
 }) => {
   const initialDate = useMemo(() => parseDateIsoLocal(selectedDateIso), [selectedDateIso]);
   const [cursorYear, setCursorYear] = useState<number>(initialDate.getFullYear());
@@ -190,6 +193,17 @@ export const RealCalendarView: React.FC<RealCalendarViewProps> = ({
 
         {/* Controles de Foco de Colaborador e Zoom Multi-Meses */}
         <div className="flex flex-wrap items-center gap-2.5">
+          <button
+            type="button"
+            data-cal-print-21nov-31dec="true"
+            onClick={() => onOpenPrintCalendar21Nov31Dec?.()}
+            className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold border border-emerald-400 flex items-center gap-1.5 cursor-pointer transition"
+            title="Imprimir calendário de folgas de 21/11 a 31/12/2026 em uma única folha (com todos os nomes e feriados)"
+          >
+            <Printer className="w-3.5 h-3.5" />
+            <span>Imprimir Folgas 21/11 a 31/12 (1 Folha)</span>
+          </button>
+
           <div
             role="group"
             aria-label="Nível de Zoom do Calendário"
@@ -414,6 +428,18 @@ export const RealCalendarView: React.FC<RealCalendarViewProps> = ({
                           </span>
                         </div>
 
+                        {cell.holiday && (
+                          <div
+                            className={`mt-1 px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-tight border ${
+                              cell.holiday.kind === 'VESPERA'
+                                ? 'bg-amber-100 text-amber-950 border-amber-400'
+                                : 'bg-rose-600 text-white border-rose-800'
+                            }`}
+                          >
+                            ★ {cell.holiday.shortName}
+                          </div>
+                        )}
+
                         {cell.inCurrentMonth && (
                           <div className="mt-1 space-y-1">
                             {focus ? (
@@ -460,11 +486,8 @@ export const RealCalendarView: React.FC<RealCalendarViewProps> = ({
                                     <div className="font-extrabold">
                                       {cell.folgaNames.length} folga{cell.folgaNames.length > 1 ? 's' : ''}:
                                     </div>
-                                    <div className="line-clamp-2 font-normal text-emerald-50">
-                                      {cell.folgaNames.slice(0, 4).join(', ')}
-                                      {cell.folgaNames.length > 4
-                                        ? ` +${cell.folgaNames.length - 4}`
-                                        : ''}
+                                    <div className="font-normal text-emerald-50 break-words">
+                                      {cell.folgaNames.join(', ')}
                                     </div>
                                   </div>
                                 )}

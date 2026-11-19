@@ -64,7 +64,7 @@ import {
 import { LeftControlSidebar } from './components/LeftControlSidebar';
 import { StoreTopStrip } from './components/StoreTopStrip';
 import { ChairScheduleGrid } from './components/ChairScheduleGrid';
-import { PrintScheduleModal } from './components/PrintScheduleModal';
+import { PrintModalMode, PrintScheduleModal } from './components/PrintScheduleModal';
 import { MemberEditorModal } from './components/MemberEditorModal';
 import {
   BAKED_ESCALA_DEFINIDA,
@@ -169,7 +169,15 @@ export default function App() {
     storeFilter: 'ALL' | StoreId;
     sectorKey: 'ALL' | string;
     folgasOnly: boolean;
-  }>({ storeFilter: 'ALL', sectorKey: 'ALL', folgasOnly: false });
+    printMode: PrintModalMode;
+    employeeId: 'ALL' | string;
+  }>({
+    storeFilter: 'ALL',
+    sectorKey: 'ALL',
+    folgasOnly: false,
+    printMode: 'BY_SECTOR',
+    employeeId: 'ALL',
+  });
 
   const handleOpenPrintModal = (
     targetStore: 'ALL' | StoreId = selectedStore,
@@ -178,12 +186,16 @@ export default function App() {
         ? `${selectedStore}::${selectedDept === 'SUCESSO_CLIENTE' ? 'DOCUMENTACAO' : selectedDept}`
         : `DEPT::${selectedDept}`
       : 'ALL',
-    onlyFolgas: boolean = false
+    onlyFolgas: boolean = false,
+    mode: PrintModalMode = 'BY_SECTOR',
+    empId: 'ALL' | string = 'ALL'
   ) => {
     setPrintModalTarget({
       storeFilter: targetStore,
       sectorKey: targetSectorKey,
       folgasOnly: onlyFolgas,
+      printMode: mode,
+      employeeId: empId,
     });
     setPrintModalOpen(true);
   };
@@ -1076,8 +1088,14 @@ export default function App() {
         pontoMaisConfig={pontoMaisConfig}
         pontoMaisWeeklyHours={calculatePontoMaisWeeklyHours(pontoMaisConfig)}
         onUpdatePontoMaisConfig={handleUpdatePontoMaisConfig}
-        onOpenPrintModal={() => handleOpenPrintModal(selectedStore, undefined, false)}
-        onOpenPrintFolgasOnly={() => handleOpenPrintModal(selectedStore, undefined, true)}
+        onOpenPrintModal={() => handleOpenPrintModal(selectedStore, undefined, false, 'BY_SECTOR')}
+        onOpenPrintFolgasOnly={() => handleOpenPrintModal(selectedStore, undefined, true, 'BY_SECTOR')}
+        onOpenPrintCalendar21Nov31Dec={() =>
+          handleOpenPrintModal(selectedStore, 'ALL', true, 'CALENDAR_21_11_31_12')
+        }
+        onOpenPrintIndividualSheets={() =>
+          handleOpenPrintModal(selectedStore, 'ALL', true, 'INDIVIDUAL_SHEETS', selectedEmployeeFilter)
+        }
         onSaveEscalaDefinida={handleSaveEscalaDefinida}
         isEscalaDefinida={activeScenario?.id === ESCALA_DEFINIDA_ID}
         collapsed={sidebarCollapsed}
@@ -1208,6 +1226,9 @@ export default function App() {
               selectedDept={selectedDept}
               selectedEmployeeFilter={selectedEmployeeFilter}
               onSelectEmployeeFilter={setSelectedEmployeeFilter}
+              onOpenPrintCalendar21Nov31Dec={() =>
+                handleOpenPrintModal(selectedStore, 'ALL', true, 'CALENDAR_21_11_31_12')
+              }
             />
           )}
 
@@ -1328,6 +1349,8 @@ export default function App() {
           initialStoreFilter={printModalTarget.storeFilter}
           initialSectorKey={printModalTarget.sectorKey}
           initialFolgasOnly={printModalTarget.folgasOnly}
+          initialPrintMode={printModalTarget.printMode}
+          initialEmployeeId={printModalTarget.employeeId}
         />
       )}
 

@@ -84,6 +84,8 @@ interface LeftControlSidebarProps {
   onUpdatePontoMaisConfig: (config: PontoMaisStandardConfig) => void;
   onOpenPrintModal: () => void;
   onOpenPrintFolgasOnly?: () => void;
+  onOpenPrintCalendar21Nov31Dec?: () => void;
+  onOpenPrintIndividualSheets?: () => void;
   onExportJson: () => void;
   onImportJson: () => void;
   onResetDefaults: () => void;
@@ -121,6 +123,8 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
   onUpdatePontoMaisConfig,
   onOpenPrintModal,
   onOpenPrintFolgasOnly,
+  onOpenPrintCalendar21Nov31Dec,
+  onOpenPrintIndividualSheets,
   onExportJson,
   onImportJson,
   onResetDefaults,
@@ -881,15 +885,42 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
             <Save className="w-4 h-4" />
             <span>{isEscalaDefinida ? 'Salvar Alterações da Escala' : 'Salvar Escala Definida'}</span>
           </button>
+
+          {onOpenPrintCalendar21Nov31Dec && (
+            <button
+              type="button"
+              data-sidebar-print-calendar-21-11-31-12="true"
+              onClick={onOpenPrintCalendar21Nov31Dec}
+              className="w-full py-2 px-3 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition cursor-pointer"
+              title="Imprime o calendário de folgas de 21/11/2026 a 31/12/2026 em 1 folha única com o nome de todos que folgam no dia e todos os feriados"
+            >
+              <Calendar className="w-4 h-4" />
+              <span>Calendário Folgas 21/11–31/12 (1 Folha)</span>
+            </button>
+          )}
+
+          {onOpenPrintIndividualSheets && (
+            <button
+              type="button"
+              data-sidebar-print-individual-sheets="true"
+              onClick={onOpenPrintIndividualSheets}
+              className="w-full py-2 px-3 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-950 border border-indigo-300 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition cursor-pointer"
+              title="Imprime 1 folha separada para cada colaborador com seus horários, intervalo de almoço, folgas e calendário individual"
+            >
+              <FileText className="w-4 h-4 text-indigo-700" />
+              <span>Imprimir Individual (1 Folha por Pessoa)</span>
+            </button>
+          )}
+
           <button
             type="button"
             data-sidebar-print-folgas-only="true"
             onClick={onOpenPrintFolgasOnly || onOpenPrintModal}
             className="w-full py-2 px-3 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition cursor-pointer"
-            title="Abre a impressão focada exclusivamente nas folgas (sem horários de entrada, almoço ou saída)"
+            title="Abre a impressão focada exclusivamente nas folgas e horário de intervalo"
           >
             <CalendarOff className="w-4 h-4 text-emerald-700" />
-            <span>Imprimir Só Folgas (Sem Horários)</span>
+            <span>Imprimir Só Folgas (Por Setor)</span>
           </button>
 
           <button
