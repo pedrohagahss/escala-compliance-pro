@@ -3,6 +3,7 @@ import {
   AlertTriangle,
   Building2,
   Calendar,
+  CalendarOff,
   CheckCircle2,
   ChevronDown,
   ChevronsLeft,
@@ -82,6 +83,7 @@ interface LeftControlSidebarProps {
   pontoMaisWeeklyHours: number;
   onUpdatePontoMaisConfig: (config: PontoMaisStandardConfig) => void;
   onOpenPrintModal: () => void;
+  onOpenPrintFolgasOnly?: () => void;
   onExportJson: () => void;
   onImportJson: () => void;
   onResetDefaults: () => void;
@@ -118,6 +120,7 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
   pontoMaisWeeklyHours,
   onUpdatePontoMaisConfig,
   onOpenPrintModal,
+  onOpenPrintFolgasOnly,
   onExportJson,
   onImportJson,
   onResetDefaults,
@@ -878,6 +881,17 @@ export const LeftControlSidebar: React.FC<LeftControlSidebarProps> = ({
             <Save className="w-4 h-4" />
             <span>{isEscalaDefinida ? 'Salvar Alterações da Escala' : 'Salvar Escala Definida'}</span>
           </button>
+          <button
+            type="button"
+            data-sidebar-print-folgas-only="true"
+            onClick={onOpenPrintFolgasOnly || onOpenPrintModal}
+            className="w-full py-2 px-3 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition cursor-pointer"
+            title="Abre a impressão focada exclusivamente nas folgas (sem horários de entrada, almoço ou saída)"
+          >
+            <CalendarOff className="w-4 h-4 text-emerald-700" />
+            <span>Imprimir Só Folgas (Sem Horários)</span>
+          </button>
+
           <button
             type="button"
             onClick={onOpenPrintModal}

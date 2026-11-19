@@ -5,6 +5,7 @@ import {
   Building2,
   Calendar,
   CalendarDays,
+  CalendarOff,
   ChevronLeft,
   ChevronRight,
   Grid,
@@ -32,7 +33,7 @@ interface FloorPlanDayViewProps {
   searchQuery: string;
   onOpenCalendarView: () => void;
   onOpenGridView: (focusWeek?: number, focusDay?: string) => void;
-  onPrintSector?: (storeId: StoreId | 'ALL', sectorKey: string) => void;
+  onPrintSector?: (storeId: StoreId | 'ALL', sectorKey: string, folgasOnly?: boolean) => void;
 }
 
 export const FloorPlanDayView: React.FC<FloorPlanDayViewProps> = ({
@@ -165,8 +166,19 @@ export const FloorPlanDayView: React.FC<FloorPlanDayViewProps> = ({
 
           <button
             type="button"
+            data-floor-print-folgas-only="true"
+            onClick={() => onPrintSector?.('ALL', 'ALL', true)}
+            className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs border border-emerald-500 flex items-center gap-1.5 transition cursor-pointer"
+            title="Imprimir mapa focado apenas nas folgas (sem horários do dia a dia)"
+          >
+            <CalendarOff className="w-3.5 h-3.5" />
+            <span>Imprimir Só Folgas</span>
+          </button>
+
+          <button
+            type="button"
             data-floor-print-by-sector="true"
-            onClick={() => onPrintSector?.('ALL', 'ALL')}
+            onClick={() => onPrintSector?.('ALL', 'ALL', false)}
             className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs border border-slate-300 flex items-center gap-1.5 transition cursor-pointer"
             title="Imprimir tabelas de escala separadas por setor"
           >
@@ -382,6 +394,26 @@ export const FloorPlanDayView: React.FC<FloorPlanDayViewProps> = ({
                               )}
                               <button
                                 type="button"
+                                data-floor-print-folgas-sector={room.sector.id}
+                                onClick={() => {
+                                  const effectiveDept =
+                                    room.departmentId === 'SUCESSO_CLIENTE'
+                                      ? 'DOCUMENTACAO'
+                                      : room.departmentId;
+                                  onPrintSector?.(
+                                    storeMeta.storeId,
+                                    `${storeMeta.storeId}::${effectiveDept}`,
+                                    true
+                                  );
+                                }}
+                                className="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-950 border border-emerald-300 font-sans font-bold text-[10.5px] transition cursor-pointer"
+                                title={`Imprimir apenas as folgas (S1–S4) do setor ${room.sector.title}, sem horários`}
+                              >
+                                <CalendarOff className="w-3 h-3 text-emerald-700 shrink-0" />
+                                <span>Só Folgas</span>
+                              </button>
+                              <button
+                                type="button"
                                 data-floor-print-sector={room.sector.id}
                                 onClick={() => {
                                   const effectiveDept =
@@ -390,7 +422,8 @@ export const FloorPlanDayView: React.FC<FloorPlanDayViewProps> = ({
                                       : room.departmentId;
                                   onPrintSector?.(
                                     storeMeta.storeId,
-                                    `${storeMeta.storeId}::${effectiveDept}`
+                                    `${storeMeta.storeId}::${effectiveDept}`,
+                                    false
                                   );
                                 }}
                                 className="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-100 hover:bg-blue-50 text-slate-800 hover:text-blue-700 border border-slate-300 hover:border-blue-300 font-sans font-bold text-[10.5px] transition cursor-pointer"

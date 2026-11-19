@@ -168,7 +168,8 @@ export default function App() {
   const [printModalTarget, setPrintModalTarget] = useState<{
     storeFilter: 'ALL' | StoreId;
     sectorKey: 'ALL' | string;
-  }>({ storeFilter: 'ALL', sectorKey: 'ALL' });
+    folgasOnly: boolean;
+  }>({ storeFilter: 'ALL', sectorKey: 'ALL', folgasOnly: false });
 
   const handleOpenPrintModal = (
     targetStore: 'ALL' | StoreId = selectedStore,
@@ -176,11 +177,13 @@ export default function App() {
       ? selectedStore !== 'ALL'
         ? `${selectedStore}::${selectedDept === 'SUCESSO_CLIENTE' ? 'DOCUMENTACAO' : selectedDept}`
         : `DEPT::${selectedDept}`
-      : 'ALL'
+      : 'ALL',
+    onlyFolgas: boolean = false
   ) => {
     setPrintModalTarget({
       storeFilter: targetStore,
       sectorKey: targetSectorKey,
+      folgasOnly: onlyFolgas,
     });
     setPrintModalOpen(true);
   };
@@ -1073,7 +1076,8 @@ export default function App() {
         pontoMaisConfig={pontoMaisConfig}
         pontoMaisWeeklyHours={calculatePontoMaisWeeklyHours(pontoMaisConfig)}
         onUpdatePontoMaisConfig={handleUpdatePontoMaisConfig}
-        onOpenPrintModal={handlePrint}
+        onOpenPrintModal={() => handleOpenPrintModal(selectedStore, undefined, false)}
+        onOpenPrintFolgasOnly={() => handleOpenPrintModal(selectedStore, undefined, true)}
         onSaveEscalaDefinida={handleSaveEscalaDefinida}
         isEscalaDefinida={activeScenario?.id === ESCALA_DEFINIDA_ID}
         collapsed={sidebarCollapsed}
@@ -1183,7 +1187,9 @@ export default function App() {
                 }
                 setActiveMainView('WEEKLY_GRID');
               }}
-              onPrintSector={(stId, secKey) => handleOpenPrintModal(stId, secKey)}
+              onPrintSector={(stId, secKey, onlyFolgas) =>
+                handleOpenPrintModal(stId, secKey, Boolean(onlyFolgas))
+              }
             />
           )}
 
@@ -1241,7 +1247,9 @@ export default function App() {
             onOpenEditMember={(emp) =>
               setMemberModalState({ isOpen: true, mode: 'edit', employee: emp })
             }
-            onPrintSector={(stId, secKey) => handleOpenPrintModal(stId, secKey)}
+            onPrintSector={(stId, secKey, onlyFolgas) =>
+              handleOpenPrintModal(stId, secKey, Boolean(onlyFolgas))
+            }
             onNotify={showToast}
             />
           )}
@@ -1319,6 +1327,7 @@ export default function App() {
           sectorMinimums={sectorMinimums}
           initialStoreFilter={printModalTarget.storeFilter}
           initialSectorKey={printModalTarget.sectorKey}
+          initialFolgasOnly={printModalTarget.folgasOnly}
         />
       )}
 

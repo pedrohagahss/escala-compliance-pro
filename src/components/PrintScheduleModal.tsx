@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  DayOfWeek,
   DepartmentId,
   Employee,
   EmployeeComplianceResult,
@@ -23,7 +24,7 @@ import { DEFAULT_SECTOR_MINIMUMS, SECTOR_DEFINITIONS } from '../utils/coverage';
 import { calculatePontoMaisWeeklyHours } from '../utils/pontoMais';
 import { findChairOccupant } from '../utils/scheduleFilters';
 import { buildSectionChairs } from '../utils/teamManagement';
-import { Layers, Printer, Table2, X } from 'lucide-react';
+import { CalendarOff, Clock, Layers, Printer, Table2, X } from 'lucide-react';
 
 export interface PrintableSectorDefinition {
   key: string;
@@ -117,6 +118,26 @@ export const PRINTABLE_SECTORS: PrintableSectorDefinition[] = [
   },
 ];
 
+const DAY_FULL_LABEL: Record<DayOfWeek, string> = {
+  SEG: 'Segunda-feira',
+  TER: 'Terça-feira',
+  QUA: 'Quarta-feira',
+  QUI: 'Quinta-feira',
+  SEX: 'Sexta-feira',
+  SAB: 'Sábado',
+  DOM: 'Domingo',
+};
+
+const DAY_SHORT_LABEL: Record<DayOfWeek, string> = {
+  SEG: 'Segunda',
+  TER: 'Terça',
+  QUA: 'Quarta',
+  QUI: 'Quinta',
+  SEX: 'Sexta',
+  SAB: 'Sábado',
+  DOM: 'Domingo',
+};
+
 interface PrintScheduleModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -132,6 +153,7 @@ interface PrintScheduleModalProps {
   sectorMinimums?: SectorMinimumsMap;
   initialStoreFilter?: 'ALL' | StoreId;
   initialSectorKey?: 'ALL' | string;
+  initialFolgasOnly?: boolean;
 }
 
 export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
@@ -149,11 +171,16 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
   sectorMinimums = DEFAULT_SECTOR_MINIMUMS,
   initialStoreFilter = 'ALL',
   initialSectorKey = 'ALL',
+  initialFolgasOnly = false,
 }) => {
   const [printWeek, setPrintWeek] = useState<'ALL' | number>(
     selectedWeekFilter === 'ALL' ? 'ALL' : activeWeekIndex
   );
   const [printMode, setPrintMode] = useState<'BY_SECTOR' | 'UNIFIED'>('BY_SECTOR');
+  const [folgasOnly, setFolgasOnly] = useState<boolean>(initialFolgasOnly);
+  const [folgasLayout, setFolgasLayout] = useState<'BOTH' | 'SUMMARY_S1_S4' | 'GRID_NO_HOURS'>(
+    'BOTH'
+  );
   const [storeFilter, setStoreFilter] = useState<'ALL' | StoreId>(initialStoreFilter);
   const [sectorKeyFilter, setSectorKeyFilter] = useState<'ALL' | string>(initialSectorKey);
   const [pageBreakPerSector, setPageBreakPerSector] = useState<boolean>(false);
@@ -163,9 +190,17 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
       setPrintWeek(selectedWeekFilter === 'ALL' ? 'ALL' : activeWeekIndex);
       setStoreFilter(initialStoreFilter);
       setSectorKeyFilter(initialSectorKey);
+      setFolgasOnly(initialFolgasOnly);
       setPrintMode('BY_SECTOR');
     }
-  }, [isOpen, selectedWeekFilter, activeWeekIndex, initialStoreFilter, initialSectorKey]);
+  }, [
+    isOpen,
+    selectedWeekFilter,
+    activeWeekIndex,
+    initialStoreFilter,
+    initialSectorKey,
+    initialFolgasOnly,
+  ]);
 
   if (!isOpen) return null;
 
@@ -183,10 +218,16 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
     window.print();
   };
 
-  const handleSelectSingleSectorAndPrint = (sec: PrintableSectorDefinition) => {
+  const handleSelectSingleSectorAndPrint = (
+    sec: PrintableSectorDefinition,
+    onlyFolgas?: boolean
+  ) => {
     setPrintMode('BY_SECTOR');
     setStoreFilter(sec.storeId);
     setSectorKeyFilter(sec.key);
+    if (onlyFolgas !== undefined) {
+      setFolgasOnly(onlyFolgas);
+    }
     window.setTimeout(() => {
       window.print();
     }, 80);
@@ -223,6 +264,134 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
     return chairIdSet.has(emp.defaultChairId);
   });
 
+  const getWeekFolgaDays = (emp: Employee, weekNum: number): DayOfWeek[] => {
+    const weekSched = emp.weeksSchedule?.[weekNum] || emp.schedule;
+    return (['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'] as DayOfWeek[]).filter(
+      (d) => weekSched[d] && weekSched[d].type !== 'TRABALHO'
+    );
+  };
+
+  // Renderiza o quadro resumo S1 a S4 focado 100% nas folgas (1 linha por colaborador, sem horários)
+  const renderFolgasSummaryTable = (
+    rows: Array<{ emp: Employee; chairCode?: string; chairName?: string }>
+  ) => {
+    return (
+      <div className="overflow-x-auto">
+        <table
+          data-folgas-summary-table="true"
+          className="w-full text-left border-collapse border border-slate-300 text-xs"
+        >
+          <thead>
+            <tr className="bg-emerald-900 text-white font-bold border-b border-slate-300 text-[10px] uppercase print:bg-slate-200 print:text-slate-900">
+              <th className="py-2 px-2.5 border border-slate-300 w-[28%]">
+                Cadeira / Colaborador / Função
+              </th>
+              {weeksToPrint.map((wNum) => (
+                <th
+                  key={`sum-head-s${wNum}`}
+                  className="py-2 px-2 text-center border border-slate-300"
+                >
+                  Folga 5x2 — Semana S{wNum}
+                </th>
+              ))}
+              <th className="py-2 px-2 text-center border border-slate-300 w-[13%]">
+                Descanso Fixo (DSR)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map(({ emp, chairCode, chairName }) => {
+              if (emp.contractType === 'LICENCA_MATERNIDADE') {
+                return (
+                  <tr
+                    key={`${emp.id}-folga-sum-lic`}
+                    className="border-b border-slate-300 bg-rose-50/40"
+                  >
+                    <td className="py-2 px-2.5 border border-slate-300 font-medium">
+                      <div className="flex items-center gap-1.5">
+                        {chairCode && (
+                          <span className="font-mono text-[10px] font-bold px-1 py-0.5 bg-slate-100 border border-slate-300 text-slate-800">
+                            {chairCode}
+                          </span>
+                        )}
+                        <span className="font-bold text-slate-900">{emp.name}</span>
+                      </div>
+                      <div className="text-[10px] text-slate-600 mt-0.5">
+                        {chairName ? `${chairName} • ` : ''}
+                        {emp.role}
+                      </div>
+                    </td>
+                    <td
+                      colSpan={weeksToPrint.length + 1}
+                      className="py-2 px-2 text-center border border-slate-300 text-[10.5px] font-bold text-rose-800"
+                    >
+                      Licença-Maternidade (Afastamento Integral)
+                    </td>
+                  </tr>
+                );
+              }
+
+              return (
+                <tr key={`${emp.id}-folga-sum`} className="border-b border-slate-300">
+                  <td className="py-2 px-2.5 border border-slate-300 font-medium">
+                    <div className="flex flex-wrap items-center gap-1">
+                      {chairCode && (
+                        <span className="font-mono text-[10px] font-bold px-1 py-0.5 bg-slate-100 border border-slate-300 text-slate-800">
+                          {chairCode}
+                        </span>
+                      )}
+                      <span className="font-bold text-slate-900">{emp.name}</span>
+                    </div>
+                    <div className="text-[10px] text-slate-600 mt-0.5">
+                      {chairName ? `${chairName} • ` : ''}
+                      {emp.role} ({emp.defaultStore === 'LOJA_1' ? 'Matriz 546' : 'Filial 777'})
+                    </div>
+                  </td>
+
+                  {weeksToPrint.map((wNum) => {
+                    const offDays = getWeekFolgaDays(emp, wNum);
+                    return (
+                      <td
+                        key={`${emp.id}-fsum-w${wNum}`}
+                        className="py-2 px-2 text-center border border-slate-300 align-middle"
+                      >
+                        {offDays.length > 0 ? (
+                          <div className="inline-flex flex-wrap items-center justify-center gap-1">
+                            {offDays.map((dKey) => (
+                              <span
+                                key={dKey}
+                                className={`px-2 py-0.5 font-extrabold text-[11px] border ${
+                                  dKey === 'SAB'
+                                    ? 'bg-blue-700 text-white border-blue-900 print:bg-blue-100 print:text-blue-950 print:border-blue-800'
+                                    : 'bg-emerald-700 text-white border-emerald-900 print:bg-emerald-100 print:text-emerald-950 print:border-emerald-800'
+                                }`}
+                              >
+                                {DAY_FULL_LABEL[dKey]}
+                              </span>
+                            ))}
+                          </div>
+                        ) : (
+                          <span className="text-[10.5px] font-semibold text-slate-500">
+                            Seg a Sáb (Estágio / Só Dom)
+                          </span>
+                        )}
+                      </td>
+                    );
+                  })}
+
+                  <td className="py-2 px-2 text-center border border-slate-300 font-bold text-[10.5px] text-slate-700 bg-slate-50">
+                    Domingo (DSR)
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
+  // Renderiza as linhas da grade Seg..Dom (com horários ou SÓ FOLGAS sem horários)
   const renderEmployeeRows = (
     rows: Array<{ emp: Employee; chairCode?: string; chairName?: string }>
   ) => {
@@ -256,12 +425,20 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
             >
               Licença-Maternidade &bull; Posto coberto na operação
             </td>
-            <td className="py-1.5 px-2 text-center border border-slate-300 font-mono text-[10px] text-slate-500">
-              0h00
-            </td>
-            <td className="py-1.5 px-2 text-center border border-slate-300 font-semibold text-[10px] text-emerald-700">
-              Conforme
-            </td>
+            {folgasOnly ? (
+              <td className="py-1.5 px-2 text-center border border-slate-300 font-semibold text-[10px] text-rose-700">
+                Licença Integral
+              </td>
+            ) : (
+              <>
+                <td className="py-1.5 px-2 text-center border border-slate-300 font-mono text-[10px] text-slate-500">
+                  0h00
+                </td>
+                <td className="py-1.5 px-2 text-center border border-slate-300 font-semibold text-[10px] text-emerald-700">
+                  Conforme
+                </td>
+              </>
+            )}
           </tr>
         );
       }
@@ -271,6 +448,7 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
         const weekHours = mSum?.weeklyHours[wNum - 1] ?? fallbackComp?.totalWeeklyHours ?? 0;
         const weekComp = mSum?.complianceByWeek[wNum - 1] || fallbackComp;
         const isFirst = wIdx === 0;
+        const offDaysInWeek = getWeekFolgaDays(emp, wNum);
 
         return (
           <tr
@@ -296,11 +474,13 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                   {chairName ? `${chairName} • ` : ''}
                   {emp.role} ({emp.defaultStore === 'LOJA_1' ? 'Matriz 546' : 'Filial 777'})
                 </div>
-                <div className="text-[9.5px] font-mono text-slate-700 mt-0.5">
-                  {emp.contractType === 'ESTAGIARIO'
-                    ? 'Estágio 24h/sem (Sem intervalo)'
-                    : `Almoço: ${emp.defaultLunchStart || '12:00'}–${emp.defaultLunchEnd || '13:30'}`}
-                </div>
+                {!folgasOnly && (
+                  <div className="text-[9.5px] font-mono text-slate-700 mt-0.5">
+                    {emp.contractType === 'ESTAGIARIO'
+                      ? 'Estágio 24h/sem (Sem intervalo)'
+                      : `Almoço: ${emp.defaultLunchStart || '12:00'}–${emp.defaultLunchEnd || '13:30'}`}
+                  </div>
+                )}
               </td>
             )}
 
@@ -310,6 +490,36 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
 
             {DAYS_OF_WEEK.map((d) => {
               const shift = weekSched[d.key];
+              const isOff5x2 = shift?.type === 'FOLGA_5X2';
+              const isDsr = shift?.type === 'FOLGA_DSR';
+              const isLic = shift?.type === 'LICENCA';
+              const isWork = shift?.type === 'TRABALHO';
+
+              if (folgasOnly) {
+                return (
+                  <td
+                    key={d.key}
+                    className={`py-1.5 px-1 text-center border border-slate-300 text-[10px] ${
+                      isOff5x2
+                        ? 'bg-emerald-700 text-white font-black print:bg-emerald-100 print:text-emerald-950'
+                        : isDsr
+                        ? 'bg-slate-200 text-slate-800 font-bold'
+                        : 'bg-white text-slate-300'
+                    }`}
+                  >
+                    {isOff5x2 ? (
+                      <span className="uppercase tracking-wide font-extrabold">FOLGA</span>
+                    ) : isDsr ? (
+                      <span className="font-bold text-slate-700">DSR</span>
+                    ) : isLic ? (
+                      <span className="font-bold text-pink-700">Licença</span>
+                    ) : (
+                      <span className="text-slate-300 select-none">&mdash;</span>
+                    )}
+                  </td>
+                );
+              }
+
               return (
                 <td
                   key={d.key}
@@ -317,17 +527,17 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                     d.isWeekend ? 'bg-slate-50' : ''
                   }`}
                 >
-                  {shift?.type === 'TRABALHO' ? (
+                  {isWork ? (
                     <span className="font-bold text-slate-900">
                       {shift.startTime}-{shift.endTime}
                     </span>
-                  ) : shift?.type === 'FOLGA_5X2' ? (
+                  ) : isOff5x2 ? (
                     <span className="font-bold text-emerald-800 bg-emerald-50 px-1 py-0.5 border border-emerald-300 inline-block">
                       Folga 5x2
                     </span>
-                  ) : shift?.type === 'FOLGA_DSR' ? (
+                  ) : isDsr ? (
                     <span className="font-bold text-slate-700">DSR</span>
-                  ) : shift?.type === 'LICENCA' ? (
+                  ) : isLic ? (
                     <span className="font-bold text-pink-700">Licença</span>
                   ) : (
                     <span>Folga</span>
@@ -336,43 +546,53 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
               );
             })}
 
-            <td className="py-1.5 px-2 text-center border border-slate-300 font-mono font-bold text-[10px]">
-              <div>{formatHoursDecimal(weekHours)}</div>
-              {mSum && isFirst && (
-                <div className="text-[9px] text-slate-500 font-normal">
-                  Mês: {formatHoursDecimal(mSum.totalMonthlyHours)}/
-                  {formatHoursDecimal(mSum.monthlyTargetHours)}
-                </div>
-              )}
-              {isFirst && pontoMaisSummaryMap?.[emp.id]?.isEligibleForBanco && (
-                <div className="text-[9px] text-blue-800 font-semibold">
-                  BH Mês:{' '}
-                  {Math.abs(pontoMaisSummaryMap[emp.id].netBancoHoursMonth) < 0.08
-                    ? '0h00'
-                    : `${
-                        pontoMaisSummaryMap[emp.id].netBancoHoursMonth > 0 ? '+' : '-'
-                      }${formatHoursDecimal(
-                        Math.abs(pontoMaisSummaryMap[emp.id].netBancoHoursMonth)
-                      )}`}
-                </div>
-              )}
-            </td>
-
-            {isFirst && (
-              <td
-                rowSpan={weeksToPrint.length}
-                className="py-2 px-2 text-center border border-slate-300 font-semibold text-[10px] align-middle"
-              >
-                {mSum?.status === 'VIOLACAO' || weekComp?.status === 'VIOLACAO' ? (
-                  <span className="text-rose-700">Irregular (&gt;10h ou &lt;2 folgas)</span>
-                ) : mSum?.status === 'HORAS_EXTRAS' ? (
-                  <span className="text-blue-800">Banco / Saldo +</span>
-                ) : mSum?.status === 'COMPENSANDO' ? (
-                  <span className="text-amber-800">Saldo em Compensação</span>
-                ) : (
-                  <span className="text-emerald-700">Conforme (5x2)</span>
-                )}
+            {folgasOnly ? (
+              <td className="py-1.5 px-2 text-center border border-slate-300 font-bold text-[10.5px] text-emerald-900 bg-emerald-50/50">
+                {offDaysInWeek.length > 0
+                  ? `${offDaysInWeek.map((d) => DAY_SHORT_LABEL[d]).join(' + ')} + Dom`
+                  : 'Domingo (DSR)'}
               </td>
+            ) : (
+              <>
+                <td className="py-1.5 px-2 text-center border border-slate-300 font-mono font-bold text-[10px]">
+                  <div>{formatHoursDecimal(weekHours)}</div>
+                  {mSum && isFirst && (
+                    <div className="text-[9px] text-slate-500 font-normal">
+                      Mês: {formatHoursDecimal(mSum.totalMonthlyHours)}/
+                      {formatHoursDecimal(mSum.monthlyTargetHours)}
+                    </div>
+                  )}
+                  {isFirst && pontoMaisSummaryMap?.[emp.id]?.isEligibleForBanco && (
+                    <div className="text-[9px] text-blue-800 font-semibold">
+                      BH Mês:{' '}
+                      {Math.abs(pontoMaisSummaryMap[emp.id].netBancoHoursMonth) < 0.08
+                        ? '0h00'
+                        : `${
+                            pontoMaisSummaryMap[emp.id].netBancoHoursMonth > 0 ? '+' : '-'
+                          }${formatHoursDecimal(
+                            Math.abs(pontoMaisSummaryMap[emp.id].netBancoHoursMonth)
+                          )}`}
+                    </div>
+                  )}
+                </td>
+
+                {isFirst && (
+                  <td
+                    rowSpan={weeksToPrint.length}
+                    className="py-2 px-2 text-center border border-slate-300 font-semibold text-[10px] align-middle"
+                  >
+                    {mSum?.status === 'VIOLACAO' || weekComp?.status === 'VIOLACAO' ? (
+                      <span className="text-rose-700">Irregular (&gt;10h ou &lt;2 folgas)</span>
+                    ) : mSum?.status === 'HORAS_EXTRAS' ? (
+                      <span className="text-blue-800">Banco / Saldo +</span>
+                    ) : mSum?.status === 'COMPENSANDO' ? (
+                      <span className="text-amber-800">Saldo em Compensação</span>
+                    ) : (
+                      <span className="text-emerald-700">Conforme (5x2)</span>
+                    )}
+                  </td>
+                )}
+              </>
             )}
           </tr>
         );
@@ -390,18 +610,59 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
         <div className="no-print px-6 py-4 border-b border-slate-200 bg-slate-50 space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <Printer className="w-5 h-5 text-blue-600" />
+              {folgasOnly ? (
+                <CalendarOff className="w-5 h-5 text-emerald-600" />
+              ) : (
+                <Printer className="w-5 h-5 text-blue-600" />
+              )}
               <div>
                 <h3 className="text-sm font-bold text-slate-900">
-                  Impressão de Tabelas por Setor &amp; Quadro Oficial (Art. 74 CLT &amp; EC 141/2026)
+                  {folgasOnly
+                    ? 'Impressão Exclusiva de Folgas 5x2 (Sem Horários do Dia a Dia)'
+                    : 'Impressão de Tabelas por Setor & Quadro Oficial (Art. 74 CLT & EC 141/2026)'}
                 </h3>
                 <p className="text-xs text-slate-500">
-                  Imprima todos os setores separados por tabela, escolha apenas 1 setor específico ou gere o quadro geral em A4 / PDF
+                  {folgasOnly
+                    ? 'Foco 100% nos dias de folga de cada colaborador por setor e semana (S1 a S4), ocultando horários de entrada, almoço e saída'
+                    : 'Imprima todos os setores separados por tabela, escolha apenas 1 setor específico ou alterne para o modo Só Folgas'}
                 </p>
               </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
+              {/* Alternador Principal: Só Folgas (Sem Horários) vs Com Horários Completos */}
+              <div className="flex items-center gap-1 bg-slate-200/80 p-1 rounded-lg text-[11px] font-bold">
+                <button
+                  type="button"
+                  data-print-content-mode="FOLGAS_ONLY"
+                  onClick={() => setFolgasOnly(true)}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded transition cursor-pointer ${
+                    folgasOnly
+                      ? 'bg-emerald-600 text-white shadow-2xs'
+                      : 'text-slate-700 hover:bg-white'
+                  }`}
+                  title="Exibir e imprimir apenas os dias de folga, sem horários de entrada/saída ou almoço"
+                >
+                  <CalendarOff className="w-3.5 h-3.5" />
+                  <span>Só Folgas (Sem Horários)</span>
+                </button>
+                <button
+                  type="button"
+                  data-print-content-mode="FULL_HOURS"
+                  onClick={() => setFolgasOnly(false)}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded transition cursor-pointer ${
+                    !folgasOnly
+                      ? 'bg-blue-600 text-white shadow-2xs'
+                      : 'text-slate-700 hover:bg-white'
+                  }`}
+                  title="Exibir quadro completo com horários diários, almoço e carga horária"
+                >
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>Com Horários</span>
+                </button>
+              </div>
+
+              {/* Alternador: Por Setor vs Tabela Única */}
               <div className="flex items-center gap-1 bg-slate-200/80 p-1 rounded-lg text-[11px] font-bold">
                 <button
                   type="button"
@@ -414,7 +675,7 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                   }`}
                 >
                   <Layers className="w-3.5 h-3.5" />
-                  <span>Tabelas por Setor</span>
+                  <span>Por Setor</span>
                 </button>
                 <button
                   type="button"
@@ -465,10 +726,14 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                 type="button"
                 data-print-execute="true"
                 onClick={handlePrint}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow cursor-pointer transition"
+                className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white rounded-lg shadow cursor-pointer transition ${
+                  folgasOnly
+                    ? 'bg-emerald-600 hover:bg-emerald-700'
+                    : 'bg-blue-600 hover:bg-blue-700'
+                }`}
               >
                 <Printer className="w-4 h-4" />
-                <span>Imprimir / Salvar PDF</span>
+                <span>{folgasOnly ? 'Imprimir Só Folgas / PDF' : 'Imprimir / Salvar PDF'}</span>
               </button>
               <button
                 type="button"
@@ -517,18 +782,61 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
               ))}
             </div>
 
-            {printMode === 'BY_SECTOR' && visibleSectors.length > 1 && (
-              <label className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-700 cursor-pointer select-none bg-white px-2.5 py-1 rounded-lg border border-slate-300">
-                <input
-                  type="checkbox"
-                  data-print-page-break-toggle="true"
-                  checked={pageBreakPerSector}
-                  onChange={(e) => setPageBreakPerSector(e.target.checked)}
-                  className="rounded border-slate-300 text-blue-600"
-                />
-                <span>1 Setor por Página (A4)</span>
-              </label>
-            )}
+            <div className="flex flex-wrap items-center gap-2">
+              {folgasOnly && (
+                <div className="flex items-center gap-1 bg-emerald-100/80 p-1 rounded-lg border border-emerald-300 text-[10.5px] font-bold">
+                  <button
+                    type="button"
+                    data-folgas-layout="BOTH"
+                    onClick={() => setFolgasLayout('BOTH')}
+                    className={`px-2 py-0.5 rounded cursor-pointer transition ${
+                      folgasLayout === 'BOTH'
+                        ? 'bg-emerald-700 text-white'
+                        : 'text-emerald-950 hover:bg-white'
+                    }`}
+                  >
+                    Resumo S1–S4 + Grade
+                  </button>
+                  <button
+                    type="button"
+                    data-folgas-layout="SUMMARY_S1_S4"
+                    onClick={() => setFolgasLayout('SUMMARY_S1_S4')}
+                    className={`px-2 py-0.5 rounded cursor-pointer transition ${
+                      folgasLayout === 'SUMMARY_S1_S4'
+                        ? 'bg-emerald-700 text-white'
+                        : 'text-emerald-950 hover:bg-white'
+                    }`}
+                  >
+                    Só Resumo S1–S4 (Compacto)
+                  </button>
+                  <button
+                    type="button"
+                    data-folgas-layout="GRID_NO_HOURS"
+                    onClick={() => setFolgasLayout('GRID_NO_HOURS')}
+                    className={`px-2 py-0.5 rounded cursor-pointer transition ${
+                      folgasLayout === 'GRID_NO_HOURS'
+                        ? 'bg-emerald-700 text-white'
+                        : 'text-emerald-950 hover:bg-white'
+                    }`}
+                  >
+                    Só Grade Seg–Dom
+                  </button>
+                </div>
+              )}
+
+              {printMode === 'BY_SECTOR' && visibleSectors.length > 1 && (
+                <label className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-700 cursor-pointer select-none bg-white px-2.5 py-1 rounded-lg border border-slate-300">
+                  <input
+                    type="checkbox"
+                    data-print-page-break-toggle="true"
+                    checked={pageBreakPerSector}
+                    onChange={(e) => setPageBreakPerSector(e.target.checked)}
+                    className="rounded border-slate-300 text-blue-600"
+                  />
+                  <span>1 Setor por Página (A4)</span>
+                </label>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-1.5">
@@ -580,22 +888,28 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
           {/* Official Document Header */}
           <div className="border-b-2 border-slate-800 pb-4 text-center">
             <div className="text-xs uppercase font-mono tracking-widest text-slate-600">
-              REPÚBLICA FEDERATIVA DO BRASIL &bull; MINISTÉRIO DO TRABALHO E EMPREGO
+              SEU CARRO PE VEÍCULOS LTDA &bull; ESCALA 5x2 (EC 141/2026 &amp; CLT)
             </div>
             <h1 className="text-lg font-black tracking-tight text-slate-900 uppercase mt-1">
-              {printMode === 'BY_SECTOR'
+              {folgasOnly
+                ? printMode === 'BY_SECTOR' && visibleSectors.length === 1
+                  ? `Mapa Oficial de Folgas 5x2 — ${visibleSectors[0].title}`
+                  : 'Mapa Oficial de Folgas Semanais 5x2 (S1 a S4)'
+                : printMode === 'BY_SECTOR'
                 ? visibleSectors.length === 1
                   ? `Quadro de Horário por Setor — ${visibleSectors[0].title}`
                   : 'Quadro de Horário de Trabalho e Escala 5x2 — Tabelas por Setor'
                 : 'Quadro de Horário de Trabalho e Escala de Revezamento 5x2'}
             </h1>
             <p className="text-xs text-slate-600 mt-0.5">
-              Conforme exigido pelo Artigo 74, § 2º da CLT e adequado aos termos da Emenda Constitucional nº 141/2026 (STF ADIs 8041/8042).
+              {folgasOnly
+                ? 'Visualização exclusiva dos dias de folga semanal (5x2) e Descanso Semanal Remunerado (DSR), sem exibição de horários diários.'
+                : 'Conforme exigido pelo Artigo 74, § 2º da CLT e adequado aos termos da Emenda Constitucional nº 141/2026 (STF ADIs 8041/8042).'}
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs mt-3 pt-3 border-t border-slate-200 text-left">
               <div>
-                <span className="font-bold text-slate-700 block">Razão Social / Nome Fantasia:</span>
+                <span className="font-bold text-slate-700 block">Empresa:</span>
                 <span className="font-semibold text-slate-900">Seu Carro PE Veículos Ltda</span>
               </div>
               <div>
@@ -613,11 +927,19 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                 </span>
               </div>
               <div>
-                <span className="font-bold text-slate-700 block">Regime / PontoMais Fechado:</span>
-                <span className="font-semibold text-blue-900">
-                  {phaseConfig.shortName}
-                  {pontoMaisConfig &&
-                    ` • PM ${formatHoursDecimal(calculatePontoMaisWeeklyHours(pontoMaisConfig))}/sem`}
+                <span className="font-bold text-slate-700 block">
+                  {folgasOnly ? 'Modalidade do Mapa:' : 'Regime / PontoMais Fechado:'}
+                </span>
+                <span className="font-semibold text-emerald-900">
+                  {folgasOnly
+                    ? 'Somente Folgas 5x2 + DSR (Sem Horários)'
+                    : `${phaseConfig.shortName}${
+                        pontoMaisConfig
+                          ? ` • PM ${formatHoursDecimal(
+                              calculatePontoMaisWeeklyHours(pontoMaisConfig)
+                            )}/sem`
+                          : ''
+                      }`}
                 </span>
               </div>
               <div>
@@ -710,10 +1032,12 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                             Efetivo mín.: Seg–Sex {minCfg.weekday} | Sáb {minCfg.saturday}
                           </span>
                         )}
-                        <span className="font-mono text-slate-300 print:text-slate-700">
-                          Loja: Seg–Sex {stHours.weekdayOpen}–{stHours.weekdayClose} &bull; Sáb{' '}
-                          {stHours.saturdayOpen}–{stHours.saturdayClose}
-                        </span>
+                        {!folgasOnly && (
+                          <span className="font-mono text-slate-300 print:text-slate-700">
+                            Loja: Seg–Sex {stHours.weekdayOpen}–{stHours.weekdayClose} &bull; Sáb{' '}
+                            {stHours.saturdayOpen}–{stHours.saturdayClose}
+                          </span>
+                        )}
 
                         {visibleSectors.length > 1 && (
                           <button
@@ -730,96 +1054,160 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                       </div>
                     </div>
 
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse text-xs">
-                        <thead>
-                          <tr className="bg-slate-100 text-slate-800 font-bold border-b border-slate-300 text-[10px] uppercase">
-                            <th className="py-2 px-2 border border-slate-300 w-[23%]">
-                              Cadeira / Colaborador / Intervalo
-                            </th>
-                            <th className="py-2 px-1 text-center border border-slate-300 w-[5%]">
-                              Sem.
-                            </th>
-                            <th className="py-2 px-1 text-center border border-slate-300">Seg</th>
-                            <th className="py-2 px-1 text-center border border-slate-300">Ter</th>
-                            <th className="py-2 px-1 text-center border border-slate-300">Qua</th>
-                            <th className="py-2 px-1 text-center border border-slate-300">Qui</th>
-                            <th className="py-2 px-1 text-center border border-slate-300">Sex</th>
-                            <th className="py-2 px-1 text-center border border-slate-300 bg-slate-200/50">
-                              Sáb
-                            </th>
-                            <th className="py-2 px-1 text-center border border-slate-300 bg-slate-200/50">
-                              Dom
-                            </th>
-                            <th className="py-2 px-2 text-center border border-slate-300 w-[11%]">
-                              Sem. / Mês
-                            </th>
-                            <th className="py-2 px-2 text-center border border-slate-300 w-[11%]">
-                              Status
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {sectorRows.length === 0 ? (
-                            <tr>
-                              <td
-                                colSpan={11}
-                                className="py-4 px-3 text-center text-slate-500 italic"
-                              >
-                                Nenhum colaborador alocado neste setor.
-                              </td>
+                    {/* Se estiver no modo SÓ FOLGAS e exibir o Resumo S1–S4 */}
+                    {folgasOnly &&
+                      (folgasLayout === 'BOTH' || folgasLayout === 'SUMMARY_S1_S4') && (
+                        <div className="p-3 bg-emerald-50/30 border-b border-slate-300">
+                          <div className="text-[10.5px] font-extrabold uppercase tracking-wider text-emerald-950 mb-1.5">
+                            Resumo Direto das Folgas por Semana ({sec.title})
+                          </div>
+                          {renderFolgasSummaryTable(sectorRows)}
+                        </div>
+                      )}
+
+                    {/* Grade Seg..Dom (exibida sempre no modo Com Horários, ou quando folgasLayout !== SUMMARY_S1_S4) */}
+                    {(!folgasOnly || folgasLayout !== 'SUMMARY_S1_S4') && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse text-xs">
+                          <thead>
+                            <tr className="bg-slate-100 text-slate-800 font-bold border-b border-slate-300 text-[10px] uppercase">
+                              <th className="py-2 px-2 border border-slate-300 w-[23%]">
+                                {folgasOnly
+                                  ? 'Cadeira / Colaborador / Função'
+                                  : 'Cadeira / Colaborador / Intervalo'}
+                              </th>
+                              <th className="py-2 px-1 text-center border border-slate-300 w-[5%]">
+                                Sem.
+                              </th>
+                              <th className="py-2 px-1 text-center border border-slate-300">Seg</th>
+                              <th className="py-2 px-1 text-center border border-slate-300">Ter</th>
+                              <th className="py-2 px-1 text-center border border-slate-300">Qua</th>
+                              <th className="py-2 px-1 text-center border border-slate-300">Qui</th>
+                              <th className="py-2 px-1 text-center border border-slate-300">Sex</th>
+                              <th className="py-2 px-1 text-center border border-slate-300 bg-slate-200/50">
+                                Sáb
+                              </th>
+                              <th className="py-2 px-1 text-center border border-slate-300 bg-slate-200/50">
+                                Dom
+                              </th>
+                              {folgasOnly ? (
+                                <th className="py-2 px-2 text-center border border-slate-300 w-[18%]">
+                                  Dias de Folga na Semana
+                                </th>
+                              ) : (
+                                <>
+                                  <th className="py-2 px-2 text-center border border-slate-300 w-[11%]">
+                                    Sem. / Mês
+                                  </th>
+                                  <th className="py-2 px-2 text-center border border-slate-300 w-[11%]">
+                                    Status
+                                  </th>
+                                </>
+                              )}
                             </tr>
-                          ) : (
-                            renderEmployeeRows(sectorRows)
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
+                          </thead>
+                          <tbody>
+                            {sectorRows.length === 0 ? (
+                              <tr>
+                                <td
+                                  colSpan={folgasOnly ? 10 : 11}
+                                  className="py-4 px-3 text-center text-slate-500 italic"
+                                >
+                                  Nenhum colaborador alocado neste setor.
+                                </td>
+                              </tr>
+                            ) : (
+                              renderEmployeeRows(sectorRows)
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </section>
                 );
               })}
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse border border-slate-300 text-xs">
-                <thead>
-                  <tr className="bg-slate-100 text-slate-800 font-bold border-b border-slate-300 text-[10px] uppercase">
-                    <th className="py-2 px-2 border border-slate-300">
-                      Colaborador / Cargo / Cadeira
-                    </th>
-                    <th className="py-2 px-1 text-center border border-slate-300">Sem.</th>
-                    <th className="py-2 px-1 text-center border border-slate-300">Seg</th>
-                    <th className="py-2 px-1 text-center border border-slate-300">Ter</th>
-                    <th className="py-2 px-1 text-center border border-slate-300">Qua</th>
-                    <th className="py-2 px-1 text-center border border-slate-300">Qui</th>
-                    <th className="py-2 px-1 text-center border border-slate-300">Sex</th>
-                    <th className="py-2 px-1 text-center border border-slate-300 bg-slate-200/50">
-                      Sáb
-                    </th>
-                    <th className="py-2 px-1 text-center border border-slate-300 bg-slate-200/50">
-                      Dom
-                    </th>
-                    <th className="py-2 px-2 text-center border border-slate-300">Sem. / Mês</th>
-                    <th className="py-2 px-2 text-center border border-slate-300">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {renderEmployeeRows(
-                    visibleUnifiedEmployees.map((emp) => ({
-                      emp,
-                      chairCode: emp.defaultChairId,
-                      chairName: emp.department,
-                    }))
-                  )}
-                </tbody>
-              </table>
+            <div className="space-y-5">
+              {folgasOnly &&
+                (folgasLayout === 'BOTH' || folgasLayout === 'SUMMARY_S1_S4') && (
+                  <div className="space-y-1.5">
+                    <div className="text-xs font-extrabold uppercase tracking-wider text-emerald-950">
+                      Resumo Geral de Folgas por Colaborador (S1 a S4)
+                    </div>
+                    {renderFolgasSummaryTable(
+                      visibleUnifiedEmployees.map((emp) => ({
+                        emp,
+                        chairCode: emp.defaultChairId,
+                        chairName: emp.department,
+                      }))
+                    )}
+                  </div>
+                )}
+
+              {(!folgasOnly || folgasLayout !== 'SUMMARY_S1_S4') && (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse border border-slate-300 text-xs">
+                    <thead>
+                      <tr className="bg-slate-100 text-slate-800 font-bold border-b border-slate-300 text-[10px] uppercase">
+                        <th className="py-2 px-2 border border-slate-300">
+                          Colaborador / Cargo / Cadeira
+                        </th>
+                        <th className="py-2 px-1 text-center border border-slate-300">Sem.</th>
+                        <th className="py-2 px-1 text-center border border-slate-300">Seg</th>
+                        <th className="py-2 px-1 text-center border border-slate-300">Ter</th>
+                        <th className="py-2 px-1 text-center border border-slate-300">Qua</th>
+                        <th className="py-2 px-1 text-center border border-slate-300">Qui</th>
+                        <th className="py-2 px-1 text-center border border-slate-300">Sex</th>
+                        <th className="py-2 px-1 text-center border border-slate-300 bg-slate-200/50">
+                          Sáb
+                        </th>
+                        <th className="py-2 px-1 text-center border border-slate-300 bg-slate-200/50">
+                          Dom
+                        </th>
+                        {folgasOnly ? (
+                          <th className="py-2 px-2 text-center border border-slate-300">
+                            Dias de Folga na Semana
+                          </th>
+                        ) : (
+                          <>
+                            <th className="py-2 px-2 text-center border border-slate-300">
+                              Sem. / Mês
+                            </th>
+                            <th className="py-2 px-2 text-center border border-slate-300">
+                              Status
+                            </th>
+                          </>
+                        )}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {renderEmployeeRows(
+                        visibleUnifiedEmployees.map((emp) => ({
+                          emp,
+                          chairCode: emp.defaultChairId,
+                          chairName: emp.department,
+                        }))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           )}
 
           {/* Legal Notes & Signatures */}
           <div className="space-y-4 pt-4 border-t border-slate-200 text-xs text-slate-600">
             <p className="leading-relaxed">
-              <strong>Declaração de Conformidade Trabalhista:</strong> Certificamos que a presente escala de horários respeita o intervalo legal interjornada de 11 (onze) horas consecutivas entre duas jornadas diárias (Art. 66 CLT), o intervalo intrajornada para repouso e alimentação de segunda a sexta-feira (Art. 71 CLT), o expediente corrido de sábado até 5h (08:00 às 13:00), o regime de compensação/horas extras (Art. 59 CLT), a Lei nº 11.788/2008 para estagiários, e o teto da Emenda Constitucional nº 141/2026 com escala 5x2 e rodízio mensal de folgas aos sábados.
+              {folgasOnly ? (
+                <>
+                  <strong>Comunicado de Escala de Folgas 5x2:</strong> Este quadro apresenta os dias de folga semanal (5x2) e o Descanso Semanal Remunerado (DSR aos domingos) ao longo do ciclo de 4 semanas (S1 a S4), garantindo 2 dias de descanso por semana a todos os colaboradores.
+                </>
+              ) : (
+                <>
+                  <strong>Declaração de Conformidade Trabalhista:</strong> Certificamos que a presente escala de horários respeita o intervalo legal interjornada de 11 (onze) horas consecutivas entre duas jornadas diárias (Art. 66 CLT), o intervalo intrajornada para repouso e alimentação de segunda a sexta-feira (Art. 71 CLT), o expediente corrido de sábado até 5h (08:00 às 13:00), o regime de compensação/horas extras (Art. 59 CLT), a Lei nº 11.788/2008 para estagiários, e o teto da Emenda Constitucional nº 141/2026 com escala 5x2 e rodízio mensal de folgas aos sábados.
+                </>
+              )}
             </p>
 
             <div className="grid grid-cols-2 gap-8 pt-8">
