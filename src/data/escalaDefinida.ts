@@ -1,4 +1,53 @@
-import { DayShift, Employee, Scenario } from '../types/schedule';
+import { DayOfWeek, DayShift, Employee, Scenario } from '../types/schedule';
+
+/**
+ * Garante que a cadeira externa da Filial 777 (VEND-L2-EXT) pertença exclusivamente
+ * ao Jorginho (emp-rosinaldo) na LOJA_2, sem duplicar Jair ou outros vendedores da Matriz.
+ */
+export function normalizeFilialJorginhoChair(scenario: Scenario): Scenario {
+  const employees: Employee[] = JSON.parse(JSON.stringify(scenario.employees || []));
+
+  for (const emp of employees) {
+    if (emp.id === 'emp-rosinaldo') {
+      emp.defaultStore = 'LOJA_2';
+      emp.department = 'VENDAS';
+      emp.defaultChairId = 'VEND-L2-EXT';
+      const fixJorginhoWeek = (sched?: Record<DayOfWeek, DayShift>) => {
+        if (!sched) return;
+        (Object.keys(sched) as DayOfWeek[]).forEach((d) => {
+          if (sched[d]) {
+            sched[d].chairId = 'VEND-L2-EXT';
+          }
+        });
+      };
+      fixJorginhoWeek(emp.schedule);
+      if (emp.weeksSchedule) {
+        Object.values(emp.weeksSchedule).forEach((ws) => fixJorginhoWeek(ws));
+      }
+    } else {
+      if (emp.defaultChairId === 'VEND-L2-EXT') {
+        emp.defaultChairId = 'VEND-L1-1';
+      }
+      const fixOtherWeek = (sched?: Record<DayOfWeek, DayShift>) => {
+        if (!sched) return;
+        (Object.keys(sched) as DayOfWeek[]).forEach((d) => {
+          if (sched[d]?.chairId === 'VEND-L2-EXT') {
+            sched[d].chairId = emp.defaultChairId;
+            if (sched[d].label) {
+              sched[d].label = sched[d].label.replace(/\s*·\s*Filial/g, '');
+            }
+          }
+        });
+      };
+      fixOtherWeek(emp.schedule);
+      if (emp.weeksSchedule) {
+        Object.values(emp.weeksSchedule).forEach((ws) => fixOtherWeek(ws));
+      }
+    }
+  }
+
+  return { ...scenario, employees };
+}
 
 /**
  * Escala Inicial — definida em reunião.
@@ -92,7 +141,7 @@ export function applySabadoFormal(scenario: Scenario): Scenario {
       ) as Scenario['storeHours'])
     : undefined;
 
-  return { ...scenario, employees, storeHours };
+  return normalizeFilialJorginhoChair({ ...scenario, employees, storeHours });
 }
 
 // import.meta.glob só existe no build do Vite; em scripts/testes (tsx) fica vazio.

@@ -35,15 +35,22 @@ export function getVisibleDays(
 
 /**
  * Resolve o ocupante principal de uma cadeira considerando as semanas visíveis.
+ * Sempre prioriza o titular cadastrado na cadeira (defaultChairId === chairId) para
+ * jamais duplicar outro colaborador que apenas tenha feito cobertura/rodízio nela.
  */
 export function findChairOccupant(
   chairId: string,
   employees: Employee[],
   visibleWeeks: number[]
 ): Employee | undefined {
+  const primaryOwner = employees.find((emp) => emp.defaultChairId === chairId);
+  if (primaryOwner) {
+    return primaryOwner;
+  }
+
   return employees.find(
     (emp) =>
-      emp.defaultChairId === chairId ||
+      !emp.defaultChairId &&
       visibleWeeks.some((w) =>
         Object.values(emp.weeksSchedule?.[w] || emp.schedule).some(
           (s) => s.chairId === chairId && s.type === 'TRABALHO'

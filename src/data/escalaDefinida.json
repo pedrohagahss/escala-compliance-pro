@@ -2,7 +2,7 @@
   "id": "scen-escala-definida",
   "name": "Escala Inicial — Definida em Reunião",
   "shortTag": "Escala Inicial (Reunião)",
-  "description": "Escala inicial aprovada em reunião, vigente a partir de sábado 21/11/2026. Sábado (Matriz e Vendedor Externo): horário formal 08:00–17:00 com 1h de intervalo. Os colaboradores devem estar à disposição nesse horário; conforme o movimento do comércio local, a liderança pode liberá-los mais cedo. Filial: Jorginho fixo na área externa; nas folgas dele, um vendedor da Matriz cobre em rodízio (cada um 1 vez por ciclo).",
+  "description": "Escala inicial aprovada em reunião, vigente a partir de sábado 21/11/2026. Sábado (Matriz e Vendedor Externo): horário formal 08:00–17:00 com 1h de intervalo. Os colaboradores devem estar à disposição nesse horário; conforme o movimento do comércio local, a liderança pode liberá-los mais cedo.",
   "phase": "FASE_1",
   "employees": [
     {
@@ -1636,12 +1636,12 @@
           "SEG": {
             "day": "SEG",
             "type": "TRABALHO",
-            "chairId": "VEND-L2-EXT",
+            "chairId": "VEND-L1-1",
             "startTime": "08:00",
             "lunchStart": "11:30",
             "lunchEnd": "12:36",
             "endTime": "17:30",
-            "label": "08:00–17:30 · Filial"
+            "label": "08:00–17:30"
           },
           "TER": {
             "day": "TER",
@@ -1956,10 +1956,10 @@
           "SAB": {
             "day": "SAB",
             "type": "TRABALHO",
-            "chairId": "VEND-L2-EXT",
+            "chairId": "VEND-L1-2",
             "startTime": "08:00",
             "endTime": "17:00",
-            "label": "08:00–17:00 · Filial",
+            "label": "08:00–17:00",
             "lunchStart": "11:30",
             "lunchEnd": "12:30"
           },
@@ -2093,12 +2093,12 @@
         "SEX": {
           "day": "SEX",
           "type": "TRABALHO",
-          "chairId": "VEND-L2-EXT",
+          "chairId": "VEND-L1-6",
           "startTime": "08:00",
           "endTime": "17:30",
           "lunchStart": "11:30",
           "lunchEnd": "12:36",
-          "label": "08:00–17:30 · Filial"
+          "label": "08:00–17:30"
         },
         "SAB": {
           "day": "SAB",
@@ -2158,12 +2158,12 @@
           "SEX": {
             "day": "SEX",
             "type": "TRABALHO",
-            "chairId": "VEND-L2-EXT",
+            "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "11:30",
             "lunchEnd": "12:36",
-            "label": "08:00–17:30 · Filial"
+            "label": "08:00–17:30"
           },
           "SAB": {
             "day": "SAB",
@@ -2563,12 +2563,12 @@
           "SEX": {
             "day": "SEX",
             "type": "TRABALHO",
-            "chairId": "VEND-L2-EXT",
+            "chairId": "VEND-L1-4",
             "startTime": "08:00",
             "lunchStart": "11:30",
             "lunchEnd": "12:36",
             "endTime": "17:30",
-            "label": "08:00–17:30 · Filial"
+            "label": "08:00–17:30"
           },
           "SAB": {
             "day": "SAB",
@@ -4435,12 +4435,12 @@
       "role": "Consultor de Vendas",
       "contractType": "CLT_ATIVO",
       "department": "VENDAS",
-      "defaultStore": "LOJA_1",
+      "defaultStore": "LOJA_2",
       "defaultChairId": "VEND-L2-EXT",
       "badgeColor": "#059669",
       "defaultLunchStart": "11:30",
       "defaultLunchEnd": "12:36",
-      "rulesAndRestrictions": "Fixo na área externa da Filial 777. Nas folgas dele, um vendedor da Matriz cobre em rodízio (cada um 1 vez por ciclo).",
+      "rulesAndRestrictions": "Fixo na área externa da Filial 777.",
       "schedule": {
         "SEG": {
           "day": "SEG",
@@ -4486,13 +4486,7 @@
           "day": "SEX",
           "type": "FOLGA_5X2",
           "chairId": "VEND-L2-EXT",
-          "label": "Folga 5x2",
-          "coverage": {
-            "coveredByEmployeeId": "emp-marcos-antonio",
-            "coveredByName": "Marcos Ant.",
-            "coveredByRole": "Vendedor (rodízio Filial)",
-            "notes": "Folga mais recente: sábado da S4."
-          }
+          "label": "Folga 5x2"
         },
         "SAB": {
           "day": "SAB",
@@ -4557,13 +4551,7 @@
             "day": "SEX",
             "type": "FOLGA_5X2",
             "chairId": "VEND-L2-EXT",
-            "label": "Folga 5x2",
-            "coverage": {
-              "coveredByEmployeeId": "emp-marcos-antonio",
-              "coveredByName": "Marcos Ant.",
-              "coveredByRole": "Vendedor (rodízio Filial)",
-              "notes": "Folga mais recente: sábado da S4."
-            }
+            "label": "Folga 5x2"
           },
           "SAB": {
             "day": "SAB",
@@ -4627,13 +4615,7 @@
             "day": "SEX",
             "type": "FOLGA_5X2",
             "chairId": "VEND-L2-EXT",
-            "label": "Folga 5x2",
-            "coverage": {
-              "coveredByEmployeeId": "emp-rayssa",
-              "coveredByName": "Rayssa",
-              "coveredByRole": "Vendedor (rodízio Filial)",
-              "notes": "Rodízio: cada vendedor da Matriz cobre 1 vez por ciclo."
-            }
+            "label": "Folga 5x2"
           },
           "SAB": {
             "day": "SAB",
@@ -4707,13 +4689,7 @@
             "day": "SAB",
             "type": "FOLGA_5X2",
             "chairId": "VEND-L2-EXT",
-            "label": "Folga 5x2",
-            "coverage": {
-              "coveredByEmployeeId": "emp-joao-alexandre",
-              "coveredByName": "João Alex.",
-              "coveredByRole": "Vendedor (rodízio Filial)",
-              "notes": "Folgou no sábado da semana anterior (S2)."
-            }
+            "label": "Folga 5x2"
           },
           "DOM": {
             "day": "DOM",
@@ -4727,13 +4703,7 @@
             "day": "SEG",
             "type": "FOLGA_5X2",
             "chairId": "VEND-L2-EXT",
-            "label": "Folga 5x2",
-            "coverage": {
-              "coveredByEmployeeId": "emp-jair",
-              "coveredByName": "Jair",
-              "coveredByRole": "Vendedor (rodízio Filial)",
-              "notes": "Folgou na segunda da semana anterior (S3)."
-            }
+            "label": "Folga 5x2"
           },
           "TER": {
             "day": "TER",

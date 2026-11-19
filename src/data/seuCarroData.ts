@@ -60,7 +60,7 @@ export const CHAIRS: ChairDefinition[] = [
   { id: 'MKT-1', code: 'MKT-1', name: 'Mesa Marketing (Nailson)', store: 'LOJA_1', department: 'MARKETING', description: 'Social Media e Produção de Conteúdo' },
 
   // Loja 2 — Filial 777
-  { id: 'VEND-L2-EXT', code: 'VEND-L2-EXT', name: 'Cadeira Vendedor Externo (Jorginho / Rodízio)', store: 'LOJA_2', department: 'VENDAS', description: 'Atendimento presencial na área externa da Filial', isExternalOrRotating: true },
+  { id: 'VEND-L2-EXT', code: 'VEND-L2-EXT', name: 'Cadeira Vendedor Externo (Jorginho)', store: 'LOJA_2', department: 'VENDAS', description: 'Atendimento presencial na área externa da Filial', isExternalOrRotating: true },
   { id: 'DOC-SUP', code: 'DOC-SUP', name: 'Baia Documentação (Marielly)', store: 'LOJA_2', department: 'DOCUMENTACAO', description: 'Supervisão de DETRAN e Pagamentos' },
   { id: 'DOC-AUX', code: 'DOC-AUX', name: 'Baia Documentação (Mayana)', store: 'LOJA_2', department: 'DOCUMENTACAO', description: 'Processamento de Transferências e NFs' },
   { id: 'DOC-EST', code: 'DOC-EST', name: 'Baia Estágio (Matheus Coutinho)', store: 'LOJA_2', department: 'DOCUMENTACAO', description: 'Abertura de OS e Apoio (Tarde)' },

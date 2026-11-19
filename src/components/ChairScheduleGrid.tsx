@@ -59,6 +59,7 @@ import {
   Link2,
   Lock,
   MessageSquare,
+  Printer,
   Scale,
   ShieldCheck,
   Sparkles,
@@ -150,6 +151,7 @@ interface ChairScheduleGridProps {
   onOpenAddMember?: () => void;
   onOpenEditMember?: (employee: Employee) => void;
   onOpenAiChat?: () => void;
+  onPrintSector?: (storeId: StoreId | 'ALL', sectorKey: string) => void;
   onNotify?: (msg: string) => void;
 }
 
@@ -186,6 +188,7 @@ export const ChairScheduleGrid: React.FC<ChairScheduleGridProps> = ({
   onOpenAddMember,
   onOpenEditMember,
   onOpenAiChat,
+  onPrintSector,
   onNotify,
 }) => {
   const [coverageTarget, setCoverageTarget] = useState<{
@@ -586,7 +589,7 @@ export const ChairScheduleGrid: React.FC<ChairScheduleGridProps> = ({
       sections: [
         {
           deptId: 'VENDAS',
-          title: 'Área Externa (Vendedor em Rodízio)',
+          title: 'Área Externa (Vendedor Externo)',
           iconColor: '#059669',
           chairIds: ['VEND-L2-EXT'],
         },
@@ -923,6 +926,19 @@ export const ChairScheduleGrid: React.FC<ChairScheduleGridProps> = ({
                       </div>
 
                       <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          data-print-sector={`${store.storeId}::${section.deptId}`}
+                          onClick={() =>
+                            onPrintSector?.(store.storeId, `${store.storeId}::${section.deptId}`)
+                          }
+                          className="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:bg-slate-100 text-slate-800 font-bold text-[10px] flex items-center gap-1 shadow-2xs transition cursor-pointer whitespace-nowrap shrink-0"
+                          title={`Imprimir a tabela de escala apenas do setor ${section.title}`}
+                        >
+                          <Printer className="w-3 h-3 text-blue-600 shrink-0" />
+                          <span>Imprimir Setor</span>
+                        </button>
+
                         <button
                           type="button"
                           aria-expanded={isGroupOpen}

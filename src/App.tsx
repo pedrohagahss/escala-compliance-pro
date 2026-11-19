@@ -69,6 +69,7 @@ import { MemberEditorModal } from './components/MemberEditorModal';
 import {
   BAKED_ESCALA_DEFINIDA,
   ESCALA_DEFINIDA_ID,
+  normalizeFilialJorginhoChair,
   SABADO_REGRA_TEXTO,
   snapshotAsEscalaDefinida,
 } from './data/escalaDefinida';
@@ -104,17 +105,24 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Garante que a Escala Definida gravada no código esteja sempre disponível
-          if (BAKED_ESCALA_DEFINIDA && !parsed.some((s: Scenario) => s.id === ESCALA_DEFINIDA_ID)) {
-            return [BAKED_ESCALA_DEFINIDA, ...parsed];
+          const normalized = parsed.map((s: Scenario) =>
+            s.id === ESCALA_DEFINIDA_ID && BAKED_ESCALA_DEFINIDA
+              ? BAKED_ESCALA_DEFINIDA
+              : normalizeFilialJorginhoChair(s)
+          );
+          if (
+            BAKED_ESCALA_DEFINIDA &&
+            !normalized.some((s: Scenario) => s.id === ESCALA_DEFINIDA_ID)
+          ) {
+            return [BAKED_ESCALA_DEFINIDA, ...normalized];
           }
-          return parsed;
+          return normalized;
         }
       }
     } catch (e) {
       console.error('Error loading saved scenarios', e);
     }
-    return createDefaultScenarios();
+    return createDefaultScenarios().map(normalizeFilialJorginhoChair);
   });
 
   // 2. Active Scenario ID
@@ -157,6 +165,25 @@ export default function App() {
 
   // 6. Modals State
   const [printModalOpen, setPrintModalOpen] = useState(false);
+  const [printModalTarget, setPrintModalTarget] = useState<{
+    storeFilter: 'ALL' | StoreId;
+    sectorKey: 'ALL' | string;
+  }>({ storeFilter: 'ALL', sectorKey: 'ALL' });
+
+  const handleOpenPrintModal = (
+    targetStore: 'ALL' | StoreId = selectedStore,
+    targetSectorKey: 'ALL' | string = selectedDept !== 'ALL'
+      ? selectedStore !== 'ALL'
+        ? `${selectedStore}::${selectedDept === 'SUCESSO_CLIENTE' ? 'DOCUMENTACAO' : selectedDept}`
+        : `DEPT::${selectedDept}`
+      : 'ALL'
+  ) => {
+    setPrintModalTarget({
+      storeFilter: targetStore,
+      sectorKey: targetSectorKey,
+    });
+    setPrintModalOpen(true);
+  };
   const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
   const [memberModalState, setMemberModalState] = useState<{
     isOpen: boolean;
@@ -1156,6 +1183,7 @@ export default function App() {
                 }
                 setActiveMainView('WEEKLY_GRID');
               }}
+              onPrintSector={(stId, secKey) => handleOpenPrintModal(stId, secKey)}
             />
           )}
 
@@ -1213,7 +1241,8 @@ export default function App() {
             onOpenEditMember={(emp) =>
               setMemberModalState({ isOpen: true, mode: 'edit', employee: emp })
             }
-                onNotify={showToast}
+            onPrintSector={(stId, secKey) => handleOpenPrintModal(stId, secKey)}
+            onNotify={showToast}
             />
           )}
         </main>
@@ -1286,6 +1315,10 @@ export default function App() {
           activeWeekIndex={effectiveSingleWeek}
           selectedWeekFilter={selectedWeekFilter}
           currentPhase={currentPhase}
+          storeHours={storeHours}
+          sectorMinimums={sectorMinimums}
+          initialStoreFilter={printModalTarget.storeFilter}
+          initialSectorKey={printModalTarget.sectorKey}
         />
       )}
 
