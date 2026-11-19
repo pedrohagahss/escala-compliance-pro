@@ -283,8 +283,11 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
         >
           <thead>
             <tr className="bg-emerald-900 text-white font-bold border-b border-slate-300 text-[10px] uppercase print:bg-slate-200 print:text-slate-900">
-              <th className="py-2 px-2.5 border border-slate-300 w-[28%]">
+              <th className="py-2 px-2.5 border border-slate-300 w-[24%]">
                 Cadeira / Colaborador / Função
+              </th>
+              <th className="py-2 px-2 text-center border border-slate-300 w-[13%]">
+                Horário de Intervalo
               </th>
               {weeksToPrint.map((wNum) => (
                 <th
@@ -294,7 +297,7 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                   Folga 5x2 — Semana S{wNum}
                 </th>
               ))}
-              <th className="py-2 px-2 text-center border border-slate-300 w-[13%]">
+              <th className="py-2 px-2 text-center border border-slate-300 w-[11%]">
                 Descanso Fixo (DSR)
               </th>
             </tr>
@@ -322,7 +325,7 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                       </div>
                     </td>
                     <td
-                      colSpan={weeksToPrint.length + 1}
+                      colSpan={weeksToPrint.length + 2}
                       className="py-2 px-2 text-center border border-slate-300 text-[10.5px] font-bold text-rose-800"
                     >
                       Licença-Maternidade (Afastamento Integral)
@@ -346,6 +349,12 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                       {chairName ? `${chairName} • ` : ''}
                       {emp.role} ({emp.defaultStore === 'LOJA_1' ? 'Matriz 546' : 'Filial 777'})
                     </div>
+                  </td>
+
+                  <td className="py-2 px-2 text-center border border-slate-300 font-mono font-bold text-[10.5px] text-amber-950 bg-amber-50/50">
+                    {emp.contractType === 'ESTAGIARIO'
+                      ? 'Sem intervalo (Estágio)'
+                      : `${emp.defaultLunchStart || '12:00'}–${emp.defaultLunchEnd || '13:30'}`}
                   </td>
 
                   {weeksToPrint.map((wNum) => {
@@ -474,13 +483,11 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                   {chairName ? `${chairName} • ` : ''}
                   {emp.role} ({emp.defaultStore === 'LOJA_1' ? 'Matriz 546' : 'Filial 777'})
                 </div>
-                {!folgasOnly && (
-                  <div className="text-[9.5px] font-mono text-slate-700 mt-0.5">
-                    {emp.contractType === 'ESTAGIARIO'
-                      ? 'Estágio 24h/sem (Sem intervalo)'
-                      : `Almoço: ${emp.defaultLunchStart || '12:00'}–${emp.defaultLunchEnd || '13:30'}`}
-                  </div>
-                )}
+                <div className="text-[9.5px] font-mono text-slate-700 mt-0.5">
+                  {emp.contractType === 'ESTAGIARIO'
+                    ? 'Estágio 24h/sem (Sem intervalo)'
+                    : `Intervalo / Almoço: ${emp.defaultLunchStart || '12:00'}–${emp.defaultLunchEnd || '13:30'}`}
+                </div>
               </td>
             )}
 
@@ -1072,9 +1079,7 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                           <thead>
                             <tr className="bg-slate-100 text-slate-800 font-bold border-b border-slate-300 text-[10px] uppercase">
                               <th className="py-2 px-2 border border-slate-300 w-[23%]">
-                                {folgasOnly
-                                  ? 'Cadeira / Colaborador / Função'
-                                  : 'Cadeira / Colaborador / Intervalo'}
+                                Cadeira / Colaborador / Intervalo
                               </th>
                               <th className="py-2 px-1 text-center border border-slate-300 w-[5%]">
                                 Sem.
