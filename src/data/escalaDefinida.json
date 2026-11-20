@@ -181,13 +181,9 @@
           },
           "QUI": {
             "day": "QUI",
-            "type": "TRABALHO",
+            "type": "FOLGA_5X2",
             "chairId": "SDR-1",
-            "startTime": "08:00",
-            "endTime": "17:30",
-            "lunchStart": "13:00",
-            "lunchEnd": "14:06",
-            "label": "08:00–17:30"
+            "label": "Folga 5x2"
           },
           "SEX": {
             "day": "SEX",
@@ -201,9 +197,13 @@
           },
           "SAB": {
             "day": "SAB",
-            "type": "FOLGA_5X2",
+            "type": "TRABALHO",
             "chairId": "SDR-1",
-            "label": "Folga 5x2"
+            "startTime": "08:00",
+            "endTime": "17:00",
+            "label": "08:00–17:00",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:00"
           },
           "DOM": {
             "day": "DOM",
@@ -245,9 +245,13 @@
           },
           "QUI": {
             "day": "QUI",
-            "type": "FOLGA_5X2",
+            "type": "TRABALHO",
             "chairId": "SDR-1",
-            "label": "Folga 5x2"
+            "startTime": "08:00",
+            "endTime": "17:30",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
+            "label": "08:00–17:30"
           },
           "SEX": {
             "day": "SEX",
@@ -261,13 +265,9 @@
           },
           "SAB": {
             "day": "SAB",
-            "type": "TRABALHO",
+            "type": "FOLGA_5X2",
             "chairId": "SDR-1",
-            "startTime": "08:00",
-            "endTime": "17:00",
-            "label": "08:00–17:00",
-            "lunchStart": "13:00",
-            "lunchEnd": "14:00"
+            "label": "Folga 5x2"
           },
           "DOM": {
             "day": "DOM",
@@ -344,7 +344,7 @@
       "linkedFolgaIds": [
         "emp-joao-alexandre"
       ],
-      "saturdayOffWeek": 2,
+      "saturdayOffWeek": 3,
       "isCirculating": false
     },
     {
@@ -1875,13 +1875,9 @@
           },
           "QUI": {
             "day": "QUI",
-            "type": "TRABALHO",
+            "type": "FOLGA_5X2",
             "chairId": "VEND-L1-2",
-            "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
-            "endTime": "17:30",
-            "label": "08:00–17:30"
+            "label": "Folga 5x2"
           },
           "SEX": {
             "day": "SEX",
@@ -1895,9 +1891,13 @@
           },
           "SAB": {
             "day": "SAB",
-            "type": "FOLGA_5X2",
+            "type": "TRABALHO",
             "chairId": "VEND-L1-2",
-            "label": "Folga 5x2"
+            "startTime": "08:00",
+            "endTime": "17:00",
+            "label": "08:00–17:00",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:30"
           },
           "DOM": {
             "day": "DOM",
@@ -1939,9 +1939,13 @@
           },
           "QUI": {
             "day": "QUI",
-            "type": "FOLGA_5X2",
+            "type": "TRABALHO",
             "chairId": "VEND-L1-2",
-            "label": "Folga 5x2"
+            "startTime": "08:00",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
+            "endTime": "17:30",
+            "label": "08:00–17:30"
           },
           "SEX": {
             "day": "SEX",
@@ -1955,13 +1959,9 @@
           },
           "SAB": {
             "day": "SAB",
-            "type": "TRABALHO",
+            "type": "FOLGA_5X2",
             "chairId": "VEND-L1-2",
-            "startTime": "08:00",
-            "endTime": "17:00",
-            "label": "08:00–17:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:30"
+            "label": "Folga 5x2"
           },
           "DOM": {
             "day": "DOM",
@@ -2038,7 +2038,7 @@
       "linkedFolgaIds": [
         "emp-winona"
       ],
-      "saturdayOffWeek": 2
+      "saturdayOffWeek": 3
     },
     {
       "id": "emp-marcos-antonio",
@@ -6610,5 +6610,5 @@
       }
     }
   },
-  "createdAt": "2026-11-18T12:00:00.000Z"
+  "createdAt": "2026-11-20T18:00:00.000Z"
 }
