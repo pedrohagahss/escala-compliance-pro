@@ -31,7 +31,7 @@ export const DEPARTMENTS: {
   shortDesc: string;
 }[] = [
   { id: 'SDR', name: 'SDRs (Pré-vendas)', badgeColor: '#2563EB', shortDesc: 'Atendimento inicial e qualificação de leads' },
-  { id: 'VENDAS', name: 'Vendedores (Pátio & Rodízio)', badgeColor: '#059669', shortDesc: 'Negociação e fechamento presencial' },
+  { id: 'VENDAS', name: 'Vendedores (Pátio)', badgeColor: '#059669', shortDesc: 'Negociação e fechamento presencial' },
   { id: 'PREPARACAO', name: 'Preparação & Zeladoria', badgeColor: '#D97706', shortDesc: 'Estoque, higienização e abertura/fechamento' },
   { id: 'DOCUMENTACAO', name: 'Documentação / Pós-Venda', badgeColor: '#7C3AED', shortDesc: 'DETRAN, transferências e OS' },
   { id: 'FINANCEIRO', name: 'Financeiro / Pagamentos', badgeColor: '#DB2777', shortDesc: 'Caixa, liquidações e fechamento bancário' },
