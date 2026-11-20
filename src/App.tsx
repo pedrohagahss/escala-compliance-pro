@@ -105,8 +105,12 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          // A escala salva no navegador prevalece; a versão gravada no código só a
+          // substitui quando for mais nova (ex.: correção publicada pela gerência).
           const normalized = parsed.map((s: Scenario) =>
-            s.id === ESCALA_DEFINIDA_ID && BAKED_ESCALA_DEFINIDA
+            s.id === ESCALA_DEFINIDA_ID &&
+            BAKED_ESCALA_DEFINIDA &&
+            (s.createdAt || '') < BAKED_ESCALA_DEFINIDA.createdAt
               ? BAKED_ESCALA_DEFINIDA
               : normalizeFilialJorginhoChair(s)
           );
