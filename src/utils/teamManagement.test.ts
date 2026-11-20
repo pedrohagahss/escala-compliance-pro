@@ -14,7 +14,7 @@ import {
 test('generateNextChairId gera o próximo código sequencial livre para loja e setor', () => {
   const base = createBaseEmployees();
   assert.equal(generateNextChairId('SDR', 'LOJA_1', base, CHAIRS), 'SDR-5');
-  assert.equal(generateNextChairId('VENDAS', 'LOJA_1', base, CHAIRS), 'VEND-L1-5');
+  assert.equal(generateNextChairId('VENDAS', 'LOJA_1', base, CHAIRS), 'VEND-L1-7'); // mesas 5 (Jorginho) e 6 (Marcos Ant.) já existem
   assert.equal(generateNextChairId('FINANCEIRO', 'LOJA_2', base, CHAIRS), 'FIN-2');
 });
 

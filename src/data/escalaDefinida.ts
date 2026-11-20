@@ -1,49 +1,32 @@
 import { DayOfWeek, DayShift, Employee, Scenario } from '../types/schedule';
 
 /**
- * Garante que a cadeira externa da Filial 777 (VEND-L2-EXT) pertença exclusivamente
- * ao Jorginho (emp-rosinaldo) na LOJA_2, sem duplicar Jair ou outros vendedores da Matriz.
+ * Jorginho (emp-rosinaldo) é vendedor da Matriz (Loja 1, Mesa Pátio 5), junto com os
+ * demais vendedores. A cadeira externa da Filial (VEND-L2-EXT) fica sem titular por
+ * decisão da gerência. Turnos lançados na cadeira da Filial voltam para a mesa do vendedor.
  */
 export function normalizeFilialJorginhoChair(scenario: Scenario): Scenario {
   const employees: Employee[] = JSON.parse(JSON.stringify(scenario.employees || []));
 
   for (const emp of employees) {
     if (emp.id === 'emp-rosinaldo') {
-      emp.defaultStore = 'LOJA_2';
+      emp.defaultStore = 'LOJA_1';
       emp.department = 'VENDAS';
-      emp.defaultChairId = 'VEND-L2-EXT';
-      const fixJorginhoWeek = (sched?: Record<DayOfWeek, DayShift>) => {
-        if (!sched) return;
-        (Object.keys(sched) as DayOfWeek[]).forEach((d) => {
-          if (sched[d]) {
-            sched[d].chairId = 'VEND-L2-EXT';
-          }
-        });
-      };
-      fixJorginhoWeek(emp.schedule);
-      if (emp.weeksSchedule) {
-        Object.values(emp.weeksSchedule).forEach((ws) => fixJorginhoWeek(ws));
-      }
-    } else {
-      if (emp.defaultChairId === 'VEND-L2-EXT') {
-        emp.defaultChairId = 'VEND-L1-1';
-      }
-      const fixOtherWeek = (sched?: Record<DayOfWeek, DayShift>) => {
-        if (!sched) return;
-        (Object.keys(sched) as DayOfWeek[]).forEach((d) => {
-          if (sched[d]?.chairId === 'VEND-L2-EXT') {
-            sched[d].chairId = emp.defaultChairId;
-            if (sched[d].label) {
-              sched[d].label = sched[d].label.replace(/\s*·\s*Filial/g, '');
-            }
-          }
-        });
-      };
-      fixOtherWeek(emp.schedule);
-      if (emp.weeksSchedule) {
-        Object.values(emp.weeksSchedule).forEach((ws) => fixOtherWeek(ws));
-      }
+      emp.defaultChairId = 'VEND-L1-5';
+    } else if (emp.defaultChairId === 'VEND-L2-EXT') {
+      emp.defaultChairId = 'VEND-L1-1';
     }
+    const fixWeek = (sched?: Record<DayOfWeek, DayShift>) => {
+      if (!sched) return;
+      (Object.keys(sched) as DayOfWeek[]).forEach((d) => {
+        if (sched[d]?.chairId === 'VEND-L2-EXT') {
+          sched[d].chairId = emp.defaultChairId;
+          if (sched[d].label) sched[d].label = sched[d].label.replace(/\s*·\s*Filial/g, '');
+        }
+      });
+    };
+    fixWeek(emp.schedule);
+    if (emp.weeksSchedule) Object.values(emp.weeksSchedule).forEach((ws) => fixWeek(ws));
   }
 
   return { ...scenario, employees };

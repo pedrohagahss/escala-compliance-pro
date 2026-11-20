@@ -76,7 +76,7 @@ export const PRINTABLE_SECTORS: PrintableSectorDefinition[] = [
     title: 'Pátio de Vendedores',
     shortTitle: 'L1 • Vendas Matriz',
     iconColor: '#059669',
-    chairIds: ['VEND-L1-1', 'VEND-L1-2', 'VEND-L1-3', 'VEND-L1-4'],
+    chairIds: ['VEND-L1-1', 'VEND-L1-2', 'VEND-L1-3', 'VEND-L1-4', 'VEND-L1-5', 'VEND-L1-6'],
   },
   {
     key: 'LOJA_1::PREPARACAO',
@@ -100,17 +100,7 @@ export const PRINTABLE_SECTORS: PrintableSectorDefinition[] = [
     iconColor: '#4F46E5',
     chairIds: ['MKT-1'],
   },
-  {
-    key: 'LOJA_2::VENDAS',
-    storeId: 'LOJA_2',
-    storeName: 'Loja 2 — Filial 777',
-    storeCode: 'FILIAL 777',
-    deptId: 'VENDAS',
-    title: 'Área Externa (Vendedor Externo)',
-    shortTitle: 'L2 • Vendas Filial 777',
-    iconColor: '#059669',
-    chairIds: ['VEND-L2-EXT'],
-  },
+  // Filial sem vendedor externo (todos os vendedores ficam na Matriz)
   {
     key: 'LOJA_2::DOCUMENTACAO',
     storeId: 'LOJA_2',

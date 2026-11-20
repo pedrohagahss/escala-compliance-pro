@@ -565,7 +565,7 @@ export const ChairScheduleGrid: React.FC<ChairScheduleGridProps> = ({
           deptId: 'VENDAS',
           title: 'Pátio de Vendedores',
           iconColor: '#059669',
-          chairIds: ['VEND-L1-1', 'VEND-L1-2', 'VEND-L1-3', 'VEND-L1-4'],
+          chairIds: ['VEND-L1-1', 'VEND-L1-2', 'VEND-L1-3', 'VEND-L1-4', 'VEND-L1-5', 'VEND-L1-6'],
         },
         {
           deptId: 'PREPARACAO',

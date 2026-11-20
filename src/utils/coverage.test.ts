@@ -125,17 +125,11 @@ test('same-function peers cover a single colleague on Folga (SDRs and Vendedores
   assert.strictEqual(sdrTue.isUncovered, false, 'SDR sector is covered by active colleagues on Tuesday');
   assert.strictEqual(sdrTue.status, 'SEGURO', 'SDR status is SEGURO');
 
-  // Testa rodízio de vendas para L2-VENDAS-EXT quando Jorginho (emp-rosinaldo) folga na Segunda (com >= 3 vendedores ativos na L1)
-  const monWithJorginhoOff = week2Employees.map((e) =>
-    e.id === 'emp-rosinaldo'
-      ? { ...e, schedule: { ...e.schedule, SEG: { day: 'SEG' as const, type: 'FOLGA_5X2' as const, chairId: e.defaultChairId } } }
-      : e
-  );
-  const monCoverage = calculateSectorDailyCoverage(monWithJorginhoOff, 'SEG');
+  // Filial sem vendedor externo por decisão da gerência: o setor não exige mínimo e não gera alarme
+  const monCoverage = calculateSectorDailyCoverage(week2Employees, 'SEG');
   const l2Vendas = monCoverage.find((s) => s.sector.id === 'L2-VENDAS-EXT');
   assert.ok(l2Vendas, 'L2-VENDAS-EXT found');
-  assert.strictEqual(l2Vendas.isUncovered, false, 'L2-VENDAS-EXT is covered via L1 peer rotation');
-  assert.strictEqual(l2Vendas.autoCoveredByPeersOrSkills.length > 0, true, 'Auto-covered by L1 sales peer rotation');
+  assert.strictEqual(l2Vendas.isUncovered, false, 'L2-VENDAS-EXT sem mínimo não fica descoberto');
 });
 
 test('cross-skill coverage: Marielly covers L2-FIN on Mon-Thu when active, blocked on SEX, and CRITICO if both are off', () => {
