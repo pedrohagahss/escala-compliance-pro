@@ -698,8 +698,8 @@
       "defaultStore": "LOJA_1",
       "defaultChairId": "SDR-3",
       "badgeColor": "#2563EB",
-      "defaultLunchStart": "12:00",
-      "defaultLunchEnd": "13:06",
+      "defaultLunchStart": "11:30",
+      "defaultLunchEnd": "12:36",
       "rulesAndRestrictions": "Sem restrições de escala.",
       "schedule": {
         "SEG": {
@@ -707,8 +707,8 @@
           "type": "TRABALHO",
           "chairId": "SDR-3",
           "startTime": "08:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "11:30",
+          "lunchEnd": "12:36",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -718,8 +718,8 @@
           "chairId": "SDR-3",
           "startTime": "08:00",
           "endTime": "17:30",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "11:30",
+          "lunchEnd": "12:36",
           "label": "08:00–17:30"
         },
         "QUA": {
@@ -734,8 +734,8 @@
           "chairId": "SDR-3",
           "startTime": "08:00",
           "endTime": "17:30",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "11:30",
+          "lunchEnd": "12:36",
           "label": "08:00–17:30"
         },
         "SEX": {
@@ -743,8 +743,8 @@
           "type": "TRABALHO",
           "chairId": "SDR-3",
           "startTime": "08:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "11:30",
+          "lunchEnd": "12:36",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -755,8 +755,8 @@
           "startTime": "08:00",
           "endTime": "17:00",
           "label": "08:00–17:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:00"
+          "lunchStart": "11:30",
+          "lunchEnd": "12:30"
         },
         "DOM": {
           "day": "DOM",
@@ -772,8 +772,8 @@
             "type": "TRABALHO",
             "chairId": "SDR-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -783,8 +783,8 @@
             "chairId": "SDR-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -799,8 +799,8 @@
             "chairId": "SDR-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "SEX": {
@@ -808,8 +808,8 @@
             "type": "TRABALHO",
             "chairId": "SDR-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -820,8 +820,8 @@
             "startTime": "08:00",
             "endTime": "17:00",
             "label": "08:00–17:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:00"
+            "lunchStart": "11:30",
+            "lunchEnd": "12:30"
           },
           "DOM": {
             "day": "DOM",
@@ -837,8 +837,8 @@
             "chairId": "SDR-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -846,8 +846,8 @@
             "type": "TRABALHO",
             "chairId": "SDR-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -856,8 +856,8 @@
             "type": "TRABALHO",
             "chairId": "SDR-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -867,8 +867,8 @@
             "chairId": "SDR-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "SEX": {
@@ -877,8 +877,8 @@
             "chairId": "SDR-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "SAB": {
@@ -907,8 +907,8 @@
             "chairId": "SDR-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -917,8 +917,8 @@
             "chairId": "SDR-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -926,8 +926,8 @@
             "type": "TRABALHO",
             "chairId": "SDR-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -937,8 +937,8 @@
             "chairId": "SDR-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "SAB": {
@@ -947,8 +947,8 @@
             "chairId": "SDR-3",
             "startTime": "08:00",
             "endTime": "17:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:30",
             "label": "08:00–17:00"
           },
           "DOM": {
@@ -965,8 +965,8 @@
             "chairId": "SDR-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -975,8 +975,8 @@
             "chairId": "SDR-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -991,8 +991,8 @@
             "chairId": "SDR-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "SEX": {
@@ -1001,8 +1001,8 @@
             "chairId": "SDR-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "SAB": {
@@ -1012,8 +1012,8 @@
             "startTime": "08:00",
             "endTime": "17:00",
             "label": "08:00–17:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:00"
+            "lunchStart": "11:30",
+            "lunchEnd": "12:30"
           },
           "DOM": {
             "day": "DOM",
@@ -1709,8 +1709,8 @@
       "defaultStore": "LOJA_1",
       "defaultChairId": "VEND-L1-2",
       "badgeColor": "#059669",
-      "defaultLunchStart": "11:30",
-      "defaultLunchEnd": "12:36",
+      "defaultLunchStart": "13:00",
+      "defaultLunchEnd": "14:06",
       "affinityPartnerId": "emp-winona",
       "rulesAndRestrictions": "Afinidade: folga preferencialmente junto com a esposa Winona (SDR).",
       "schedule": {
@@ -1720,8 +1720,8 @@
           "chairId": "VEND-L1-2",
           "startTime": "08:00",
           "endTime": "17:30",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:36",
+          "lunchStart": "13:00",
+          "lunchEnd": "14:06",
           "label": "08:00–17:30"
         },
         "TER": {
@@ -1730,8 +1730,8 @@
           "chairId": "VEND-L1-2",
           "startTime": "08:00",
           "endTime": "17:30",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:36",
+          "lunchStart": "13:00",
+          "lunchEnd": "14:06",
           "label": "08:00–17:30"
         },
         "QUA": {
@@ -1739,8 +1739,8 @@
           "type": "TRABALHO",
           "chairId": "VEND-L1-2",
           "startTime": "08:00",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:36",
+          "lunchStart": "13:00",
+          "lunchEnd": "14:06",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -1755,8 +1755,8 @@
           "type": "TRABALHO",
           "chairId": "VEND-L1-2",
           "startTime": "08:00",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:36",
+          "lunchStart": "13:00",
+          "lunchEnd": "14:06",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -1766,8 +1766,8 @@
           "chairId": "VEND-L1-2",
           "startTime": "08:00",
           "endTime": "17:00",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:30",
+          "lunchStart": "13:00",
+          "lunchEnd": "14:00",
           "label": "08:00–17:00"
         },
         "DOM": {
@@ -1785,8 +1785,8 @@
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -1795,8 +1795,8 @@
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -1804,8 +1804,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -1820,8 +1820,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -1831,8 +1831,8 @@
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
             "endTime": "17:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:30",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:00",
             "label": "08:00–17:00"
           },
           "DOM": {
@@ -1849,8 +1849,8 @@
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -1859,8 +1859,8 @@
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -1868,8 +1868,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -1884,8 +1884,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -1896,8 +1896,8 @@
             "startTime": "08:00",
             "endTime": "17:00",
             "label": "08:00–17:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:30"
+            "lunchStart": "13:00",
+            "lunchEnd": "14:00"
           },
           "DOM": {
             "day": "DOM",
@@ -1912,8 +1912,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -1923,8 +1923,8 @@
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -1932,8 +1932,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -1942,8 +1942,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -1952,8 +1952,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -1983,8 +1983,8 @@
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -1993,8 +1993,8 @@
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -2002,8 +2002,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2012,8 +2012,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2024,8 +2024,8 @@
             "startTime": "08:00",
             "endTime": "17:00",
             "label": "08:00–17:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:30"
+            "lunchStart": "13:00",
+            "lunchEnd": "14:00"
           },
           "DOM": {
             "day": "DOM",
@@ -2050,8 +2050,8 @@
       "defaultStore": "LOJA_1",
       "defaultChairId": "VEND-L1-6",
       "badgeColor": "#059669",
-      "defaultLunchStart": "11:30",
-      "defaultLunchEnd": "12:36",
+      "defaultLunchStart": "12:30",
+      "defaultLunchEnd": "13:36",
       "rulesAndRestrictions": "Sem restrições; participa do rodízio na Loja 2.",
       "schedule": {
         "SEG": {
@@ -2066,8 +2066,8 @@
           "chairId": "VEND-L1-6",
           "startTime": "08:00",
           "endTime": "17:30",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:36",
+          "lunchStart": "12:30",
+          "lunchEnd": "13:36",
           "label": "08:00–17:30"
         },
         "QUA": {
@@ -2076,8 +2076,8 @@
           "chairId": "VEND-L1-6",
           "startTime": "08:00",
           "endTime": "17:30",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:36",
+          "lunchStart": "12:30",
+          "lunchEnd": "13:36",
           "label": "08:00–17:30"
         },
         "QUI": {
@@ -2086,8 +2086,8 @@
           "chairId": "VEND-L1-6",
           "startTime": "08:00",
           "endTime": "17:30",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:36",
+          "lunchStart": "12:30",
+          "lunchEnd": "13:36",
           "label": "08:00–17:30"
         },
         "SEX": {
@@ -2096,8 +2096,8 @@
           "chairId": "VEND-L1-6",
           "startTime": "08:00",
           "endTime": "17:30",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:36",
+          "lunchStart": "12:30",
+          "lunchEnd": "13:36",
           "label": "08:00–17:30"
         },
         "SAB": {
@@ -2106,8 +2106,8 @@
           "chairId": "VEND-L1-6",
           "startTime": "08:00",
           "endTime": "17:00",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:30",
+          "lunchStart": "12:30",
+          "lunchEnd": "13:30",
           "label": "08:00–17:00"
         },
         "DOM": {
@@ -2131,8 +2131,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -2141,8 +2141,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -2151,8 +2151,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "SEX": {
@@ -2161,8 +2161,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "SAB": {
@@ -2171,8 +2171,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:30",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:30",
             "label": "08:00–17:00"
           },
           "DOM": {
@@ -2189,8 +2189,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -2199,8 +2199,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -2209,8 +2209,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -2225,8 +2225,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "SAB": {
@@ -2235,8 +2235,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:30",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:30",
             "label": "08:00–17:00"
           },
           "DOM": {
@@ -2253,8 +2253,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -2263,8 +2263,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -2273,8 +2273,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -2289,8 +2289,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "SAB": {
@@ -2299,8 +2299,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:30",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:30",
             "label": "08:00–17:00"
           },
           "DOM": {
@@ -2317,8 +2317,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -2327,8 +2327,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -2337,8 +2337,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -2347,8 +2347,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "SEX": {
@@ -2357,8 +2357,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "SAB": {
@@ -2391,8 +2391,8 @@
       "defaultStore": "LOJA_1",
       "defaultChairId": "VEND-L1-4",
       "badgeColor": "#059669",
-      "defaultLunchStart": "11:30",
-      "defaultLunchEnd": "12:36",
+      "defaultLunchStart": "12:00",
+      "defaultLunchEnd": "13:06",
       "rulesAndRestrictions": "Retornou das férias; participa do rodízio na Loja 2.",
       "schedule": {
         "SEG": {
@@ -2400,8 +2400,8 @@
           "type": "TRABALHO",
           "chairId": "VEND-L1-4",
           "startTime": "08:00",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:36",
+          "lunchStart": "12:00",
+          "lunchEnd": "13:06",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -2417,8 +2417,8 @@
           "chairId": "VEND-L1-4",
           "startTime": "08:00",
           "endTime": "17:30",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:36",
+          "lunchStart": "12:00",
+          "lunchEnd": "13:06",
           "label": "08:00–17:30"
         },
         "QUI": {
@@ -2426,8 +2426,8 @@
           "type": "TRABALHO",
           "chairId": "VEND-L1-4",
           "startTime": "08:00",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:36",
+          "lunchStart": "12:00",
+          "lunchEnd": "13:06",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -2436,8 +2436,8 @@
           "type": "TRABALHO",
           "chairId": "VEND-L1-4",
           "startTime": "08:00",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:36",
+          "lunchStart": "12:00",
+          "lunchEnd": "13:06",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -2447,8 +2447,8 @@
           "chairId": "VEND-L1-4",
           "startTime": "08:00",
           "endTime": "17:00",
-          "lunchStart": "11:30",
-          "lunchEnd": "12:30",
+          "lunchStart": "12:00",
+          "lunchEnd": "13:00",
           "label": "08:00–17:00"
         },
         "DOM": {
@@ -2465,8 +2465,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2482,8 +2482,8 @@
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -2491,8 +2491,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2501,8 +2501,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2512,8 +2512,8 @@
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
             "endTime": "17:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:30",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:00",
             "label": "08:00–17:00"
           },
           "DOM": {
@@ -2530,8 +2530,8 @@
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -2546,8 +2546,8 @@
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -2555,8 +2555,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2565,8 +2565,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2577,8 +2577,8 @@
             "startTime": "08:00",
             "endTime": "17:00",
             "label": "08:00–17:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:30"
+            "lunchStart": "12:00",
+            "lunchEnd": "13:00"
           },
           "DOM": {
             "day": "DOM",
@@ -2593,8 +2593,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2603,8 +2603,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2614,8 +2614,8 @@
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -2623,8 +2623,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2633,8 +2633,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2663,8 +2663,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2674,8 +2674,8 @@
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -2683,8 +2683,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2693,8 +2693,8 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:36",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2705,8 +2705,8 @@
             "startTime": "08:00",
             "endTime": "17:00",
             "label": "08:00–17:00",
-            "lunchStart": "11:30",
-            "lunchEnd": "12:30"
+            "lunchStart": "12:00",
+            "lunchEnd": "13:00"
           },
           "DOM": {
             "day": "DOM",
@@ -2729,8 +2729,8 @@
       "defaultStore": "LOJA_1",
       "defaultChairId": "PREP-1",
       "badgeColor": "#D97706",
-      "defaultLunchStart": "12:00",
-      "defaultLunchEnd": "13:06",
+      "defaultLunchStart": "13:00",
+      "defaultLunchEnd": "14:06",
       "rulesAndRestrictions": "Supervisão do preparo de veículos e assistência. Seg/Ter leves; Qui/Sex pesadas.",
       "schedule": {
         "SEG": {
@@ -2739,8 +2739,8 @@
           "chairId": "PREP-1",
           "startTime": "08:00",
           "endTime": "17:30",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "13:00",
+          "lunchEnd": "14:06",
           "label": "08:00–17:30"
         },
         "TER": {
@@ -2748,8 +2748,8 @@
           "type": "TRABALHO",
           "chairId": "PREP-1",
           "startTime": "08:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "13:00",
+          "lunchEnd": "14:06",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -2758,8 +2758,8 @@
           "type": "TRABALHO",
           "chairId": "PREP-1",
           "startTime": "08:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "13:00",
+          "lunchEnd": "14:06",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -2768,8 +2768,8 @@
           "type": "TRABALHO",
           "chairId": "PREP-1",
           "startTime": "08:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "13:00",
+          "lunchEnd": "14:06",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -2778,8 +2778,8 @@
           "type": "TRABALHO",
           "chairId": "PREP-1",
           "startTime": "08:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "13:00",
+          "lunchEnd": "14:06",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -2804,8 +2804,8 @@
             "chairId": "PREP-1",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -2813,8 +2813,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2823,8 +2823,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2833,8 +2833,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2843,8 +2843,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2873,8 +2873,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2883,8 +2883,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2893,8 +2893,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2903,8 +2903,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2914,8 +2914,8 @@
             "chairId": "PREP-1",
             "startTime": "08:00",
             "endTime": "17:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:00",
             "label": "08:00–17:00"
           },
           "DOM": {
@@ -2931,8 +2931,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2948,8 +2948,8 @@
             "chairId": "PREP-1",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -2957,8 +2957,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2967,8 +2967,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -2979,8 +2979,8 @@
             "startTime": "08:00",
             "endTime": "17:00",
             "label": "08:00–17:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:00"
+            "lunchStart": "13:00",
+            "lunchEnd": "14:00"
           },
           "DOM": {
             "day": "DOM",
@@ -2995,8 +2995,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3012,8 +3012,8 @@
             "chairId": "PREP-1",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -3021,8 +3021,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3031,8 +3031,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-1",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3042,8 +3042,8 @@
             "chairId": "PREP-1",
             "startTime": "08:00",
             "endTime": "17:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:00",
             "label": "08:00–17:00"
           },
           "DOM": {
@@ -3066,8 +3066,8 @@
       "defaultStore": "LOJA_1",
       "defaultChairId": "PREP-2",
       "badgeColor": "#D97706",
-      "defaultLunchStart": "12:00",
-      "defaultLunchEnd": "13:06",
+      "defaultLunchStart": "11:30",
+      "defaultLunchEnd": "12:36",
       "rulesAndRestrictions": "Organização de loja/carros, assistência e apoio zeladoria (abertura/fechamento).",
       "schedule": {
         "SEG": {
@@ -3075,8 +3075,8 @@
           "type": "TRABALHO",
           "chairId": "PREP-2",
           "startTime": "08:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "11:30",
+          "lunchEnd": "12:36",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -3086,8 +3086,8 @@
           "chairId": "PREP-2",
           "startTime": "08:00",
           "endTime": "17:30",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "11:30",
+          "lunchEnd": "12:36",
           "label": "08:00–17:30"
         },
         "QUA": {
@@ -3101,8 +3101,8 @@
           "type": "TRABALHO",
           "chairId": "PREP-2",
           "startTime": "08:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "11:30",
+          "lunchEnd": "12:36",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -3111,8 +3111,8 @@
           "type": "TRABALHO",
           "chairId": "PREP-2",
           "startTime": "08:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "11:30",
+          "lunchEnd": "12:36",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -3122,8 +3122,8 @@
           "chairId": "PREP-2",
           "startTime": "08:00",
           "endTime": "17:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:00",
+          "lunchStart": "11:30",
+          "lunchEnd": "12:30",
           "label": "08:00–17:00"
         },
         "DOM": {
@@ -3140,8 +3140,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-2",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3151,8 +3151,8 @@
             "chairId": "PREP-2",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -3166,8 +3166,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-2",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3176,8 +3176,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-2",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3187,8 +3187,8 @@
             "chairId": "PREP-2",
             "startTime": "08:00",
             "endTime": "17:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:30",
             "label": "08:00–17:00"
           },
           "DOM": {
@@ -3205,8 +3205,8 @@
             "chairId": "PREP-2",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -3215,8 +3215,8 @@
             "chairId": "PREP-2",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -3230,8 +3230,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-2",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3240,8 +3240,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-2",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3252,8 +3252,8 @@
             "startTime": "08:00",
             "endTime": "17:00",
             "label": "08:00–17:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:00"
+            "lunchStart": "11:30",
+            "lunchEnd": "12:30"
           },
           "DOM": {
             "day": "DOM",
@@ -3268,8 +3268,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-2",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3278,8 +3278,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-2",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3288,8 +3288,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-2",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3298,8 +3298,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-2",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3308,8 +3308,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-2",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3339,8 +3339,8 @@
             "chairId": "PREP-2",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -3348,8 +3348,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-2",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3358,8 +3358,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-2",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3368,8 +3368,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-2",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3380,8 +3380,8 @@
             "startTime": "08:00",
             "endTime": "17:00",
             "label": "08:00–17:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:00"
+            "lunchStart": "11:30",
+            "lunchEnd": "12:30"
           },
           "DOM": {
             "day": "DOM",
@@ -3403,8 +3403,8 @@
       "defaultStore": "LOJA_1",
       "defaultChairId": "PREP-3",
       "badgeColor": "#D97706",
-      "defaultLunchStart": "12:00",
-      "defaultLunchEnd": "13:06",
+      "defaultLunchStart": "12:30",
+      "defaultLunchEnd": "13:36",
       "rulesAndRestrictions": "Cobre Serviços Gerais (crítico na abertura 08:00 e fechamento 17:30).",
       "schedule": {
         "SEG": {
@@ -3412,8 +3412,8 @@
           "type": "TRABALHO",
           "chairId": "PREP-3",
           "startTime": "08:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "12:30",
+          "lunchEnd": "13:36",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -3423,8 +3423,8 @@
           "chairId": "PREP-3",
           "startTime": "08:00",
           "endTime": "17:30",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "12:30",
+          "lunchEnd": "13:36",
           "label": "08:00–17:30"
         },
         "QUA": {
@@ -3433,8 +3433,8 @@
           "chairId": "PREP-3",
           "startTime": "08:00",
           "endTime": "17:30",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "12:30",
+          "lunchEnd": "13:36",
           "label": "08:00–17:30"
         },
         "QUI": {
@@ -3448,8 +3448,8 @@
           "type": "TRABALHO",
           "chairId": "PREP-3",
           "startTime": "08:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:06",
+          "lunchStart": "12:30",
+          "lunchEnd": "13:36",
           "endTime": "17:30",
           "label": "08:00–17:30"
         },
@@ -3460,8 +3460,8 @@
           "startTime": "08:00",
           "endTime": "17:00",
           "label": "08:00–17:00",
-          "lunchStart": "12:00",
-          "lunchEnd": "13:00"
+          "lunchStart": "12:30",
+          "lunchEnd": "13:30"
         },
         "DOM": {
           "day": "DOM",
@@ -3477,8 +3477,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3488,8 +3488,8 @@
             "chairId": "PREP-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -3498,8 +3498,8 @@
             "chairId": "PREP-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -3513,8 +3513,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3525,8 +3525,8 @@
             "startTime": "08:00",
             "endTime": "17:00",
             "label": "08:00–17:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:00"
+            "lunchStart": "12:30",
+            "lunchEnd": "13:30"
           },
           "DOM": {
             "day": "DOM",
@@ -3541,8 +3541,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3552,8 +3552,8 @@
             "chairId": "PREP-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -3562,8 +3562,8 @@
             "chairId": "PREP-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -3571,8 +3571,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3581,8 +3581,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3611,8 +3611,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3621,8 +3621,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3631,8 +3631,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3641,8 +3641,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3652,8 +3652,8 @@
             "chairId": "PREP-3",
             "startTime": "08:00",
             "endTime": "17:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:30",
             "label": "08:00–17:00"
           },
           "DOM": {
@@ -3670,8 +3670,8 @@
             "chairId": "PREP-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -3679,8 +3679,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3690,8 +3690,8 @@
             "chairId": "PREP-3",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -3705,8 +3705,8 @@
             "type": "TRABALHO",
             "chairId": "PREP-3",
             "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "endTime": "17:30",
             "label": "08:00–17:30"
           },
@@ -3716,8 +3716,8 @@
             "chairId": "PREP-3",
             "startTime": "08:00",
             "endTime": "17:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:30",
             "label": "08:00–17:00"
           },
           "DOM": {
@@ -4833,7 +4833,10 @@
           "type": "TRABALHO",
           "chairId": "DOC-SUP",
           "startTime": "08:00",
-          "endTime": "13:00"
+          "endTime": "17:00",
+          "label": "08:00–17:00",
+          "lunchStart": "11:30",
+          "lunchEnd": "12:30"
         },
         "DOM": {
           "day": "DOM",
@@ -4894,7 +4897,10 @@
             "type": "TRABALHO",
             "chairId": "DOC-SUP",
             "startTime": "08:00",
-            "endTime": "13:00"
+            "endTime": "17:00",
+            "label": "08:00–17:00",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:30"
           },
           "DOM": {
             "day": "DOM",
@@ -5012,7 +5018,10 @@
             "type": "TRABALHO",
             "chairId": "DOC-SUP",
             "startTime": "08:00",
-            "endTime": "13:00"
+            "endTime": "17:00",
+            "label": "08:00–17:00",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:30"
           },
           "DOM": {
             "day": "DOM",
@@ -5072,8 +5081,10 @@
             "type": "TRABALHO",
             "chairId": "DOC-SUP",
             "startTime": "08:00",
-            "endTime": "13:00",
-            "label": "08:00–13:00"
+            "endTime": "17:00",
+            "label": "08:00–17:00",
+            "lunchStart": "11:30",
+            "lunchEnd": "12:30"
           },
           "DOM": {
             "day": "DOM",
@@ -5100,7 +5111,7 @@
       "defaultChairId": "DOC-AUX",
       "badgeColor": "#7C3AED",
       "defaultLunchStart": "13:00",
-      "defaultLunchEnd": "14:36",
+      "defaultLunchEnd": "14:06",
       "rulesAndRestrictions": "Transferências e NFs. Sem restrições de escala.",
       "schedule": {
         "SEG": {
@@ -5109,7 +5120,7 @@
           "chairId": "DOC-AUX",
           "startTime": "08:00",
           "lunchStart": "13:00",
-          "lunchEnd": "14:36",
+          "lunchEnd": "14:06",
           "endTime": "17:24"
         },
         "TER": {
@@ -5125,7 +5136,7 @@
           "startTime": "08:00",
           "endTime": "17:30",
           "lunchStart": "13:00",
-          "lunchEnd": "14:36",
+          "lunchEnd": "14:06",
           "label": "08:00–17:30"
         },
         "QUI": {
@@ -5135,7 +5146,7 @@
           "startTime": "08:00",
           "endTime": "17:30",
           "lunchStart": "13:00",
-          "lunchEnd": "14:36",
+          "lunchEnd": "14:06",
           "label": "08:00–17:30"
         },
         "SEX": {
@@ -5145,7 +5156,7 @@
           "startTime": "08:00",
           "endTime": "17:30",
           "lunchStart": "13:00",
-          "lunchEnd": "14:36",
+          "lunchEnd": "14:06",
           "label": "08:00–17:30"
         },
         "SAB": {
@@ -5153,8 +5164,10 @@
           "type": "TRABALHO",
           "chairId": "DOC-AUX",
           "startTime": "08:00",
-          "endTime": "13:00",
-          "label": "08:00–13:00"
+          "endTime": "17:00",
+          "label": "08:00–17:00",
+          "lunchStart": "13:00",
+          "lunchEnd": "14:00"
         },
         "DOM": {
           "day": "DOM",
@@ -5171,7 +5184,7 @@
             "chairId": "DOC-AUX",
             "startTime": "08:00",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "endTime": "17:24"
           },
           "TER": {
@@ -5187,7 +5200,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -5197,7 +5210,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "SEX": {
@@ -5207,7 +5220,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "SAB": {
@@ -5215,8 +5228,10 @@
             "type": "TRABALHO",
             "chairId": "DOC-AUX",
             "startTime": "08:00",
-            "endTime": "13:00",
-            "label": "08:00–13:00"
+            "endTime": "17:00",
+            "label": "08:00–17:00",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:00"
           },
           "DOM": {
             "day": "DOM",
@@ -5233,7 +5248,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -5248,7 +5263,7 @@
             "chairId": "DOC-AUX",
             "startTime": "08:00",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "endTime": "17:24"
           },
           "QUI": {
@@ -5258,7 +5273,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "SEX": {
@@ -5267,7 +5282,7 @@
             "chairId": "DOC-AUX",
             "startTime": "08:00",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "endTime": "17:24"
           },
           "SAB": {
@@ -5275,7 +5290,10 @@
             "type": "TRABALHO",
             "chairId": "DOC-AUX",
             "startTime": "08:00",
-            "endTime": "13:00"
+            "endTime": "17:00",
+            "label": "08:00–17:00",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:00"
           },
           "DOM": {
             "day": "DOM",
@@ -5291,7 +5309,7 @@
             "chairId": "DOC-AUX",
             "startTime": "08:00",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "endTime": "17:24"
           },
           "TER": {
@@ -5300,7 +5318,7 @@
             "chairId": "DOC-AUX",
             "startTime": "08:00",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "endTime": "17:24"
           },
           "QUA": {
@@ -5309,7 +5327,7 @@
             "chairId": "DOC-AUX",
             "startTime": "08:00",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "endTime": "17:24"
           },
           "QUI": {
@@ -5318,7 +5336,7 @@
             "chairId": "DOC-AUX",
             "startTime": "08:00",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "endTime": "17:24"
           },
           "SEX": {
@@ -5327,7 +5345,7 @@
             "chairId": "DOC-AUX",
             "startTime": "08:00",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "endTime": "17:24"
           },
           "SAB": {
@@ -5357,7 +5375,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -5366,7 +5384,7 @@
             "chairId": "DOC-AUX",
             "startTime": "08:00",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "endTime": "17:24"
           },
           "QUI": {
@@ -5375,7 +5393,7 @@
             "chairId": "DOC-AUX",
             "startTime": "08:00",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "endTime": "17:24"
           },
           "SEX": {
@@ -5384,7 +5402,7 @@
             "chairId": "DOC-AUX",
             "startTime": "08:00",
             "lunchStart": "13:00",
-            "lunchEnd": "14:36",
+            "lunchEnd": "14:06",
             "endTime": "17:24"
           },
           "SAB": {
@@ -5392,7 +5410,10 @@
             "type": "TRABALHO",
             "chairId": "DOC-AUX",
             "startTime": "08:00",
-            "endTime": "13:00"
+            "endTime": "17:00",
+            "label": "08:00–17:00",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:00"
           },
           "DOM": {
             "day": "DOM",
@@ -6196,7 +6217,7 @@
       "defaultChairId": "FIN-1",
       "badgeColor": "#DB2777",
       "defaultLunchStart": "12:00",
-      "defaultLunchEnd": "13:00",
+      "defaultLunchEnd": "13:06",
       "affinityPartnerId": "emp-andria",
       "rulesAndRestrictions": "Sexta crítica (maior fluxo de pagamentos de compras). Afinidade com Andria.",
       "schedule": {
@@ -6212,7 +6233,7 @@
           "chairId": "FIN-1",
           "startTime": "08:00",
           "lunchStart": "12:00",
-          "lunchEnd": "13:00",
+          "lunchEnd": "13:06",
           "endTime": "17:24"
         },
         "QUA": {
@@ -6222,7 +6243,7 @@
           "startTime": "08:00",
           "endTime": "17:30",
           "lunchStart": "12:00",
-          "lunchEnd": "13:00",
+          "lunchEnd": "13:06",
           "label": "08:00–17:30"
         },
         "QUI": {
@@ -6231,7 +6252,7 @@
           "chairId": "FIN-1",
           "startTime": "08:00",
           "lunchStart": "12:00",
-          "lunchEnd": "13:00",
+          "lunchEnd": "13:06",
           "endTime": "17:24"
         },
         "SEX": {
@@ -6241,7 +6262,7 @@
           "startTime": "08:00",
           "endTime": "17:30",
           "lunchStart": "12:00",
-          "lunchEnd": "13:00",
+          "lunchEnd": "13:06",
           "label": "08:00–17:30"
         },
         "SAB": {
@@ -6249,8 +6270,10 @@
           "type": "TRABALHO",
           "chairId": "FIN-1",
           "startTime": "08:00",
-          "endTime": "13:00",
-          "label": "08:00–13:00"
+          "endTime": "17:00",
+          "label": "08:00–17:00",
+          "lunchStart": "12:00",
+          "lunchEnd": "13:00"
         },
         "DOM": {
           "day": "DOM",
@@ -6273,7 +6296,7 @@
             "chairId": "FIN-1",
             "startTime": "08:00",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "endTime": "17:24"
           },
           "QUA": {
@@ -6283,7 +6306,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -6292,7 +6315,7 @@
             "chairId": "FIN-1",
             "startTime": "08:00",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "endTime": "17:24"
           },
           "SEX": {
@@ -6302,7 +6325,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "SAB": {
@@ -6310,8 +6333,10 @@
             "type": "TRABALHO",
             "chairId": "FIN-1",
             "startTime": "08:00",
-            "endTime": "13:00",
-            "label": "08:00–13:00"
+            "endTime": "17:00",
+            "label": "08:00–17:00",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:00"
           },
           "DOM": {
             "day": "DOM",
@@ -6327,7 +6352,7 @@
             "chairId": "FIN-1",
             "startTime": "08:00",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "endTime": "17:24"
           },
           "TER": {
@@ -6343,7 +6368,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -6352,7 +6377,7 @@
             "chairId": "FIN-1",
             "startTime": "08:00",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "endTime": "17:24"
           },
           "SEX": {
@@ -6362,7 +6387,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "SAB": {
@@ -6370,8 +6395,10 @@
             "type": "TRABALHO",
             "chairId": "FIN-1",
             "startTime": "08:00",
-            "endTime": "13:00",
-            "label": "08:00–13:00"
+            "endTime": "17:00",
+            "label": "08:00–17:00",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:00"
           },
           "DOM": {
             "day": "DOM",
@@ -6388,7 +6415,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -6404,7 +6431,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -6414,7 +6441,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "SEX": {
@@ -6423,7 +6450,7 @@
             "chairId": "FIN-1",
             "startTime": "08:00",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "endTime": "17:24"
           },
           "SAB": {
@@ -6431,8 +6458,10 @@
             "type": "TRABALHO",
             "chairId": "FIN-1",
             "startTime": "08:00",
-            "endTime": "13:00",
-            "label": "08:00–13:00"
+            "endTime": "17:00",
+            "label": "08:00–17:00",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:00"
           },
           "DOM": {
             "day": "DOM",
@@ -6448,7 +6477,7 @@
             "chairId": "FIN-1",
             "startTime": "08:00",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "endTime": "17:24"
           },
           "TER": {
@@ -6458,7 +6487,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -6468,7 +6497,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "QUI": {
@@ -6477,7 +6506,7 @@
             "chairId": "FIN-1",
             "startTime": "08:00",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "endTime": "17:24"
           },
           "SEX": {
@@ -6487,7 +6516,7 @@
             "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "12:00",
-            "lunchEnd": "13:00",
+            "lunchEnd": "13:06",
             "label": "08:00–17:30"
           },
           "SAB": {
@@ -6610,5 +6639,5 @@
       }
     }
   },
-  "createdAt": "2026-11-20T18:00:00.000Z"
+  "createdAt": "2026-11-23T17:00:53.871Z"
 }
