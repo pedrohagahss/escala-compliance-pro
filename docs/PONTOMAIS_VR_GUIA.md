@@ -28,10 +28,42 @@ Aprendizados da configuração feita em 23/11/2026 (escala vigente desde sábado
 6. Conferir a "Carga horária regular total" de cada semana antes de salvar.
 7. **Salvar** → abre o resumo com **"Vincule colaboradores ao turno"**: escolher colaboradores, data inicial e "Início no turno" → **Salvar edição**. Mensagem esperada: "Vínculo realizado. A atualização do ponto do colaborador pode levar alguns minutos."
 
-## Editar turno existente
-- Turnos → seta da linha → **Editar**. Ao salvar aparece um resumo das alterações e depois a pergunta de a partir de quando aplicar.
+## Editar turno existente — NÃO usar para mudar horários
+- ⚠️ A tela **Editar** de um turno que já foi editado abre a **primeira versão** dele, não a atual. Salvar horários por ali pode desfazer correções (rodízio de 4 semanas vira 1 semana).
+- Código e descrição de turno existente **não mudam** pelo SuperPortal (a alteração é ignorada).
+- Ao salvar uma edição, o sistema pergunta: "aplicar somente a partir de amanhã" ou "dias futuros e anteriores (desde o último fechamento)".
 - O resumo sempre lista "Jornada nos feriados: Não" — é o valor atual (checkbox desativado na empresa), não uma alteração.
-- Mudar só a aba Geral (descrição) e trocar para Horários antes de salvar pode perder a alteração da descrição — salvar a descrição separadamente.
+
+## Forma correta de corrigir um turno
+1. Criar um **turno novo** (prefixo `R2-`, `R3-`…) copiando o turno antigo mais parecido em "Usar configurações existentes" (aba Horários), ajustar e salvar.
+2. Vincular o colaborador ao turno novo **desde a data correta** (ex.: 21/11/2026, "Início no turno" = Semana 1). O vínculo novo substitui o anterior a partir dessa data.
+3. Outras formas de trocar o turno de alguém:
+   - Colaboradores → marcar 2+ pessoas → **Editar selecionados** → "Turno (horário de trabalho)" → turno, data da mudança, início no turno → Editar → Sim (edição em massa).
+   - Colaboradores → abrir a ficha (1 pessoa) → seção **Turno (horário de trabalho)** → escolher turno, data e semana → Salvar. A ficha mostra o histórico de turnos.
+- Cuidado no modal "Usar configurações existentes": esperar ele abrir antes de clicar no seletor; um clique fora pode acertar "Remover período" e apagar a 2ª coluna de horários. Sempre conferir as 4 semanas (classificação e totais) antes de salvar.
+- Ao digitar a descrição, o campo às vezes mantém um "a" inicial do placeholder (ex.: "a5x2 R2 …") — apenas cosmético.
+
+## Turnos vigentes (desde 21/11/2026)
+| Colaborador | Turno |
+|---|---|
+| Diana, Jair | R2-DIANA-JAIR |
+| Rayssa | R2-RAYSSA |
+| Rodolfo | R2-RODOLFO |
+| Marcos Antonio | R2-MARCOSANT |
+| Allisson | R2-ALLISSON |
+| Marcos Florentino | R2-MFLORENTINO |
+| Marielly | R2-MARIELLY |
+| Mayana | R2-MAYANA |
+| João Pedro | R2-JOAOPEDRO |
+| Winona, João Alexandre | 5X2-WINONA |
+| Andria | 5X2-ANDRIA |
+| Adriane | 5X2-ADRIANE |
+| Alefy | 5X2-ALEFY |
+| Nailson | 5X2-MFLOR-NAILSON |
+| Jorginho | 5X2-JORGINHO |
+| Jorge Vinicius | 5X2-JORGEVINICIUS |
+
+Turnos antigos sem vínculo (podem ser inativados): 5X2-01, 5X2-JAIR, 5X2-DIANA, 5X2-RODOLFO, 5X2-MARCOSANT, 5X2-JOAOALEX, 5X2-ALLISSON, 5X2-MARIELLY, 5X2-MAYANA, 5X2-JOAOPEDRO, ESTAG-MATHEUS.
 
 ## Regras de jornada usadas (validar com a contabilidade)
 - Seg–sex 08:00–17:30 com **1h06 de almoço** = 8h24/dia; sábado 08:00–17:00 com 1h = 8h; semana ≈ 41h36 (≤ 42h).
