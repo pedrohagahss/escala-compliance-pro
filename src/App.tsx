@@ -988,6 +988,28 @@ export default function App() {
     e.target.value = '';
   };
 
+  // [Claude 26/11] Abrir um link "#proposta=…" mostra a escala com a mudança proposta, como cenário de visualização.
+  useEffect(() => {
+    const m = location.hash.match(/#proposta=([A-Za-z0-9_-]+)/);
+    if (!m || typeof DecompressionStream === 'undefined' || !BAKED_ESCALA_DEFINIDA) return;
+    (async () => {
+      try {
+        const b64 = m[1].replace(/-/g, '+').replace(/_/g, '/');
+        const bin = Uint8Array.from(atob(b64 + '==='.slice((b64.length + 3) % 4)), (c) => c.charCodeAt(0));
+        const txt = await new Response(new Blob([bin]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
+        const p = JSON.parse(txt);
+        const base = BAKED_ESCALA_DEFINIDA as Scenario;
+        const prop: Scenario = { ...base, id: 'scen-proposta-' + Date.now(), name: `Proposta de ${p.por || 'equipe'} (${String(p.em || '').slice(0, 10)})`, shortTag: `Proposta · ${p.por || 'equipe'}`,
+          employees: base.employees.map((e) => { const x = (p.employees || []).find((y: { id: string }) => y.id === e.id); return x ? { ...e, schedule: x.schedule || e.schedule, weeksSchedule: x.weeksSchedule || e.weeksSchedule, saturdayOffWeek: x.saturdayOffWeek ?? e.saturdayOffWeek } : e; }) };
+        setScenarios((prev) => [...prev.filter((s) => !s.id.startsWith('scen-proposta-')), prop]);
+        setActiveScenarioId(prop.id);
+        history.replaceState(null, '', location.pathname);
+        showToast(`Mostrando a proposta de ${p.por || 'equipe'} (só visualização).`);
+      } catch { showToast('Não consegui abrir esta proposta.'); }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Salvar a escala atual como a Escala Inicial definida em reunião
   const handleSaveEscalaDefinida = () => {
     if (!activeScenario) return;
@@ -997,6 +1019,52 @@ export default function App() {
     setDefinidaSavedAt(definida.createdAt);
     safeSet(LOCAL_STORAGE_KEY_DEFINIDA_SAVED_AT, definida.createdAt);
 
+    // [Claude 26/11, pedido do Pedro] A mudança vai para aprovação pelo WhatsApp (mesmo padrão das Decisões):
+    // resumo do que mudou + link com a proposta compactada. O motor lê o 3040, cria a decisão no celular do Pedro
+    // e, se ele aceitar, publica a nova escala oficial. Sem chave do Trello no navegador da equipe.
+    if (typeof CompressionStream !== 'undefined') {
+      enviarPropostaWhatsApp(definida).catch(() => baixarArquivo(definida));
+      return;
+    }
+    baixarArquivo(definida);
+  };
+
+  const DIAS_PT: Record<string, string> = { SEG: 'seg', TER: 'ter', QUA: 'qua', QUI: 'qui', SEX: 'sex', SAB: 'sáb', DOM: 'dom' };
+  const resumoMudancas = (novo: Scenario, base: Scenario | null): string[] => {
+    const out: string[] = [];
+    if (!base) return out;
+    for (const e of novo.employees) {
+      const b = base.employees.find((x) => x.id === e.id);
+      if (!b) { out.push(`${e.shortName}: entrou na escala`); continue; }
+      for (let w = 1; w <= 4; w++) {
+        const nw = (e.weeksSchedule || {})[w] || e.schedule, bw = (b.weeksSchedule || {})[w] || b.schedule;
+        if (!nw || !bw) continue;
+        for (const d of Object.keys(nw) as DayOfWeek[]) {
+          const n = nw[d], o = bw[d];
+          if (!n || !o) continue;
+          const nf = String(n.type).startsWith('FOLGA'), of = String(o.type).startsWith('FOLGA');
+          if (nf !== of) out.push(`${e.shortName}: semana ${w} ${DIAS_PT[d]} → ${nf ? 'FOLGA' : 'trabalha'}`);
+          else if (!nf && (n.startTime !== o.startTime || n.endTime !== o.endTime)) out.push(`${e.shortName}: semana ${w} ${DIAS_PT[d]} → ${n.startTime || '?'}–${n.endTime || '?'}`);
+        }
+      }
+    }
+    return out;
+  };
+  const enviarPropostaWhatsApp = async (definida: Scenario) => {
+    let nome = safeGet('scpe_escala_nome') || '';
+    if (!nome) { nome = (window.prompt('Seu nome (vai junto com a proposta):') || '').trim(); if (nome) safeSet('scpe_escala_nome', nome); }
+    const mud = resumoMudancas(definida, BAKED_ESCALA_DEFINIDA || null);
+    const payload = JSON.stringify({ v: 1, por: nome || 'equipe', em: new Date().toISOString(), employees: definida.employees.map((e) => ({ id: e.id, schedule: e.schedule, weeksSchedule: e.weeksSchedule, saturdayOffWeek: e.saturdayOffWeek })) });
+    const gz = await new Response(new Blob([payload]).stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer();
+    let bin = ''; new Uint8Array(gz).forEach((x) => { bin += String.fromCharCode(x); });
+    const b64 = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const link = `${location.origin}${location.pathname}#proposta=${b64}`;
+    const linhas = mud.length ? mud.slice(0, 15).map((l) => '• ' + l).join('\n') + (mud.length > 15 ? `\n• … e mais ${mud.length - 15}` : '') : '• (sem diferença de folga ou horário em relação à escala oficial)';
+    const texto = `📅 PROPOSTA DE MUDANÇA NA ESCALA\nPor: ${nome || 'equipe'}\n\n${linhas}\n\n${link}`;
+    window.open(`https://wa.me/558130400580?text=${encodeURIComponent(texto)}`, '_blank');
+    showToast('Salvo! Abrimos o WhatsApp com a proposta: é só tocar em Enviar.');
+  };
+  const baixarArquivo = (definida: Scenario) => {
     // Cópia em arquivo (pode ser guardada/enviada e gravada no sistema)
     const blob = new Blob([JSON.stringify(definida, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
