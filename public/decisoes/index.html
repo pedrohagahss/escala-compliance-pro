@@ -80,6 +80,7 @@ audio{width:100%;margin-top:12px;height:40px}
 .hidden{display:none!important}
 .spin{width:22px;height:22px;border-radius:50%;border:2.5px solid rgba(255,255,255,.15);border-top-color:var(--text);animation:sp 0.8s linear infinite;margin:40px auto}
 @keyframes sp{to{transform:rotate(360deg)}}
+.voz-btn{width:100%;margin:10px 0 4px;padding:12px;font-size:15px;font-weight:700}
 </style>
 </head>
 <body>
@@ -88,6 +89,7 @@ audio{width:100%;margin-top:12px;height:40px}
     <div class="brand"><span class="ca">CA</span> SCPE · Central de Decisões</div>
     <h1 id="titulo">Decisões</h1>
     <div class="sub" id="sub">Carregando…</div>
+    <button class="btn voz-btn" id="vozBtn">🔊 Modo voz: ouvir e responder falando</button>
     <div class="seg" id="seg">
       <button data-v="perguntas" class="on">Perguntas</button>
       <button data-v="acao">Nova ação</button>
@@ -266,7 +268,43 @@ function mostrarPergunta() {
       $('#sub').textContent = fila.length ? `${fila.length} restantes` : 'Nada pendente';
     } catch (e) { toast('Não enviou: ' + e.message, 4000); b.disabled = false; b.textContent = 'Tentar de novo'; }
   };
+  // [Claude 26/11] Modo voz: lê a pergunta em voz alta, escuta a resposta, envia e passa para a próxima
+  if (VOZ.on) (async () => {
+    const meu = Q, ctxF = limparFala(d.ctx);
+    await falar(`${limparFala(Q.name)}. ${ctxF.length > 450 ? ctxF.slice(0, 450) + '.' : ctxF} ${d.ops.length ? 'Opções: ' + d.ops.map((o, i) => (i + 1) + ', ' + limparFala(o.replace(/\(.*?\)/g, ''))).join('. ') + '.' : ''}`);
+    for (let tent = 0; tent < 3 && VOZ.on && Q === meu; tent++) {
+      $('#timerP').textContent = '🎙️ Ouvindo… fale a sua resposta';
+      const fala = await ouvir(14000);
+      if (!VOZ.on || Q !== meu) return;
+      if (!fala) { await falar('Não ouvi. Pode repetir? Ou diga pular.'); continue; }
+      const f = fala.toLowerCase(), f3 = f.split(/\s+/).slice(0, 3).join(' ');
+      if (/^(parar|sair|chega)/.test(f)) { VOZ.on = false; atualizarVozBtn(); await falar('Modo voz desligado.'); return; }
+      if (/^(repet|de novo)/.test(f)) { mostrarPergunta(); return; }
+      if (/^(pular|pula|depois|próxim|proxim)/.test(f)) { await falar('Pulando.'); $('#pular').onclick(); return; }
+      const num = { 'um': 0, 'uma': 0, '1': 0, 'dois': 1, 'duas': 1, '2': 1, 'três': 2, 'tres': 2, '3': 2, 'quatro': 3, '4': 3 };
+      const w0 = f.split(/\s+/)[0].replace(/[.,!?]/g, '');
+      let idx = num[w0] !== undefined && num[w0] < d.ops.length ? num[w0] : -1;
+      if (idx < 0) idx = d.ops.findIndex(o => { const k = o.toLowerCase().replace(/\(.*?\)/g, '').replace(/^[a-z]\)\s*/, '').trim().split(/\s+/)[0] || ''; return k.length > 2 && f3.includes(k.slice(0, 5)); });
+      if (idx < 0 && /^(sim|aprov|pode|ok|certo|isso|confirm)/.test(f)) idx = d.ops.findIndex(o => /aprov|^sim|^pode|^já|certa/i.test(o));
+      if (idx < 0 && /^(não|nao|recus)/.test(f)) idx = d.ops.findIndex(o => /recus|^não|deixa/i.test(o));
+      if (idx >= 0) { const b = box.querySelector(`.opt[data-i="${idx}"]`); b && b.click(); }
+      const resto = fala.replace(/^\S+\s*/, '').trim();
+      if (idx < 0) $('#txtP').value = fala; else if (resto.split(/\s+/).length > 2) $('#txtP').value = resto;
+      pode();
+      await falar(idx >= 0 ? `Ok: ${limparFala(d.ops[idx].replace(/\(.*?\)/g, ''))}.` : 'Ok, anotei.');
+      if (Q !== meu || !VOZ.on) return;
+      $('#envP').onclick();
+      return;
+    }
+  })();
 }
+
+/* ---------- Modo voz (26/11, Pedro: "não aguento mais ler, preciso de voz") ---------- */
+const VOZ = { on: false, sr: null };
+function falar(txt) { return new Promise(ok => { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(txt); u.lang = 'pt-BR'; u.rate = 1.08; const v = speechSynthesis.getVoices().find(x => /pt(-|_)BR/i.test(x.lang)); if (v) u.voice = v; u.onend = ok; u.onerror = ok; speechSynthesis.speak(u); setTimeout(ok, Math.max(4000, txt.length * 90)); } catch (_) { ok(); } }); }
+function ouvir(ms) { return new Promise(ok => { const SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) { toast('Este navegador não ouve: use o botão vermelho', 3500); return ok(null); } const sr = new SR(); VOZ.sr = sr; sr.lang = 'pt-BR'; sr.interimResults = false; sr.continuous = false; let t = '', fim = false; const acaba = () => { if (!fim) { fim = true; ok(t.trim() || null); } }; sr.onresult = e => { t = [...e.results].map(r => r[0].transcript).join(' '); }; sr.onend = acaba; sr.onerror = acaba; try { sr.start(); } catch (_) { acaba(); } setTimeout(() => { try { sr.stop(); } catch (_) {} setTimeout(acaba, 800); }, ms || 12000); }); }
+function limparFala(s) { return String(s || '').replace(/https?:\S+/g, '').replace(/[*_#>`•☐📄🤝💰👥📣⚖️🧹🔌]/g, '').replace(/\s+/g, ' ').trim(); }
+function atualizarVozBtn() { const b = $('#vozBtn'); if (!b) return; b.textContent = VOZ.on ? '🔊 Voz ligada · toque para parar' : '🔊 Modo voz: ouvir e responder falando'; b.classList.toggle('pri', VOZ.on); }
 function esc(s) { return String(s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 
 /* ---------- Nova ação ---------- */
@@ -299,6 +337,11 @@ $('#seg').onclick = e => {
   $('#seg').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
   $('#vPerg').classList.toggle('hidden', v !== 'perguntas'); $('#vAcao').classList.toggle('hidden', v !== 'acao');
   $('#titulo').textContent = v === 'acao' ? 'Nova ação' : 'Decisões';
+};
+$('#vozBtn').onclick = () => {
+  VOZ.on = !VOZ.on; atualizarVozBtn();
+  if (!VOZ.on) { try { speechSynthesis.cancel(); VOZ.sr && VOZ.sr.abort(); } catch (_) {} return; }
+  falar('Modo voz ligado. Vou ler cada pergunta. Responda falando: aprovar, recusar, ajustar e o que mudar, ou o número da opção. Diga pular, repetir ou parar.').then(() => mostrarPergunta());
 };
 $('#cfgSalvar').onclick = () => {
   const c = lerCfgDeTexto($('#cfgLink').value);
