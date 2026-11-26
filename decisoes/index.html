@@ -94,18 +94,25 @@ audio{width:100%;margin-top:12px;height:40px}
 .tipo .td{grid-area:d;font-size:13px;color:#94a3b8;line-height:1.35}
 .tipo .tc{grid-area:c;font-size:28px;font-weight:900;color:#60a5fa;min-width:44px;text-align:right}
 .cat.volta{background:rgba(255,255,255,.1);color:#fff}
+.brand .logo{height:22px;vertical-align:middle;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
+.hist{background:rgba(15,23,42,.7);border:1px solid rgba(255,255,255,.07);border-radius:16px;margin-bottom:10px;padding:12px 14px}
+.hist summary{cursor:pointer;list-style:none;display:flex;flex-direction:column;gap:3px}
+.hist summary b{font-size:15px}
+.hst{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em}
+.hc{margin-top:10px;padding:10px;border-radius:12px;background:rgba(255,255,255,.04);font-size:13px;line-height:1.45;color:#cbd5e1;white-space:normal}
 </style>
 </head>
 <body>
 <div class="app">
   <header class="top">
-    <div class="brand"><span class="ca">CA</span> SCPE · Central de Decisões</div>
+    <div class="brand"><img src="logo.png" alt="Seu Carro PE" class="logo"> <span>Central de Decisões</span></div>
     <h1 id="titulo">Decisões</h1>
     <div class="sub" id="sub">Carregando…</div>
     <button class="btn voz-btn" id="vozBtn">🔊 Modo voz: ouvir e responder falando</button>
     <div class="seg" id="seg">
       <button data-v="perguntas" class="on">Perguntas</button>
       <button data-v="acao">Nova ação</button>
+      <button data-v="hist">Histórico</button>
     </div>
   </header>
 
@@ -128,6 +135,7 @@ audio{width:100%;margin-top:12px;height:40px}
   </section>
 
   <!-- Nova ação -->
+  <section id="vHist" class="hidden"><div id="histBox"><div class="spin"></div></div></section>
   <section id="vAcao" class="hidden">
     <div class="card">
       <span class="label">Para qual setor</span>
@@ -390,12 +398,29 @@ function montarAcao() {
   };
 }
 
+
+/* ---------- Histórico (26/11, Pedro: "quero ver o histórico de decisões") ---------- */
+async function carregarHistorico() {
+  const box = $('#histBox'); box.innerHTML = '<div class="spin"></div>';
+  try {
+    const [resp, lido] = await Promise.all([api(`/lists/${CFG.l.respondidas}/cards?fields=name,dateLastActivity,labels`), api(`/lists/${CFG.l.lido}/cards?fields=name,dateLastActivity,labels`)]);
+    const todos = resp.map(c => ({ ...c, st: 'Respondida · IA vai tratar' })).concat(lido.map(c => ({ ...c, st: 'Tratada pela IA' })))
+      .sort((a, b) => String(b.dateLastActivity).localeCompare(String(a.dateLastActivity))).slice(0, 60);
+    if (!todos.length) { box.innerHTML = '<div class="card empty"><b>Ainda sem histórico</b></div>'; return; }
+    box.innerHTML = todos.map(c => `<details class="hist" data-id="${c.id}"><summary><span class="hst">${esc(c.st)} · ${new Date(c.dateLastActivity).toLocaleString('pt-BR').slice(0, 17)}</span><b>${esc(c.name)}</b></summary><div class="hbody">Toque para carregar…</div></details>`).join('');
+    box.querySelectorAll('details.hist').forEach(d => d.addEventListener('toggle', async () => {
+      if (!d.open || d.dataset.ok) return; d.dataset.ok = 1;
+      try { const acts = await api(`/cards/${d.dataset.id}/actions?filter=commentCard&limit=6`); d.querySelector('.hbody').innerHTML = acts.reverse().map(a => `<div class="hc">${esc(a.data.text).split(String.fromCharCode(10)).join('<br>')}</div>`).join('') || 'Sem comentários.'; }
+      catch (e) { d.querySelector('.hbody').textContent = 'Não carregou.'; }
+    }));
+  } catch (e) { box.innerHTML = `<div class="card empty"><b>Não carregou</b>${esc(e.message)}</div>`; }
+}
 /* ---------- Navegação ---------- */
 $('#seg').onclick = e => {
   const v = e.target.dataset.v; if (!v) return;
   $('#seg').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
-  $('#vPerg').classList.toggle('hidden', v !== 'perguntas'); $('#vAcao').classList.toggle('hidden', v !== 'acao');
-  $('#titulo').textContent = v === 'acao' ? 'Nova ação' : 'Decisões';
+  $('#vPerg').classList.toggle('hidden', v !== 'perguntas'); $('#vAcao').classList.toggle('hidden', v !== 'acao'); $('#vHist').classList.toggle('hidden', v !== 'hist'); if (v === 'hist') carregarHistorico();
+  $('#titulo').textContent = v === 'acao' ? 'Nova ação' : v === 'hist' ? 'Histórico' : 'Decisões';
 };
 $('#vozBtn').onclick = () => {
   VOZ.on = !VOZ.on; atualizarVozBtn();
