@@ -81,6 +81,11 @@ audio{width:100%;margin-top:12px;height:40px}
 .spin{width:22px;height:22px;border-radius:50%;border:2.5px solid rgba(255,255,255,.15);border-top-color:var(--text);animation:sp 0.8s linear infinite;margin:40px auto}
 @keyframes sp{to{transform:rotate(360deg)}}
 .voz-btn{width:100%;margin:10px 0 4px;padding:12px;font-size:15px;font-weight:700}
+.cats{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}
+.cat{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#cbd5e1;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600}
+.cat.on{background:#2563eb;border-color:#2563eb;color:#fff}
+.cat.off{opacity:.45;text-decoration:line-through}
+.cat.mini{padding:7px 9px;margin-left:-4px}
 </style>
 </head>
 <body>
@@ -109,6 +114,7 @@ audio{width:100%;margin-top:12px;height:40px}
 
   <!-- Perguntas -->
   <section id="vPerg">
+    <div class="cats" id="cats"></div>
     <div class="progress" id="prog"></div>
     <div id="pergBox"><div class="spin"></div></div>
   </section>
@@ -226,8 +232,29 @@ async function carregarPerguntas() {
     api(`/lists/${CFG.l.perguntas}/cards?fields=name,desc,labels,idShort`),
     api(`/lists/${CFG.l.respondidas}/cards?fields=id`)
   ]);
-  fila = perg; feitas = 0; total = perg.length;
-  $('#sub').textContent = total ? `${total} para responder · uma por vez` : 'Nada pendente';
+  TODAS = perg; aplicarCategorias();
+}
+/* ---------- Categorias (26/11, Pedro: "decisões por categoria, podendo pular algumas no momento") ---------- */
+let TODAS = [];
+const catDe = c => { const m = String(c.name || '').match(/^(\S+\s[^·]+?)\s·\s/); return m ? m[1].trim() : ((c.labels || [])[0] || {}).name || 'Geral'; };
+let OFF = new Set(); try { OFF = new Set(JSON.parse(localStorage.getItem('scpe_cats_off') || '[]')); } catch (_) {}
+let SO = null; try { SO = localStorage.getItem('scpe_cat_so') || null; } catch (_) {}
+function guardarCats() { try { localStorage.setItem('scpe_cats_off', JSON.stringify([...OFF])); SO ? localStorage.setItem('scpe_cat_so', SO) : localStorage.removeItem('scpe_cat_so'); } catch (_) {} }
+function aplicarCategorias() {
+  const cont = {}; TODAS.forEach(c => { const k = catDe(c); cont[k] = (cont[k] || 0) + 1; });
+  if (SO && !cont[SO]) SO = null;
+  fila = TODAS.filter(c => SO ? catDe(c) === SO : !OFF.has(catDe(c)));
+  feitas = 0; total = fila.length;
+  const pul = Object.keys(cont).filter(k => OFF.has(k)).reduce((a, k) => a + cont[k], 0);
+  $('#sub').textContent = total ? `${total} para responder${SO ? ' em ' + SO : ''}${!SO && pul ? ` · ${pul} pulada(s) por agora` : ''}` : (TODAS.length ? 'Nada nesta seleção' : 'Nada pendente');
+  const box = $('#cats'); box.innerHTML = '';
+  const chip = (txt, cls, fn, title) => { const b = document.createElement('button'); b.className = 'cat ' + cls; b.textContent = txt; b.title = title || ''; b.onclick = fn; box.appendChild(b); };
+  chip(`Todas · ${TODAS.length}`, !SO && !OFF.size ? 'on' : '', () => { SO = null; OFF.clear(); guardarCats(); aplicarCategorias(); });
+  Object.keys(cont).sort((a, b) => cont[b] - cont[a]).forEach(k => {
+    const off = OFF.has(k), so = SO === k;
+    chip(`${k} · ${cont[k]}`, so ? 'on' : off ? 'off' : '', () => { SO = so ? null : k; guardarCats(); aplicarCategorias(); }, 'Toque: só esta categoria');
+    if (!SO) chip(off ? '↩' : '✕', 'mini' + (off ? ' off' : ''), () => { off ? OFF.delete(k) : OFF.add(k); guardarCats(); aplicarCategorias(); }, off ? 'Voltar a mostrar' : 'Pular esta categoria por agora');
+  });
   mostrarPergunta();
 }
 function desenharProgresso() {
