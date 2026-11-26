@@ -2,7 +2,7 @@
   "id": "scen-escala-definida",
   "name": "Escala Inicial — Definida em Reunião",
   "shortTag": "Escala Inicial (Reunião)",
-  "description": "Escala inicial aprovada em reunião, vigente a partir de sábado 21/11/2026. Sábado (Matriz e Vendedor Externo): horário formal 08:00–17:00 com 1h de intervalo. Os colaboradores devem estar à disposição nesse horário; conforme o movimento do comércio local, a liderança pode liberá-los mais cedo.",
+  "description": "Escala inicial aprovada em reunião, vigente a partir de sábado 21/11/2026. Sábado (Matriz e Vendedor Externo): horário formal 08:00–17:00 com 1h de intervalo. Os colaboradores devem estar à disposição nesse horário; conforme o movimento do comércio local, a liderança pode liberá-los mais cedo. Última alteração aceita: sábado 05/12 sem 3 vendedores de folga (Rayssa folga 28/11; João × Marcos trocam o sábado 05/12), aprovada pelo Pedro em 26/11/2026.",
   "phase": "FASE_1",
   "employees": [
     {
@@ -1912,9 +1912,9 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
-            "lunchStart": "13:00",
-            "lunchEnd": "14:06",
             "endTime": "17:30",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -1923,8 +1923,8 @@
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "13:00",
-            "lunchEnd": "14:06",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -1932,36 +1932,36 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
-            "lunchStart": "13:00",
-            "lunchEnd": "14:06",
             "endTime": "17:30",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUI": {
             "day": "QUI",
-            "type": "TRABALHO",
+            "type": "FOLGA_5X2",
             "chairId": "VEND-L1-2",
-            "startTime": "08:00",
-            "lunchStart": "13:00",
-            "lunchEnd": "14:06",
-            "endTime": "17:30",
-            "label": "08:00–17:30"
+            "label": "Folga 5x2"
           },
           "SEX": {
             "day": "SEX",
             "type": "TRABALHO",
             "chairId": "VEND-L1-2",
             "startTime": "08:00",
-            "lunchStart": "13:00",
-            "lunchEnd": "14:06",
             "endTime": "17:30",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "SAB": {
             "day": "SAB",
-            "type": "FOLGA_5X2",
+            "type": "TRABALHO",
             "chairId": "VEND-L1-2",
-            "label": "Folga 5x2"
+            "startTime": "08:00",
+            "endTime": "17:00",
+            "lunchStart": "12:30",
+            "lunchEnd": "13:30",
+            "label": "08:00–17:00"
           },
           "DOM": {
             "day": "DOM",
@@ -2252,9 +2252,9 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
-            "lunchStart": "12:30",
-            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "TER": {
@@ -2263,8 +2263,8 @@
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
             "endTime": "17:30",
-            "lunchStart": "12:30",
-            "lunchEnd": "13:36",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "label": "08:00–17:30"
           },
           "QUA": {
@@ -2272,36 +2272,36 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
-            "lunchStart": "12:30",
-            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "QUI": {
             "day": "QUI",
-            "type": "FOLGA_5X2",
+            "type": "TRABALHO",
             "chairId": "VEND-L1-6",
-            "label": "Folga 5x2"
+            "startTime": "08:00",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
+            "endTime": "17:30",
+            "label": "08:00–17:30"
           },
           "SEX": {
             "day": "SEX",
             "type": "TRABALHO",
             "chairId": "VEND-L1-6",
             "startTime": "08:00",
+            "lunchStart": "13:00",
+            "lunchEnd": "14:06",
             "endTime": "17:30",
-            "lunchStart": "12:30",
-            "lunchEnd": "13:36",
             "label": "08:00–17:30"
           },
           "SAB": {
             "day": "SAB",
-            "type": "TRABALHO",
+            "type": "FOLGA_5X2",
             "chairId": "VEND-L1-6",
-            "startTime": "08:00",
-            "endTime": "17:00",
-            "lunchStart": "12:30",
-            "lunchEnd": "13:30",
-            "label": "08:00–17:00"
+            "label": "Folga 5x2"
           },
           "DOM": {
             "day": "DOM",
@@ -2529,6 +2529,70 @@
             "type": "TRABALHO",
             "chairId": "VEND-L1-4",
             "startTime": "08:00",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
+            "endTime": "17:30",
+            "label": "08:00–17:30"
+          },
+          "TER": {
+            "day": "TER",
+            "type": "TRABALHO",
+            "chairId": "VEND-L1-4",
+            "startTime": "08:00",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
+            "endTime": "17:30",
+            "label": "08:00–17:30"
+          },
+          "QUA": {
+            "day": "QUA",
+            "type": "TRABALHO",
+            "chairId": "VEND-L1-4",
+            "startTime": "08:00",
+            "endTime": "17:30",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
+            "label": "08:00–17:30"
+          },
+          "QUI": {
+            "day": "QUI",
+            "type": "TRABALHO",
+            "chairId": "VEND-L1-4",
+            "startTime": "08:00",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
+            "endTime": "17:30",
+            "label": "08:00–17:30"
+          },
+          "SEX": {
+            "day": "SEX",
+            "type": "TRABALHO",
+            "chairId": "VEND-L1-4",
+            "startTime": "08:00",
+            "lunchStart": "12:00",
+            "lunchEnd": "13:06",
+            "endTime": "17:30",
+            "label": "08:00–17:30"
+          },
+          "SAB": {
+            "day": "SAB",
+            "type": "FOLGA_5X2",
+            "chairId": "VEND-L1-4",
+            "label": "Folga 5x2"
+          },
+          "DOM": {
+            "day": "DOM",
+            "type": "FOLGA_DSR",
+            "chairId": "VEND-L1-4",
+            "label": "Folga DSR"
+          }
+        },
+        "3": {
+          "SEG": {
+            "day": "SEG",
+            "type": "TRABALHO",
+            "chairId": "VEND-L1-4",
+            "startTime": "08:00",
             "endTime": "17:30",
             "lunchStart": "12:00",
             "lunchEnd": "13:06",
@@ -2579,70 +2643,6 @@
             "label": "08:00–17:00",
             "lunchStart": "12:00",
             "lunchEnd": "13:00"
-          },
-          "DOM": {
-            "day": "DOM",
-            "type": "FOLGA_DSR",
-            "chairId": "VEND-L1-4",
-            "label": "Folga DSR"
-          }
-        },
-        "3": {
-          "SEG": {
-            "day": "SEG",
-            "type": "TRABALHO",
-            "chairId": "VEND-L1-4",
-            "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
-            "endTime": "17:30",
-            "label": "08:00–17:30"
-          },
-          "TER": {
-            "day": "TER",
-            "type": "TRABALHO",
-            "chairId": "VEND-L1-4",
-            "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
-            "endTime": "17:30",
-            "label": "08:00–17:30"
-          },
-          "QUA": {
-            "day": "QUA",
-            "type": "TRABALHO",
-            "chairId": "VEND-L1-4",
-            "startTime": "08:00",
-            "endTime": "17:30",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
-            "label": "08:00–17:30"
-          },
-          "QUI": {
-            "day": "QUI",
-            "type": "TRABALHO",
-            "chairId": "VEND-L1-4",
-            "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
-            "endTime": "17:30",
-            "label": "08:00–17:30"
-          },
-          "SEX": {
-            "day": "SEX",
-            "type": "TRABALHO",
-            "chairId": "VEND-L1-4",
-            "startTime": "08:00",
-            "lunchStart": "12:00",
-            "lunchEnd": "13:06",
-            "endTime": "17:30",
-            "label": "08:00–17:30"
-          },
-          "SAB": {
-            "day": "SAB",
-            "type": "FOLGA_5X2",
-            "chairId": "VEND-L1-4",
-            "label": "Folga 5x2"
           },
           "DOM": {
             "day": "DOM",
@@ -6639,5 +6639,5 @@
       }
     }
   },
-  "createdAt": "2026-11-23T17:00:53.871Z"
+  "createdAt": "2026-11-26T23:50:39.053Z"
 }
