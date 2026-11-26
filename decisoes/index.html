@@ -86,6 +86,14 @@ audio{width:100%;margin-top:12px;height:40px}
 .cat.on{background:#2563eb;border-color:#2563eb;color:#fff}
 .cat.off{opacity:.45;text-decoration:line-through}
 .cat.mini{padding:7px 9px;margin-left:-4px}
+.tipos{display:grid;grid-template-columns:1fr;gap:12px}
+.tipo{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"i n c" "i d c";gap:2px 14px;align-items:center;text-align:left;padding:20px;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(160deg,rgba(37,99,235,.18),rgba(15,23,42,.7));color:#f9fafb;cursor:pointer}
+.tipo:disabled{opacity:.35;background:rgba(255,255,255,.03)}
+.tipo .ti{grid-area:i;font-size:34px}
+.tipo .tn{grid-area:n;font-size:18px;font-weight:800}
+.tipo .td{grid-area:d;font-size:13px;color:#94a3b8;line-height:1.35}
+.tipo .tc{grid-area:c;font-size:28px;font-weight:900;color:#60a5fa;min-width:44px;text-align:right}
+.cat.volta{background:rgba(255,255,255,.1);color:#fff}
 </style>
 </head>
 <body>
@@ -240,17 +248,40 @@ const catDe = c => { const m = String(c.name || '').match(/^(\S+\s[^·]+?)\s·\s
 let OFF = new Set(); try { OFF = new Set(JSON.parse(localStorage.getItem('scpe_cats_off') || '[]')); } catch (_) {}
 let SO = null; try { SO = localStorage.getItem('scpe_cat_so') || null; } catch (_) {}
 function guardarCats() { try { localStorage.setItem('scpe_cats_off', JSON.stringify([...OFF])); SO ? localStorage.setItem('scpe_cat_so', SO) : localStorage.removeItem('scpe_cat_so'); } catch (_) {} }
+/* ---------- Tipos de decisão (26/11, Pedro: "separa por tipo… cards maiores por tipo de decisão") ---------- */
+const TIPOS = [
+  { id: 'escala', ic: '🗓️', nome: 'Escala e equipe', desc: 'Folgas, trocas e propostas de mudança na escala' },
+  { id: 'pend', ic: '⚠️', nome: 'Pendências dos grupos', desc: 'Casos achados nos grupos do WhatsApp: cobrar, resolvido ou deixa comigo' },
+  { id: 'perg', ic: '❓', nome: 'Perguntas da IA', desc: 'Dúvidas da IA para seguir o trabalho' },
+  { id: 'rev', ic: '📚', nome: 'Revisão de regras', desc: 'Aprovar, recusar ou ajustar cada passo das rotinas dos motores' }
+];
+const tipoDe = c => { const d = c.desc || '', n = c.name || ''; if (/Ref: revisao\|/.test(d)) return 'rev'; if (/Ref: pendencia\|/.test(d)) return 'pend'; if (/Ref: escala\|/.test(d) || /^(📅 )?Escala/i.test(n) || ((c.labels || [])[0] || {}).name === 'RH') return 'escala'; return 'perg'; };
+let TIPO = null; try { TIPO = sessionStorage.getItem('scpe_tipo') || null; } catch (_) {}
+function escolherTipo(t) { TIPO = t; try { t ? sessionStorage.setItem('scpe_tipo', t) : sessionStorage.removeItem('scpe_tipo'); } catch (_) {} aplicarCategorias(); window.scrollTo(0, 0); }
+function desenharTipos() {
+  const cont = {}; TODAS.forEach(c => { const t = tipoDe(c); cont[t] = (cont[t] || 0) + 1; });
+  $('#cats').innerHTML = ''; $('#prog').innerHTML = '';
+  $('#sub').textContent = TODAS.length ? `${TODAS.length} decisões · escolha um tipo` : 'Nada pendente';
+  $('#pergBox').innerHTML = `<div class="tipos">${TIPOS.map(t => `<button class="tipo" data-t="${t.id}" ${cont[t.id] ? '' : 'disabled'}><span class="ti">${t.ic}</span><span class="tn">${t.nome}</span><span class="tc">${cont[t.id] || 0}</span><span class="td">${t.desc}</span></button>`).join('')}</div>`;
+  $('#pergBox').querySelectorAll('.tipo').forEach(b => b.onclick = () => escolherTipo(b.dataset.t));
+  if (VOZ.on) falar('Você tem ' + TIPOS.filter(t => cont[t.id]).map(t => cont[t.id] + ' em ' + t.nome).join(', ') + '. Toque no tipo que quer responder.');
+}
 function aplicarCategorias() {
-  const cont = {}; TODAS.forEach(c => { const k = catDe(c); cont[k] = (cont[k] || 0) + 1; });
+  if (!TIPO) return desenharTipos();
+  const doTipo = TODAS.filter(c => tipoDe(c) === TIPO);
+  if (!doTipo.length) { TIPO = null; return desenharTipos(); }
+  const cont = {}; doTipo.forEach(c => { const k = catDe(c); cont[k] = (cont[k] || 0) + 1; });
   if (SO && !cont[SO]) SO = null;
-  fila = TODAS.filter(c => SO ? catDe(c) === SO : !OFF.has(catDe(c)));
+  fila = doTipo.filter(c => TIPO !== 'rev' ? true : SO ? catDe(c) === SO : !OFF.has(catDe(c)));
   feitas = 0; total = fila.length;
+  const tp = TIPOS.find(t => t.id === TIPO);
   const pul = Object.keys(cont).filter(k => OFF.has(k)).reduce((a, k) => a + cont[k], 0);
-  $('#sub').textContent = total ? `${total} para responder${SO ? ' em ' + SO : ''}${!SO && pul ? ` · ${pul} pulada(s) por agora` : ''}` : (TODAS.length ? 'Nada nesta seleção' : 'Nada pendente');
+  $('#sub').textContent = `${tp.ic} ${tp.nome} · ${total} para responder${SO ? ' em ' + SO : ''}${TIPO === 'rev' && !SO && pul ? ` · ${pul} pulada(s)` : ''}`;
   const box = $('#cats'); box.innerHTML = '';
   const chip = (txt, cls, fn, title) => { const b = document.createElement('button'); b.className = 'cat ' + cls; b.textContent = txt; b.title = title || ''; b.onclick = fn; box.appendChild(b); };
-  chip(`Todas · ${TODAS.length}`, !SO && !OFF.size ? 'on' : '', () => { SO = null; OFF.clear(); guardarCats(); aplicarCategorias(); });
-  Object.keys(cont).sort((a, b) => cont[b] - cont[a]).forEach(k => {
+  chip('← Tipos', 'volta', () => escolherTipo(null));
+  if (TIPO === 'rev') chip(`Todos os motores · ${doTipo.length}`, !SO && !OFF.size ? 'on' : '', () => { SO = null; OFF.clear(); guardarCats(); aplicarCategorias(); });
+  if (TIPO === 'rev') Object.keys(cont).sort((a, b) => cont[b] - cont[a]).forEach(k => {
     const off = OFF.has(k), so = SO === k;
     chip(`${k} · ${cont[k]}`, so ? 'on' : off ? 'off' : '', () => { SO = so ? null : k; guardarCats(); aplicarCategorias(); }, 'Toque: só esta categoria');
     if (!SO) chip(off ? '↩' : '✕', 'mini' + (off ? ' off' : ''), () => { off ? OFF.delete(k) : OFF.add(k); guardarCats(); aplicarCategorias(); }, off ? 'Voltar a mostrar' : 'Pular esta categoria por agora');
@@ -264,6 +295,7 @@ function mostrarPergunta() {
   desenharProgresso();
   const box = $('#pergBox');
   Q = fila[0];
+  if (!Q && TIPO) { toast('Esse tipo acabou ✓'); escolherTipo(null); return; }
   if (!Q) { box.innerHTML = `<div class="card empty"><b>Tudo respondido</b>Quando a IA tiver novas perguntas, elas aparecem aqui.</div>`; $('#sub').textContent = 'Nada pendente'; return; }
   const d = parseDesc(Q.desc), setor = (Q.labels[0] || {}).name || 'Geral';
   box.innerHTML = `<div class="card">
@@ -291,7 +323,7 @@ function mostrarPergunta() {
       if (g.blob) await anexarAudio(Q.id, g.blob, 'resposta_' + Date.now());
       if (d.alvo) { try { await api(`/cards/${d.alvo}/actions/comments`, 'POST', { text: `${com}\n\nPergunta: ${Q.name}` }); } catch (_) {} }
       await api(`/cards/${Q.id}`, 'PUT', { idList: CFG.l.respondidas, pos: 'top' });
-      fila.shift(); feitas++; toast('Resposta guardada ✓'); mostrarPergunta();
+      const feito = fila.shift(); TODAS = TODAS.filter(c => c !== feito); feitas++; toast('Resposta guardada ✓'); mostrarPergunta();
       $('#sub').textContent = fila.length ? `${fila.length} restantes` : 'Nada pendente';
     } catch (e) { toast('Não enviou: ' + e.message, 4000); b.disabled = false; b.textContent = 'Tentar de novo'; }
   };
@@ -368,7 +400,7 @@ $('#seg').onclick = e => {
 $('#vozBtn').onclick = () => {
   VOZ.on = !VOZ.on; atualizarVozBtn();
   if (!VOZ.on) { try { speechSynthesis.cancel(); VOZ.sr && VOZ.sr.abort(); } catch (_) {} return; }
-  falar('Modo voz ligado. Vou ler cada pergunta. Responda falando: aprovar, recusar, ajustar e o que mudar, ou o número da opção. Diga pular, repetir ou parar.').then(() => mostrarPergunta());
+  falar('Modo voz ligado. Vou ler cada pergunta. Responda falando: aprovar, recusar, ajustar e o que mudar, ou o número da opção. Diga pular, repetir ou parar.').then(() => aplicarCategorias());
 };
 $('#cfgSalvar').onclick = () => {
   const c = lerCfgDeTexto($('#cfgLink').value);
